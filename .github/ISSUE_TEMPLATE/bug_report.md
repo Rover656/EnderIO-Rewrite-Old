@@ -25,7 +25,9 @@ If applicable, add screenshots to help explain your problem.
 
 **Version information:**
  - OS: [e.g. iOS]
+ - Java version [e.g. Adoptium 16.0.2.7-hotspot]
  - Minecraft version [e.g. 1.17.1]
+ - EnderCore version [e.g. 1.0.0]
  - Version [e.g. 6.0.0]
 
 **Additional context**
