@@ -19,7 +19,7 @@ import net.minecraft.world.item.ItemStack;
 public class GearBEWLR extends BlockEntityWithoutLevelRenderer{
 	
 	public static final GearBEWLR INSTANCE = new GearBEWLR(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
-	private float tpr = 120;
+	private float tpr = 120; //ticks per rotation
 	
 	public GearBEWLR(BlockEntityRenderDispatcher pBlockEntityRenderDispatcher, EntityModelSet pEntityModelSet) {
 		super(pBlockEntityRenderDispatcher, pEntityModelSet);
@@ -28,12 +28,12 @@ public class GearBEWLR extends BlockEntityWithoutLevelRenderer{
 	@Override
 	public void renderByItem(ItemStack pStack, TransformType pTransformType, PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, int pOverlay) {
 		Minecraft mc = Minecraft.getInstance();
+		if (mc == null) { return;}
 		BakedModel model = mc.getModelManager().getModel(new ResourceLocation(EnderIO.MODID, "item/" + pStack.getItem().getRegistryName().getPath().toString()+ "_helper"));
 		pPoseStack.pushPose();
-		PoseStackHelper.rotateAroundPivot(pPoseStack, new Vector3f(0.5F, 0.5F, 0F), Vector3f.ZP, (360.0F/tpr)*(mc.player.clientLevel.getGameTime() % tpr), true);
+		PoseStackHelper.rotateAroundPivot(pPoseStack, new Vector3f(0.5F, 0.5F, 0F), Vector3f.ZP, (360.0F/tpr)*(mc.player.clientLevel.getGameTime() % tpr), true); //rotates the item 360/tpr degrees each tick
 		mc.getItemRenderer().renderModelLists(model, pStack, pPackedLight, pOverlay, pPoseStack, pBuffer.getBuffer(RenderType.cutout()));
 		//mc.getItemRenderer().renderStatic(pStack, pTransformType, pOverlay, pPackedLight, pPoseStack, pBuffer, pOverlay);
 		pPoseStack.popPose();
 	}
-
 }
