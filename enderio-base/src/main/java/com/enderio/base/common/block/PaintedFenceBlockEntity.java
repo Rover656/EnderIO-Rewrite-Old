@@ -58,7 +58,7 @@ public class PaintedFenceBlockEntity extends BlockEntity {
         handleUpdateTag(tag);
         if (oldPaint != paint) {
             ModelDataManager.requestModelDataRefresh(this);
-            level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+            level.setBlock(getBlockPos(), level.getBlockState(getBlockPos()), 9);
         }
     }
 
@@ -71,19 +71,21 @@ public class PaintedFenceBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void onLoad() {
-        super.onLoad();
-        if (!level.isClientSide) {
-            level.sendBlockUpdated(getBlockPos(), level.getBlockState(getBlockPos()), level.getBlockState(getBlockPos()), Constants.BlockFlags.NOTIFY_NEIGHBORS);
-        }
+    public CompoundTag getUpdateTag() {
+        CompoundTag nbt = super.getUpdateTag();
+        writePaint(nbt);
+        return nbt;
     }
+
 
     private void readPaint(CompoundTag tag) {
         if (tag.contains("paint")) {
             paint = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(tag.get("paint").getAsString()));
-            if (level.isClientSide) {
-                ModelDataManager.requestModelDataRefresh(this);
-                level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+            if (level != null) {
+                if(level.isClientSide) {
+                    ModelDataManager.requestModelDataRefresh(this);
+                    level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), Constants.BlockFlags.BLOCK_UPDATE + Constants.BlockFlags.NOTIFY_NEIGHBORS);
+                }
             }
         }
     }
