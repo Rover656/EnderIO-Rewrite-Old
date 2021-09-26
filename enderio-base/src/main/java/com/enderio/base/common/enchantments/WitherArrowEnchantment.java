@@ -7,33 +7,35 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 
-public class WitherArrowEnchantment extends EIOBaseEnchantment{
+public class WitherArrowEnchantment extends EIOBaseEnchantment {
 
-	//config rarity?
-	public WitherArrowEnchantment() {
-		super(Rarity.UNCOMMON, EIOEnchantmentCategories.ARROW, new EquipmentSlot[] { EquipmentSlot.MAINHAND}, () -> true);
-	}
-	
-	@Override
-	public int getMaxLevel() {
-		return 1;
-	}
-	
-	//config?
-	@Override
-	public int getMaxCost(int pLevel) {
-		return 50;
-	}
+    //TODO config rarity?
+    public WitherArrowEnchantment() {
+        super(Rarity.UNCOMMON, EIOEnchantmentCategories.ARROW, new EquipmentSlot[] { EquipmentSlot.MAINHAND },
+                () -> true);
+    }
 
-	@Override
-	public int getMinCost(int pLevel) {
-		return 20;
-	}
-	
-	@Override
-	public void doPostAttack(LivingEntity pAttacker, Entity pTarget, int pLevel) {
-		if (pTarget instanceof LivingEntity target && EnchantmentHelper.getEnchantments(pAttacker.getMainHandItem()).containsKey(this)){
-		      target.addEffect(new MobEffectInstance(MobEffects.WITHER, 200));
-		    }
-	}
+    @Override
+    public int getMaxLevel() {
+        return 1;
+    }
+
+    //TODO config?
+    @Override
+    public int getMaxCost(int pLevel) {
+        return 50;
+    }
+
+    @Override
+    public int getMinCost(int pLevel) {
+        return 20;
+    }
+
+    @Override
+    public void doPostAttack(LivingEntity pAttacker, Entity pTarget, int pLevel) {
+        if (pTarget instanceof LivingEntity target
+                && EnchantmentHelper.getEnchantments(pAttacker.getMainHandItem()).containsKey(this)) {
+            target.addEffect(new MobEffectInstance(MobEffects.WITHER, 200));
+        }
+    }
 }
