@@ -21,6 +21,8 @@ public class EnderIO {
 
     public EnderIO() {
         EIOItems.register();
+        EIOBlocks.register();
+        EIOBlockEntities.register();
 
         IEventBus modEventBus = FMLJavaModLoadingContext
             .get()

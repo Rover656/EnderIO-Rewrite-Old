@@ -5,7 +5,7 @@ import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.TileEntityBuilder;
 import com.tterrag.registrate.util.entry.TileEntityEntry;
 
-public class EIOMachinesBlockEntities {
+public class EIOBlockEntities {
 
     private static final Registrate REGISTRATE = EnderIO.registrate();
 
