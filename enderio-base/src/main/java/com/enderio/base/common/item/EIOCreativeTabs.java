@@ -1,5 +1,7 @@
-package com.enderio.base;
+package com.enderio.base.common.item;
 
+import com.enderio.base.EnderIO;
+import com.enderio.base.common.item.registry.EIOItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -26,7 +28,8 @@ public class EIOCreativeTabs extends CreativeModeTab {
     public EIOCreativeTabs(String name, Supplier<Item> itemIcon) {
         super("enderio." + name);
         this.itemIcon = itemIcon;
-        EnderIO.registrate()
+        EnderIO
+            .registrate()
             .addLang("itemGroup", new ResourceLocation(EnderIO.DOMAIN, name), getEnglish(name));
     }
 

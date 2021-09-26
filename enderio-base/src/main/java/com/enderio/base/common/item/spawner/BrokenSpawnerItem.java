@@ -1,7 +1,7 @@
 package com.enderio.base.common.item.spawner;
 
-import com.enderio.base.EIOCreativeTabs;
-import com.enderio.base.EIOItems;
+import com.enderio.base.common.item.EIOCreativeTabs;
+import com.enderio.base.common.item.registry.EIOItems;
 import com.enderio.base.common.util.EntityCaptureUtils;
 import com.enderio.core.common.util.EntityUtil;
 import net.minecraft.core.NonNullList;
@@ -27,7 +27,6 @@ public class BrokenSpawnerItem extends Item {
     }
 
     public static ItemStack forType(ResourceLocation type) {
-        // TODO: Check that this type exists.
         ItemStack brokenSpawner = new ItemStack(EIOItems.BROKEN_SPAWNER.get());
         setEntityType(brokenSpawner, type);
         return brokenSpawner;
@@ -57,16 +56,19 @@ public class BrokenSpawnerItem extends Item {
         pTooltipComponents.add(new TranslatableComponent(EntityUtil.getEntityDescriptionId(getEntityType(pStack))));
     }
 
-    private static void setEntityType(ItemStack stack, ResourceLocation entityType) {
-        CompoundTag tag = new CompoundTag();
-        tag.putString("id", entityType.toString());
-        stack.setTag(tag);
-    }
+    // region Entity Type storage
 
-    private static ResourceLocation getEntityType(ItemStack stack) {
+    public static ResourceLocation getEntityType(ItemStack stack) {
         CompoundTag tag = stack.getTag();
         if (tag != null && tag.contains("id"))
             return new ResourceLocation(tag.getString("id"));
         return new ResourceLocation("minecraft", "pig");
     }
+
+    private static void setEntityType(ItemStack stack, ResourceLocation entityType) {
+        CompoundTag tag = stack.getOrCreateTag();
+        tag.putString("id", entityType.toString());
+    }
+
+    // endregion
 }

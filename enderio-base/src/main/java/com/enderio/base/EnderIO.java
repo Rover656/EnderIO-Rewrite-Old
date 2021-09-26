@@ -1,5 +1,6 @@
 package com.enderio.base;
 
+import com.enderio.base.common.item.registry.EIOItems;
 import com.enderio.base.data.recipe.standard.StandardRecipes;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.NonNullLazyValue;

@@ -1,5 +1,8 @@
-package com.enderio.base;
+package com.enderio.base.common.item.registry;
 
+import com.enderio.base.common.item.EIOCreativeTabs;
+import com.enderio.base.EnderIO;
+import com.enderio.base.common.item.food.EnderiosItem;
 import com.enderio.base.common.item.spawner.BrokenSpawnerItem;
 import com.enderio.base.common.item.EnderfaceItem;
 import com.enderio.base.common.item.MaterialItem;
@@ -314,6 +317,8 @@ public class EIOItems {
 
     // region Items
 
+    // TODO: Will need sorted once we have added more.
+
     public static ItemEntry<SoulVialItem> EMPTY_SOUL_VIAL = REGISTRATE
         .item("empty_soul_vial", SoulVialItem::new)
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.ITEMS))
@@ -321,6 +326,13 @@ public class EIOItems {
 
     public static ItemEntry<SoulVialItem> FILLED_SOUL_VIAL = REGISTRATE
         .item("filled_soul_vial", SoulVialItem::new)
+        .properties(props -> props.stacksTo(1))
+        .register();
+
+    public static ItemEntry<EnderiosItem> ENDERIOS = REGISTRATE
+        .item("enderios", EnderiosItem::new)
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.ITEMS))
+        .lang("\"Enderios\"")
         .properties(props -> props.stacksTo(1))
         .register();
 

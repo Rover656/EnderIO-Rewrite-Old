@@ -1,5 +1,5 @@
-19e4e2a3e95b3c48b8ac90d42a91edd08c2d78fb assets/enderio/lang/en_ud.json
-95143d551f7557c0d4a1a25daeb04312761bdb39 assets/enderio/lang/en_us.json
+b4725baaa1de0b3d7a5e3990c9bbf0773a1a5c85 assets/enderio/lang/en_ud.json
+644451ae0538af1475b4599297895d585bdf68a7 assets/enderio/lang/en_us.json
 50ac99e3a6a7ddfff43da9c0a8c7b60d1efaf52e assets/enderio/models/item/animal_token.json
 14cb1f2ded92ac4afb324e961e73fbdf85059831 assets/enderio/models/item/ardite_powder.json
 32625916278de416ea941d2ee1043115085cc1c7 assets/enderio/models/item/black_paper.json
@@ -37,6 +37,7 @@ bea82bb294357baeadcba44c75977c393a2921b9 assets/enderio/models/item/enderface_co
 cfde50064e404f107a2ff38f715385caf62bf6b7 assets/enderio/models/item/enderface_materials.json
 90f5abeeb2d83dbe5dd87e6477bf3625b3cb7e7e assets/enderio/models/item/enderface_mobs.json
 51bac379c0fa03df09d7c13f9eceecba516472b1 assets/enderio/models/item/enderface_none.json
+c119ea5cfa8dbae167ceb9e0324c3a3864002637 assets/enderio/models/item/enderios.json
 25109732ee02ada0a5ce8b9ce6fe156f34086fe3 assets/enderio/models/item/energetic_alloy_ingot.json
 4a899323f04b296bfbb8cbd6c0b1168211e4a766 assets/enderio/models/item/energetic_alloy_nugget.json
 bcf18071b99922017615833b57807f6b07c6fd45 assets/enderio/models/item/energized_gear.json

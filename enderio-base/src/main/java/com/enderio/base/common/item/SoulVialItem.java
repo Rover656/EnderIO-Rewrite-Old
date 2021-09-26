@@ -1,7 +1,6 @@
 package com.enderio.base.common.item;
 
-import com.enderio.base.EIOCreativeTabs;
-import com.enderio.base.EIOItems;
+import com.enderio.base.common.item.registry.EIOItems;
 import com.enderio.base.common.util.EntityCaptureUtils;
 import com.enderio.core.common.util.EntityUtil;
 import net.minecraft.core.BlockPos;
@@ -61,6 +60,7 @@ public class SoulVialItem extends Item {
 
     // region Interactions
 
+    // Capture logic
     @Nonnull
     @Override
     public InteractionResult interactLivingEntity(@Nonnull ItemStack pStack, @Nonnull Player pPlayer, @Nonnull LivingEntity pInteractionTarget,
@@ -72,6 +72,7 @@ public class SoulVialItem extends Item {
         if (getEntityType(pStack).isEmpty()) {
             // Don't allow bottled player.
             if (pInteractionTarget instanceof Player) {
+                // TODO: Language keys
                 pPlayer.displayClientMessage(new TextComponent("You cannot put player in a bottle"), true);
                 return InteractionResult.FAIL;
             }
@@ -79,7 +80,7 @@ public class SoulVialItem extends Item {
             // Get the entity type and verify it isn't blacklisted
             // TODO: maybe make the method give a rejection reason so we can give accurate status messages?
             if (!EntityCaptureUtils.canCapture(pInteractionTarget)) {
-                pPlayer.displayClientMessage(new TextComponent("This entity is blacklisted"), true);
+                pPlayer.displayClientMessage(new TextComponent("This entity cannot be captured"), true);
                 return InteractionResult.FAIL;
             }
 
@@ -89,25 +90,38 @@ public class SoulVialItem extends Item {
                 return InteractionResult.FAIL;
             }
 
-            // TODO: If there's more than one vial in the player's hand, keep the others in tact by putting the filled one elsewhere.
-
             // Create a filled vial and put the entity's NBT inside.
             ItemStack filledVial = new ItemStack(EIOItems.FILLED_SOUL_VIAL.get());
             filledVial.setTag(pInteractionTarget.serializeNBT());
 
-            // Replace the empty vial with the full one
-            pPlayer.setItemInHand(pUsedHand, filledVial);
+            // Consume a soul vial
+            ItemStack hand = pPlayer.getItemInHand(pUsedHand);
+            hand.shrink(1);
 
-            // Remove the entity from the world
+            // Give the player the filled vial
+            if (hand.isEmpty()) {
+                pPlayer.setItemInHand(pUsedHand, filledVial);
+            } else {
+                if (!pPlayer.addItem(filledVial)) {
+                    pPlayer.drop(filledVial, false);
+                }
+            }
+
+            // Remove the captured mob.
             pInteractionTarget.discard();
         }
 
         return InteractionResult.SUCCESS;
     }
 
+    // Release logic
     @Nonnull
     @Override
     public InteractionResult useOn(UseOnContext pContext) {
+        if (pContext.getLevel().isClientSide) {
+            return InteractionResult.FAIL;
+        }
+
         ItemStack itemStack = pContext.getItemInHand();
         Player player = pContext.getPlayer();
 
@@ -127,6 +141,7 @@ public class SoulVialItem extends Item {
             double spawnY = spawnPos.getY() + face.getStepY();
             double spawnZ = spawnPos.getZ() + face.getStepZ() + 0.5;
 
+            // Get a random rotation for the entity.
             float rotation = Mth.wrapDegrees(pContext
                 .getLevel()
                 .getRandom()
@@ -134,6 +149,7 @@ public class SoulVialItem extends Item {
 
             // noinspection ConstantConditions - the itemstack tag will not be null, its deal with in getEntityType.
             Optional<Entity> entity = EntityType.create(itemStack.getTag(), pContext.getLevel());
+
             entity.ifPresent(ent -> {
                 ent.setPos(spawnX, spawnY, spawnZ);
                 ent.setYRot(rotation);
@@ -142,11 +158,12 @@ public class SoulVialItem extends Item {
                     .addFreshEntity(ent);
             });
 
+            // Empty the soul vial.
             player.setItemInHand(pContext.getHand(), new ItemStack(EIOItems.EMPTY_SOUL_VIAL.get()));
 
         });
 
-        return super.useOn(pContext);
+        return InteractionResult.SUCCESS;
     }
 
     // endregion
@@ -156,7 +173,7 @@ public class SoulVialItem extends Item {
     @Override
     public void fillItemCategory(@Nonnull CreativeModeTab pCategory, @Nonnull NonNullList<ItemStack> pItems) {
         if (pCategory == getItemCategory()) {
-            pItems.add(new ItemStack(this));
+            pItems.add(new ItemStack(EIOItems.EMPTY_SOUL_VIAL.get()));
         } else if (pCategory == EIOCreativeTabs.SOULS) {
             // Register for every mob that can be captured.
             for (ResourceLocation entity : EntityCaptureUtils.getCapturableEntities()) {
@@ -187,7 +204,6 @@ public class SoulVialItem extends Item {
     private static void setEntityType(ItemStack stack, ResourceLocation entityType) {
         CompoundTag tag = stack.getOrCreateTag();
         tag.putString("id", entityType.toString());
-        stack.setTag(tag);
     }
 
     // endregion
