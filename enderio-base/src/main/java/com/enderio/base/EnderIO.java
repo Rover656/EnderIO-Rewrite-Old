@@ -36,14 +36,15 @@ public class EnderIO {
         modEventBus.addListener(this::ModelLoaders);
         
     }
-    
+
+    //TODO Move to an other location
     public void ModelLoaders(ModelRegistryEvent event) {
-    	ModelLoader.addSpecialModel(new ResourceLocation(MODID,"item/wood_gear_helper"));
-    	ModelLoader.addSpecialModel(new ResourceLocation(MODID,"item/stone_gear_helper"));
-    	ModelLoader.addSpecialModel(new ResourceLocation(MODID,"item/iron_gear_helper"));
-    	ModelLoader.addSpecialModel(new ResourceLocation(MODID,"item/energized_gear_helper"));
-    	ModelLoader.addSpecialModel(new ResourceLocation(MODID,"item/vibrant_gear_helper"));
-    	ModelLoader.addSpecialModel(new ResourceLocation(MODID,"item/dark_bimetal_gear_helper"));
+        ModelLoader.addSpecialModel(new ResourceLocation(MODID,"item/wood_gear_helper"));
+        ModelLoader.addSpecialModel(new ResourceLocation(MODID,"item/stone_gear_helper"));
+        ModelLoader.addSpecialModel(new ResourceLocation(MODID,"item/iron_gear_helper"));
+        ModelLoader.addSpecialModel(new ResourceLocation(MODID,"item/energized_gear_helper"));
+        ModelLoader.addSpecialModel(new ResourceLocation(MODID,"item/vibrant_gear_helper"));
+        ModelLoader.addSpecialModel(new ResourceLocation(MODID,"item/dark_bimetal_gear_helper"));
     }
 
     public void gatherData(GatherDataEvent event) {
