@@ -3,7 +3,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="https://github.com/Rover656/EnderIO-Rewrite">
     <img src="doc/img/enderface.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -16,6 +16,8 @@
     <br />
     <br />
     <a href="https://www.curseforge.com/minecraft/mc-mods/ender-io">Curseforge</a>
+    ·
+    <a href="https://discord.gg/sgYk3Jr">Discord</a>
     ·
     <a href="https://github.com/Rover656/EnderIO-Rewrite/issues">Report Bug</a>
     ·
@@ -50,7 +52,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![EnderIO Logo](doc/img/logo.png)](https://example.com)
+[![EnderIO Logo](doc/img/logo.png)](https://www.curseforge.com/minecraft/mc-mods/ender-io)
 
 [![Gradle Build](https://github.com/Rover656/EnderIO-Rewrite/actions/workflows/gradle.yml/badge.svg)](https://github.com/Rover656/EnderIO-Rewrite/actions/workflows/gradle.yml)
 
