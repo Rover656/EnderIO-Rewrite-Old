@@ -1,8 +1,9 @@
-97c6f6c1206c524e48660103737178684382a41a assets/enderio/lang/en_ud.json
-96ea78bed0b1a056e5812f60c6b47bfedaa0479c assets/enderio/lang/en_us.json
+19e4e2a3e95b3c48b8ac90d42a91edd08c2d78fb assets/enderio/lang/en_ud.json
+95143d551f7557c0d4a1a25daeb04312761bdb39 assets/enderio/lang/en_us.json
 50ac99e3a6a7ddfff43da9c0a8c7b60d1efaf52e assets/enderio/models/item/animal_token.json
 14cb1f2ded92ac4afb324e961e73fbdf85059831 assets/enderio/models/item/ardite_powder.json
 32625916278de416ea941d2ee1043115085cc1c7 assets/enderio/models/item/black_paper.json
+ea6c4f5938220270f36b57bfd4619eac082520d2 assets/enderio/models/item/broken_spawner.json
 edf351a7005f7016b7713da61b639b922401e6e5 assets/enderio/models/item/cake_base.json
 da1d2d718a97a70df2b71f6af0853503d0d50e4f assets/enderio/models/item/clayed_glowstone.json
 63934381b97446078d90c62357fcbf7e23b274a7 assets/enderio/models/item/coal_powder.json
@@ -20,6 +21,7 @@ be5fdb8d33258b4e6c787bf2ce604a89e93842e2 assets/enderio/models/item/construction
 8f5e78686342ce48a9f26ca488dbf9d0ec2f35dc assets/enderio/models/item/dark_steel_nugget.json
 167cce126ee70334f26925796a886b0e93c6ee0d assets/enderio/models/item/electrical_steel_ingot.json
 0914e10ec6e7cb6248b608fd22a6c5558e51125e assets/enderio/models/item/electrical_steel_nugget.json
+0522bbe76ec57ba1ae7e07ab45ab627ecd4e9c47 assets/enderio/models/item/empty_soul_vial.json
 057b9b1f156d75a27beb1597dd3e2cfe1aa11659 assets/enderio/models/item/end_steel_ingot.json
 b4ddb3f72d4708946ac9937266e3012d43772041 assets/enderio/models/item/end_steel_machine_chassis.json
 2caebf0bb0579d24d2d3cc9e5ce96a23986bc0fb assets/enderio/models/item/end_steel_nugget.json
@@ -42,6 +44,7 @@ bcf18071b99922017615833b57807f6b07c6fd45 assets/enderio/models/item/energized_ge
 27f9b0db6dae018f2fff5fe22fdef0ad7e65aec3 assets/enderio/models/item/enhanced_machine_chassis.json
 a2971c85f3f17b1e7a04e8cf91922afba44ca1ee assets/enderio/models/item/enhanced_machine_parts.json
 9f6311706ededa68d14c8857e0079f5d786c28ab assets/enderio/models/item/enticing_crystal.json
+5bafad3aa2b83ffb6000c4a7ff4e07732276a124 assets/enderio/models/item/filled_soul_vial.json
 821224669527c98b79d5f9e1c92067a5d27598f5 assets/enderio/models/item/flour.json
 d0aae3e6e9ae47b6327246012a3d73f42dd71c33 assets/enderio/models/item/franken_zombie.json
 6e92c1a8476d971da21b67bc040b74c2c0d748b6 assets/enderio/models/item/glider_wing.json

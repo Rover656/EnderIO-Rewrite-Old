@@ -1,7 +1,9 @@
 package com.enderio.base;
 
+import com.enderio.base.common.item.spawner.BrokenSpawnerItem;
 import com.enderio.base.common.item.EnderfaceItem;
 import com.enderio.base.common.item.MaterialItem;
+import com.enderio.base.common.item.SoulVialItem;
 import com.enderio.base.common.util.ItemModelUtils;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.ItemBuilder;
@@ -281,9 +283,11 @@ public class EIOItems {
 
     public static ItemEntry<MaterialItem> INGOT_ENDERIUM_BASE = materialItem("ingot_enderium_base").register(); // TODO: Depend on enderium ingot tag
 
-    //  public static final ItemEntry<ItemBrokenSpawner> BROKEN_SPAWNER = REGISTRATE.item("broken_spawner", ItemBrokenSpawner::new)
-    //      .model(ItemModelUtils::fakeBlockModel)
-    //      .group(new NonNullLazyValue<>(() -> EnderIOGroups.Materials)).register();
+    public static final ItemEntry<BrokenSpawnerItem> BROKEN_SPAWNER = REGISTRATE
+        .item("broken_spawner", BrokenSpawnerItem::new)
+        .model(ItemModelUtils::fakeBlockModel)
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.MATERIALS))
+        .register();
 
     // endregion
 
@@ -305,6 +309,20 @@ public class EIOItems {
             .item(name, props -> new MaterialItem(props, true))
             .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.MATERIALS));
     }
+
+    // endregion
+
+    // region Items
+
+    public static ItemEntry<SoulVialItem> EMPTY_SOUL_VIAL = REGISTRATE
+        .item("empty_soul_vial", SoulVialItem::new)
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.ITEMS))
+        .register();
+
+    public static ItemEntry<SoulVialItem> FILLED_SOUL_VIAL = REGISTRATE
+        .item("filled_soul_vial", SoulVialItem::new)
+        .properties(props -> props.stacksTo(1))
+        .register();
 
     // endregion
 
