@@ -62,8 +62,6 @@ public class PaintedFenceBlockEntity extends BlockEntity {
         }
     }
 
-
-
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
@@ -76,7 +74,6 @@ public class PaintedFenceBlockEntity extends BlockEntity {
         writePaint(nbt);
         return nbt;
     }
-
 
     private void readPaint(CompoundTag tag) {
         if (tag.contains("paint")) {
