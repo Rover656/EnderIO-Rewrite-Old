@@ -77,7 +77,7 @@ Update your `build.gradle` to contain the foillowing:
 
 ```groovy
 repositories {
-    maven { url 'https://maven.nerdthings.dev' }
+    maven { url 'https://maven.tterrag.com' }
 }
 
 dependencies {
