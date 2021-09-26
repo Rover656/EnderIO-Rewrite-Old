@@ -1,0 +1,24 @@
+plugins {
+    id "io.freefair.lombok" version "6.1.0-m3"
+}
+dependencies {
+    implementation project(':endercore')
+    implementation project(':enderio-base')
+}
+
+lombok {
+    version = "1.18.20"
+    config['lombok.addJavaxGeneratedAnnotation'] = 'true'
+}
+
+delombok {
+    format = [
+            'suppressWarnings': 'skip',
+            'javaLangAsFQN': 'skip'
+    ]
+}
+
+task sourceJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.delombokTask
+}
