@@ -1,11 +1,10 @@
-package com.enderio.machines.client.painted;
+package com.enderio.base.painted;
 
-import com.enderio.machines.EIOMachinesBlocks;
-import com.enderio.machines.EnderIOMachines;
-import com.enderio.machines.common.block.PaintedFenceBlockEntity;
+import com.enderio.base.EIOBlocks;
+import com.enderio.base.EnderIO;
+import com.enderio.base.common.block.PaintedFenceBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColor;
-import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.BlockAndTintGetter;
@@ -25,12 +24,12 @@ public class ClientSetup {
 
     @SubscribeEvent
     public static void modelInit(final ModelRegistryEvent setupEvent) {
-        ModelLoaderRegistry.registerLoader(new ResourceLocation(EnderIOMachines.MODID, "painted_fence"), new PaintedBakedModel.PaintedFenceModelLoader());
+        ModelLoaderRegistry.registerLoader(new ResourceLocation(EnderIO.MODID, "painted_fence"), new PaintedBakedModel.PaintedFenceModelLoader());
     }
 
     @SubscribeEvent
     public static void colorInit(final ColorHandlerEvent.Block e) {
-        e.getBlockColors().register(new PaintedBlockColor(), EIOMachinesBlocks.PAINTED_FENCE.get());
+        e.getBlockColors().register(new PaintedBlockColor(), EIOBlocks.PAINTED_FENCE.get());
     }
 
     private static class PaintedBlockColor implements BlockColor {

@@ -1,4 +1,4 @@
-package com.enderio.machines.common.block;
+package com.enderio.base.common.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -9,8 +9,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import lombok.Getter;
-import lombok.Setter;
 import net.minecraftforge.client.model.ModelDataManager;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelDataMap;
@@ -23,9 +21,16 @@ import javax.annotation.Nullable;
 
 public class PaintedFenceBlockEntity extends BlockEntity {
 
-    @Getter
-    @Setter
     private Block paint;
+
+    public Block getPaint() {
+        return paint;
+    }
+
+    public void setPaint(Block paint) {
+        this.paint = paint;
+    }
+
     public static final ModelProperty<Block> PAINT = new ModelProperty<>();
 
     public PaintedFenceBlockEntity(BlockEntityType<?> pType, BlockPos pWorldPosition, BlockState pBlockState) {
@@ -63,6 +68,14 @@ public class PaintedFenceBlockEntity extends BlockEntity {
     public void load(CompoundTag tag) {
         super.load(tag);
         readPaint(tag);
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        if (!level.isClientSide) {
+            level.sendBlockUpdated(getBlockPos(), level.getBlockState(getBlockPos()), level.getBlockState(getBlockPos()), Constants.BlockFlags.NOTIFY_NEIGHBORS);
+        }
     }
 
     private void readPaint(CompoundTag tag) {

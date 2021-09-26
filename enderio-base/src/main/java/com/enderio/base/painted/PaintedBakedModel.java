@@ -1,6 +1,6 @@
-package com.enderio.machines.client.painted;
+package com.enderio.base.painted;
 
-import com.enderio.machines.common.block.PaintedFenceBlockEntity;
+import com.enderio.base.common.block.PaintedFenceBlockEntity;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
