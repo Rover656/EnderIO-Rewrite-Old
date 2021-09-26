@@ -1,8 +1,5 @@
 <!-- Template credit: https://github.com/othneildrew/Best-README-Template -->
 
-<!-- PROJECT SHIELDS -->
-[![Gradle Build](https://github.com/Rover656/EnderIO-Rewrite/actions/workflows/gradle.yml/badge.svg)](https://github.com/Rover656/EnderIO-Rewrite/actions/workflows/gradle.yml)
-
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
@@ -54,6 +51,8 @@
 ## About The Project
 
 [![EnderIO Logo](doc/img/logo.png)](https://example.com)
+
+[![Gradle Build](https://github.com/Rover656/EnderIO-Rewrite/actions/workflows/gradle.yml/badge.svg)](https://github.com/Rover656/EnderIO-Rewrite/actions/workflows/gradle.yml)
 
 TODO
 
