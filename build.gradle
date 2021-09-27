@@ -164,6 +164,7 @@ subprojects {
 
     // Example for how to get properties into the manifest for reading at runtime.
     jar {
+        destinationDirectory.set(file("$rootDir/build/libs"))
         manifest {
             attributes([
                     "Specification-Title"     : "examplemod",
@@ -177,6 +178,12 @@ subprojects {
         }
     }
 
+    //jar.finalizedBy('reobfJar')
+
+    clean {
+        delete "$rootDir/build/libs"
+    }
+
 //    shadowJar {
 //        configurations = [project.configurations.shade]
 //        relocate 'com.tterrag.registrate', 'com.enderio.repack.registrate'
@@ -186,24 +193,36 @@ subprojects {
 //        shadowJar {}
 //    }
 
-    // Example configuration to allow publishing using the maven-publish plugin
-    // This is the preferred method to reobfuscate your jar file
-//    jar.finalizedBy('reobfJar')
     // However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
-     publish.dependsOn('reobfJar')
+    if (project.hasProperty("releaseBuild") && project.releaseBuild == true) {
+        jar.finalizedBy('reobfJar')
+    }
+    publish.dependsOn('reobfJar')
 
     publishing {
         publications {
             mavenJava(MavenPublication) {
                 artifact jar
+                artifactId = getArchiveBaseName(project)
             }
         }
         repositories {
-            maven {
-                url "https://maven.nerdthings.dev"
-                credentials {
-                    username = System.getenv("MAVEN_USERNAME")
-                    password = System.getenv("MAVEN_PASSWORD")
+            def pubHypherion = System.getenv('MAVEN_URL') != null
+            if (pubHypherion) {
+                maven {
+                    url System.getenv('MAVEN_URL')
+                    credentials {
+                        username System.getenv('MAVEN_USER')
+                        password System.getenv('MAVEN_PASS')
+                    }
+                }
+            } else {
+                maven {
+                    url "https://maven.nerdthings.dev"
+                    credentials {
+                        username = System.getenv("MAVEN_USERNAME")
+                        password = System.getenv("MAVEN_PASSWORD")
+                    }
                 }
             }
         }
@@ -261,14 +280,13 @@ String getVersionString(Project proj) {
 }
 
 String getPrettyName(Project proj) {
-    def project_base_name = rootProject.name
     if (proj.hasProperty('module_name'))
-        project_base_name += "-${proj.module_name}"
-    return project_base_name
+        return rootProject.name + "-${proj.module_name}"
+    return proj.name
 }
 
 String getArchiveBaseName(Project proj) {
-    return getPrettyName(proj) + "-${project.minecraft_version}"
+    return getPrettyName(proj) + "-${rootProject.minecraft_version}"
 }
 
 String getModId(Project proj) {
