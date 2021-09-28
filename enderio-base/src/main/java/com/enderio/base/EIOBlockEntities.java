@@ -10,7 +10,7 @@ public class EIOBlockEntities {
     private static final Registrate REGISTRATE = EnderIO.registrate();
 
     public static final TileEntityEntry<SinglePaintedBlockEntity> SINGLE_PAINTED = REGISTRATE.tileEntity("single_painted", (TileEntityBuilder.BlockEntityFactory<SinglePaintedBlockEntity>) (pos, state, type) -> new SinglePaintedBlockEntity(type, pos, state)).validBlocks(
-        EIOBlocks.PAINTED_FENCE, EIOBlocks.PAINTED_FENCE_GATE, EIOBlocks.PAINTED_STAIRS).register();
+        EIOBlocks.PAINTED_FENCE, EIOBlocks.PAINTED_FENCE_GATE, EIOBlocks.PAINTED_STAIRS, EIOBlocks.PAINTED_CRAFTING_TABLE, EIOBlocks.PAINTED_SAND).register();
 
 
     public static void register() {

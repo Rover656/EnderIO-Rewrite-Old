@@ -50,25 +50,47 @@ public abstract class PaintedModel implements IDynamicBakedModel {
     @Override
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull Random rand, @Nonnull IModelData extraData) {
         List<BakedQuad> shape = getModelFromOwn(state).getQuads(copyBlockState(state), side, rand);
-        return getQuadsUsingShape(shape, side, rand, extraData);
+        Direction direction = null;
+        if (state != null) {
+            for (Property<?> property : state.getProperties()) {
+                if (property instanceof DirectionProperty directionProperty) {
+                    direction = state.getValue(directionProperty).getOpposite();
+                }
+            }
+        }
+        return getQuadsUsingShape(shape, side, rand, extraData, direction);
     }
 
-    public List<BakedQuad> getQuadsUsingShape(List<BakedQuad> shape, @Nullable Direction side, @Nonnull Random rand, @Nonnull IModelData extraData) {
+    public List<BakedQuad> getQuadsUsingShape(List<BakedQuad> shape, @Nullable Direction side, @Nonnull Random rand, @Nonnull IModelData extraData, @Nullable Direction rotation) {
         Block paint = extraData.getData(SinglePaintedBlockEntity.PAINT);
         if (paint != null) {
-            BakedModel model = getModel(paint.defaultBlockState());
-            Optional<Pair<TextureAtlasSprite, Boolean>> spriteOptional = getSpriteData(paint, side, rand);
+            BakedModel model = getModel(paintWithRotation(paint, rotation));
+            Optional<Pair<TextureAtlasSprite, Boolean>> spriteOptional = getSpriteData(paint, side, rand, rotation);
             List<BakedQuad> returnQuads = new ArrayList<>();
             for (BakedQuad shapeQuad : shape) {
-                Pair<TextureAtlasSprite, Boolean> spriteData = spriteOptional.orElseGet(() -> getSpriteFromModel(shapeQuad, model, paint));
+                Pair<TextureAtlasSprite, Boolean> spriteData = spriteOptional.orElseGet(() -> getSpriteFromModel(shapeQuad, model, paint, rotation));
                 returnQuads.add(copyQuad(shapeQuad, spriteData.getFirst(), spriteData.getSecond()));
             }
             return returnQuads;
         }
         return List.of();
     }
-    Optional<Pair<TextureAtlasSprite, Boolean>> getSpriteData(Block paint, Direction side, Random rand) {
-        for (BakedQuad quad : getModel(paint.defaultBlockState()).getQuads(paint.defaultBlockState(), side, rand, EmptyModelData.INSTANCE)) {
+
+    private BlockState paintWithRotation(Block paint, Direction rotation) {
+        BlockState state = paint.defaultBlockState();
+        if (rotation != null) {
+            for (Property<?> property : state.getProperties()) {
+                if (property instanceof DirectionProperty directionProperty && directionProperty.getPossibleValues().contains(rotation)) {
+                    state = state.setValue(directionProperty, rotation);
+                }
+            }
+        }
+        return state;
+    }
+
+    private Optional<Pair<TextureAtlasSprite, Boolean>> getSpriteData(Block paint, Direction side, Random rand, Direction rotation) {
+        BlockState state = paintWithRotation(paint, rotation);
+        for (BakedQuad quad : getModel(state).getQuads(state, side, rand, EmptyModelData.INSTANCE)) {
             return Optional.of(Pair.of(quad.getSprite(), quad.isTinted()));
         }
         return Optional.empty();
@@ -90,11 +112,12 @@ public abstract class PaintedModel implements IDynamicBakedModel {
     }
 
 
-    protected Pair<TextureAtlasSprite, Boolean> getSpriteFromModel(BakedQuad shape, BakedModel model, Block paint) {
+    protected Pair<TextureAtlasSprite, Boolean> getSpriteFromModel(BakedQuad shape, BakedModel model, Block paint, Direction rotation) {
         float[] normalData = new float[4];
+        BlockState state = paintWithRotation(paint, rotation);
         LightUtil.unpack(shape.getVertices() , normalData, DefaultVertexFormat.BLOCK, 0, 4);
         Direction normal = Direction.getNearest(normalData[0], normalData[1], normalData[2]);
-        List<BakedQuad> quads = model.getQuads(paint.defaultBlockState(), normal, new Random());
+        List<BakedQuad> quads = model.getQuads(state, normal, new Random());
         return quads.isEmpty() ? Pair.of(getMissingTexture(), false) : Pair.of(quads.get(0).getSprite(), quads.get(0).isTinted());
     }
 
@@ -208,7 +231,7 @@ public abstract class PaintedModel implements IDynamicBakedModel {
         public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull Random rand, @Nonnull IModelData extraData) {
             return bakedQuads.computeIfAbsent(side, side1 -> {
                 IModelData data = new ModelDataMap.Builder().withInitial(SinglePaintedBlockEntity.PAINT, paint).build();
-                return PaintedModel.this.getQuadsUsingShape(Minecraft.getInstance().getItemRenderer().getModel(shapeFrom.asItem().getDefaultInstance(), null, null, 0).getQuads(state, side, rand, EmptyModelData.INSTANCE), side, rand, data);
+                return PaintedModel.this.getQuadsUsingShape(Minecraft.getInstance().getItemRenderer().getModel(shapeFrom.asItem().getDefaultInstance(), null, null, 0).getQuads(state, side, rand, EmptyModelData.INSTANCE), side, rand, data, null);
             });
         }
 
