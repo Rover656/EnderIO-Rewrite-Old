@@ -4,10 +4,10 @@ import com.enderio.base.EnderIO;
 import com.enderio.base.common.item.food.EnderiosItem;
 import com.enderio.base.common.item.spawner.BrokenSpawnerItem;
 import com.enderio.base.common.util.ItemModelUtils;
-import com.enderio.base.data.model.item.EnderItemModel;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.util.NonNullLazyValue;
+import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
 
 import com.tterrag.registrate.util.nullness.NonNullFunction;
@@ -243,6 +243,8 @@ public class EIOItems {
         .register();
 
     // endregion
+    
+    public static ItemEntry<BlockItem> GRAVEITEM = blockItem("grave", EIOBlocks.GRAVE).register();
 
     // region Builders
 
