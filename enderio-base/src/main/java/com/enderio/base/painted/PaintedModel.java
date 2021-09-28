@@ -2,14 +2,18 @@ package com.enderio.base.painted;
 
 import com.enderio.base.common.block.painted.SinglePaintedBlockEntity;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.renderer.block.model.ItemOverrides;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -18,14 +22,18 @@ import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IDynamicBakedModel;
 import net.minecraftforge.client.model.data.IModelData;
+import net.minecraftforge.client.model.data.ModelDataMap;
 import net.minecraftforge.client.model.pipeline.LightUtil;
-import org.apache.commons.lang3.tuple.Pair;
+import com.mojang.datafixers.util.Pair;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
 public abstract class PaintedModel implements IDynamicBakedModel {
+
+    private static Map<ItemStack, List<Pair<BakedModel, RenderType>>> itemRenderCache = new HashMap<>();
 
     protected abstract Block copyModelFromBlock();
 
@@ -41,7 +49,10 @@ public abstract class PaintedModel implements IDynamicBakedModel {
     @Override
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull Random rand, @Nonnull IModelData extraData) {
         List<BakedQuad> shape = getModelFromOwn(state).getQuads(copyBlockState(state), side, rand);
+        return getQuadsUsingShape(shape, side, rand, extraData);
+    }
 
+    public List<BakedQuad> getQuadsUsingShape(List<BakedQuad> shape, @Nullable Direction side, @Nonnull Random rand, @Nonnull IModelData extraData) {
         Block paint = extraData.getData(SinglePaintedBlockEntity.PAINT);
         if (paint != null) {
             BakedModel model = getModel(paint.defaultBlockState());
@@ -49,7 +60,7 @@ public abstract class PaintedModel implements IDynamicBakedModel {
             List<BakedQuad> returnQuads = new ArrayList<>();
             for (BakedQuad shapeQuad : shape) {
                 Pair<TextureAtlasSprite, Boolean> spriteData = spriteOptional.orElseGet(() -> getSpriteFromModel(shapeQuad, model, paint));
-                returnQuads.add(copyQuad(shapeQuad, spriteData.getLeft(), spriteData.getRight()));
+                returnQuads.add(copyQuad(shapeQuad, spriteData.getFirst(), spriteData.getSecond()));
             }
             return returnQuads;
         }
@@ -148,5 +159,101 @@ public abstract class PaintedModel implements IDynamicBakedModel {
     @Override
     public TextureAtlasSprite getParticleIcon() {
         return getMissingTexture();
+    }
+
+    // used to modify model based on ItemStack data
+    @Override
+    public boolean isLayered() {
+        return true;
+    }
+
+    //modify model and return this here
+    public List<Pair<BakedModel, RenderType>> getLayerModels(ItemStack itemStack, boolean fabulous) {
+        return itemRenderCache.computeIfAbsent(itemStack, itemStack1 -> createLayerModels(itemStack, fabulous));
+
+    }
+
+    private List<Pair<BakedModel, RenderType>> createLayerModels(ItemStack itemStack, boolean fabulous) {
+        CompoundTag tag = itemStack.getTag();
+        if (tag != null && tag.contains("BlockEntityTag")) {
+            CompoundTag blockEntityTag = tag.getCompound("BlockEntityTag");
+            if (blockEntityTag.contains("paint")) {
+                Block paint = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockEntityTag.getString("paint")));
+                return List.of(Pair.of(new ItemPaintedModel(paint, copyModelFromBlock()), ItemBlockRenderTypes.getRenderType(itemStack, fabulous)));
+            }
+        }
+        return List.of(Pair.of(this, ItemBlockRenderTypes.getRenderType(itemStack, fabulous)));
+    }
+
+
+    @Override
+    public ItemTransforms getTransforms() {
+        return ItemPaintedModel.TRANSFORMS;
+    }
+
+    private class ItemPaintedModel implements IDynamicBakedModel {
+
+        private final Block paint;
+        private final Block shapeFrom;
+        private Map<Direction, List<BakedQuad>> bakedQuads = new HashMap<>();
+
+        private ItemPaintedModel(Block paint, Block shapeFrom) {
+            this.paint = paint;
+            this.shapeFrom = shapeFrom;
+        }
+
+        @Nonnull
+        @Override
+        public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull Random rand, @Nonnull IModelData extraData) {
+            if (!bakedQuads.containsKey(side)) {
+                IModelData data = new ModelDataMap.Builder().withInitial(SinglePaintedBlockEntity.PAINT, paint).build();
+                bakedQuads.put(side, PaintedModel.this.getQuadsUsingShape(Minecraft.getInstance().getItemRenderer().getModel(shapeFrom.asItem().getDefaultInstance(), null, null, 0).getQuads(state, side, rand, EmptyModelData.INSTANCE), side, rand, data));
+            }
+            return bakedQuads.get(side);
+        }
+
+        @Override
+        public boolean useAmbientOcclusion() {
+            return false;
+        }
+
+        @Override
+        public boolean isGui3d() {
+            return true;
+        }
+
+        @Override
+        public boolean usesBlockLight() {
+            return true;
+        }
+
+        @Override
+        public boolean isCustomRenderer() {
+            return false;
+        }
+
+        @Override
+        public TextureAtlasSprite getParticleIcon() {
+            return PaintedModel.this.getParticleIcon();
+        }
+
+        @Override
+        public ItemOverrides getOverrides() {
+            return ItemOverrides.EMPTY;
+        }
+
+        @Override
+        public ItemTransforms getTransforms() {
+            return TRANSFORMS;
+        }
+        private static ItemTransforms TRANSFORMS = new ItemTransforms(
+            new ItemTransform(new Vector3f(75,45,0), new Vector3f(0, 2.5f/16, 0), new Vector3f(0.375f, 0.375f, 0.375f)),
+            new ItemTransform(new Vector3f(75,45,0), new Vector3f(0, 2.5f/16, 0), new Vector3f(0.375f, 0.375f, 0.375f)),
+            new ItemTransform(new Vector3f(0,225,0), new Vector3f(0, 0, 0), new Vector3f(0.4f, 0.4f, 0.4f)),
+            new ItemTransform(new Vector3f(0,45,0), new Vector3f(0, 0, 0), new Vector3f(0.4f, 0.4f, 0.4f)),
+            new ItemTransform(new Vector3f(0,0,0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1)),
+            new ItemTransform(new Vector3f(30,225,0), new Vector3f(0, 0, 0), new Vector3f(0.625f, 0.625f, 0.625f)),
+            new ItemTransform(new Vector3f(0,0,0), new Vector3f(0, 3f/16, 0), new Vector3f(0.25f, 0.25f, 0.25f)),
+            new ItemTransform(new Vector3f(0,0,0), new Vector3f(0, 0, 0), new Vector3f(0.5f, 0.5f, 0.5f)));
     }
 }

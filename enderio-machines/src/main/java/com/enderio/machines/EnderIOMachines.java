@@ -44,6 +44,9 @@ public class EnderIOMachines {
             painted = new ItemStack(EIOBlocks.PAINTED_FENCE_GATE.get(), 64);
             painted.getOrCreateTagElement("BlockEntityTag").putString("paint", block.getRegistryName().toString());
             player.addItem(painted);
+            painted = new ItemStack(EIOBlocks.PAINTED_SAND.get(), 64);
+            painted.getOrCreateTagElement("BlockEntityTag").putString("paint", block.getRegistryName().toString());
+            player.addItem(painted);
         }
     }
 
