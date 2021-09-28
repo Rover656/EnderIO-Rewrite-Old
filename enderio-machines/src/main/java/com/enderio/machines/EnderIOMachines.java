@@ -41,12 +41,15 @@ public class EnderIOMachines {
             ItemStack painted = new ItemStack(EIOBlocks.PAINTED_FENCE.get(), 64);
             painted.getOrCreateTagElement("BlockEntityTag").putString("paint", block.getRegistryName().toString());
             player.addItem(painted);
+            painted = new ItemStack(EIOBlocks.PAINTED_FENCE_GATE.get(), 64);
+            painted.getOrCreateTagElement("BlockEntityTag").putString("paint", block.getRegistryName().toString());
+            player.addItem(painted);
         }
     }
 
     private static Block getRandomBlock() {
         if (blocks == null)
-            blocks = ForgeRegistries.BLOCKS.getValues().stream().filter(block -> {
+            blocks = ForgeRegistries.BLOCKS.getValues().stream().filter(block -> block.defaultBlockState().canOcclude()).filter(block -> {
                 try {
                     return Block.isShapeFullBlock(block.getShape(block.defaultBlockState(), null, null, CollisionContext.empty()));
                 } catch (Exception e) {

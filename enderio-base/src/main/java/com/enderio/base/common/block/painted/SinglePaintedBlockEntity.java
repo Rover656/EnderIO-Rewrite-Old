@@ -1,4 +1,4 @@
-package com.enderio.base.common.block;
+package com.enderio.base.common.block.painted;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -19,7 +19,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class PaintedFenceBlockEntity extends BlockEntity {
+public class SinglePaintedBlockEntity extends BlockEntity {
 
     private Block paint;
 
@@ -33,7 +33,7 @@ public class PaintedFenceBlockEntity extends BlockEntity {
 
     public static final ModelProperty<Block> PAINT = new ModelProperty<>();
 
-    public PaintedFenceBlockEntity(BlockEntityType<?> pType, BlockPos pWorldPosition, BlockState pBlockState) {
+    public SinglePaintedBlockEntity(BlockEntityType<?> pType, BlockPos pWorldPosition, BlockState pBlockState) {
         super(pType, pWorldPosition, pBlockState);
     }
 
