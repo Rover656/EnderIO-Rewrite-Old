@@ -2,9 +2,8 @@ package com.enderio.base;
 
 import javax.annotation.Nonnull;
 
-import com.enderio.base.common.block.registry.EIOBlocks;
-import com.enderio.base.common.item.EIOCreativeTab;
-import com.enderio.base.common.item.registry.EIOItems;
+import com.enderio.base.common.block.EIOBlocks;
+import com.enderio.base.common.item.EIOItems;
 import com.enderio.base.data.recipe.standard.StandardRecipes;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.NonNullLazyValue;

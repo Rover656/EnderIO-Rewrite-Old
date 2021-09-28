@@ -1,6 +1,5 @@
 package com.enderio.base.common.item;
 
-import com.enderio.base.common.item.registry.EIOItems;
 import com.enderio.base.common.util.EntityCaptureUtils;
 import com.enderio.core.common.util.EntityUtil;
 import net.minecraft.core.BlockPos;
@@ -174,7 +173,7 @@ public class SoulVialItem extends Item {
     public void fillItemCategory(@Nonnull CreativeModeTab pCategory, @Nonnull NonNullList<ItemStack> pItems) {
         if (pCategory == getItemCategory()) {
             pItems.add(new ItemStack(EIOItems.EMPTY_SOUL_VIAL.get()));
-        } else if (pCategory == EIOCreativeTab.SOULS) {
+        } else if (pCategory == EIOCreativeTabs.SOULS) {
             // Register for every mob that can be captured.
             for (ResourceLocation entity : EntityCaptureUtils.getCapturableEntities()) {
                 ItemStack is = new ItemStack(EIOItems.FILLED_SOUL_VIAL.get());
@@ -186,7 +185,7 @@ public class SoulVialItem extends Item {
 
     @Override
     public Collection<CreativeModeTab> getCreativeTabs() {
-        return Arrays.asList(getItemCategory(), EIOCreativeTab.SOULS);
+        return Arrays.asList(getItemCategory(), EIOCreativeTabs.SOULS);
     }
 
     // endregion

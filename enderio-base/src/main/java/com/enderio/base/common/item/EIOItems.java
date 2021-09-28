@@ -1,13 +1,8 @@
-package com.enderio.base.common.item.registry;
+package com.enderio.base.common.item;
 
-import com.enderio.base.common.item.EIOCreativeTab;
 import com.enderio.base.EnderIO;
 import com.enderio.base.common.item.food.EnderiosItem;
 import com.enderio.base.common.item.spawner.BrokenSpawnerItem;
-import com.enderio.base.common.item.EnderfaceItem;
-import com.enderio.base.common.item.GearItem;
-import com.enderio.base.common.item.MaterialItem;
-import com.enderio.base.common.item.SoulVialItem;
 import com.enderio.base.common.util.ItemModelUtils;
 import com.enderio.base.data.model.item.EnderItemModel;
 import com.tterrag.registrate.Registrate;
@@ -52,7 +47,6 @@ public class EIOItems {
     // region Basic Materials
 
     public static final ItemEntry<MaterialItem> CONDUIT_BINDER = materialItem("conduit_binder").register();
-
     public static final ItemEntry<MaterialItem> SILICON = materialItem("silicon").register();
 
     // endregion
@@ -87,7 +81,6 @@ public class EIOItems {
         .register();
 
     public static final ItemEntry<MaterialItem> SKELETAL_CONTRACTOR = materialItem("skeletal_contractor").register();
-
     public static final ItemEntry<MaterialItem> GUARDIAN_DIODE = materialItem("guardian_diode").register();
 
     // endregion
@@ -112,29 +105,17 @@ public class EIOItems {
         .register();
 
     public static final ItemEntry<MaterialItem> FLOUR = materialItem("flour").register();
-
     public static final ItemEntry<MaterialItem> CONDUIT_BINDER_COMPOSITE = materialItem("conduit_binder_composite").register();
-
     public static final ItemEntry<MaterialItem> COAL_POWDER = materialItem("coal_powder").register();
-
     public static final ItemEntry<MaterialItem> IRON_POWDER = materialItem("iron_powder").register();
-
     public static final ItemEntry<MaterialItem> GOLD_POWDER = materialItem("gold_powder").register();
-
     public static final ItemEntry<MaterialItem> COPPER_POWDER = materialItem("copper_powder").register();
-
     public static final ItemEntry<MaterialItem> TIN_POWDER = materialItem("tin_powder").register(); // TODO: tin ingot tag depend
-
     public static final ItemEntry<MaterialItem> ENDER_PEARL_POWDER = materialItem("ender_pearl_powder").register();
-
     public static final ItemEntry<MaterialItem> OBSIDIAN_POWDER = materialItem("obsidian_powder").register();
-
     public static final ItemEntry<MaterialItem> ARDITE_POWDER = materialItem("ardite_powder").register(); // TODO: ardite ore tag depend
-
     public static final ItemEntry<MaterialItem> COBALT_POWDER = materialItem("cobalt_powder").register(); // TODO: cobalt ore tag depend
-
     public static final ItemEntry<MaterialItem> LAPIS_LAZULI_POWDER = materialItem("lapis_lazuli_powder").register();
-
     public static final ItemEntry<MaterialItem> QUARTZ_POWDER = materialItem("quartz_powder").register();
 
     public static final ItemEntry<MaterialItem> PRECIENT_POWDER = materialItemGlinted("precient_powder")
@@ -154,13 +135,9 @@ public class EIOItems {
         .register();
 
     public static final ItemEntry<MaterialItem> PHOTOVOLTAIC_COMPOSITE = materialItem("photovoltaic_composite").register();
-
     public static final ItemEntry<MaterialItem> SOUL_POWDER = materialItem("soul_powder").register();
-
     public static final ItemEntry<MaterialItem> CONFUSION_POWDER = materialItem("confusing_powder").register();
-
     public static final ItemEntry<MaterialItem> WITHERING_POWDER = materialItem("withering_powder").register();
-
     public static final ItemEntry<MaterialItem> ENDER_FRAGMENT = materialItem("ender_fragment").register();
 
     // endregion
@@ -251,25 +228,18 @@ public class EIOItems {
     public static ItemEntry<MaterialItem> PLAYER_TOKEN = materialItemGlinted("player_token").register();
 
     public static ItemEntry<MaterialItem> UNFIRED_DEATH_URN = materialItem("unfired_death_urn").register();
-
     public static ItemEntry<MaterialItem> CAKE_BASE = materialItem("cake_base").register();
-
     public static ItemEntry<MaterialItem> BLACK_PAPER = materialItem("black_paper").register();
-
     public static ItemEntry<MaterialItem> CLAYED_GLOWSTONE = materialItem("clayed_glowstone").register();
-
     public static ItemEntry<MaterialItem> NETHERCOTTA = materialItem("nethercotta").register();
-
     public static ItemEntry<MaterialItem> REDSTONE_FILTER_BASE = materialItem("redstone_filter_base").register();
-
     public static ItemEntry<MaterialItem> REMOTE_AWARENESS_UPGRADE = materialItem("remote_awareness_upgrade").register();
-
     public static ItemEntry<MaterialItem> INGOT_ENDERIUM_BASE = materialItem("ingot_enderium_base").register(); // TODO: Depend on enderium ingot tag
 
     public static final ItemEntry<BrokenSpawnerItem> BROKEN_SPAWNER = REGISTRATE
         .item("broken_spawner", BrokenSpawnerItem::new)
         .model(ItemModelUtils::fakeBlockModel)
-        .group(new NonNullLazyValue<>(() -> EIOCreativeTab.MAIN))
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.MAIN))
         .register();
 
     // endregion
@@ -279,14 +249,14 @@ public class EIOItems {
     private static ItemBuilder<MaterialItem, Registrate> materialItem(String name) {
         return REGISTRATE
             .item(name, props -> new MaterialItem(props, false))
-            .group(new NonNullLazyValue<>(() -> EIOCreativeTab.MAIN));
+            .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.MAIN));
     }
 
     private static ItemBuilder<GearItem, Registrate> gearItem(String name) {
         return REGISTRATE
             .item(name, props -> new GearItem(props, false))
             .model((c, p) -> EnderItemModel.gearModel(p, c.getEntry()))
-            .group(new NonNullLazyValue<>(() -> EIOCreativeTab.MAIN));
+            .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.MAIN));
     }
 
     //  private static ItemBuilder<MaterialItem, Registrate> dependMaterialItem(String name, Tag<Item> dependency) {
@@ -297,7 +267,7 @@ public class EIOItems {
     private static ItemBuilder<MaterialItem, Registrate> materialItemGlinted(String name) {
         return REGISTRATE
             .item(name, props -> new MaterialItem(props, true))
-            .group(new NonNullLazyValue<>(() -> EIOCreativeTab.MAIN));
+            .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.MAIN));
     }
 
     // endregion
@@ -306,7 +276,7 @@ public class EIOItems {
 
     // TODO: Will need sorted once we have added more.
 
-    public static ItemEntry<SoulVialItem> EMPTY_SOUL_VIAL = groupedItem("empty_soul_vial", SoulVialItem::new, () -> EIOCreativeTab.MAIN);
+    public static ItemEntry<SoulVialItem> EMPTY_SOUL_VIAL = groupedItem("empty_soul_vial", SoulVialItem::new, () -> EIOCreativeTabs.GEAR);
 
     public static ItemEntry<SoulVialItem> FILLED_SOUL_VIAL = REGISTRATE
         .item("filled_soul_vial", SoulVialItem::new)
@@ -315,7 +285,7 @@ public class EIOItems {
 
     public static ItemEntry<EnderiosItem> ENDERIOS = REGISTRATE
         .item("enderios", EnderiosItem::new)
-        .group(new NonNullLazyValue<>(() -> EIOCreativeTab.MAIN))
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.MAIN))
         .lang("\"Enderios\"")
         .properties(props -> props.stacksTo(1))
         .register();

@@ -1,2 +1,0 @@
-In future; maybe we should consider splitting EIOItems down into multiple classes to organise item types and to keep file length down.
-I've designated this package for now in case we go down this path.

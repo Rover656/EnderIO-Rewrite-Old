@@ -1,7 +1,7 @@
 package com.enderio.base.common.block.glass;
 
 import com.enderio.base.EnderIO;
-import com.enderio.base.common.item.EIOCreativeTab;
+import com.enderio.base.common.item.EIOCreativeTabs;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.NonNullLazyValue;
 import com.tterrag.registrate.util.entry.BlockEntry;
@@ -97,7 +97,7 @@ public class GlassBlocks {
                 .isSuffocating(GlassBlocks::never)
                 .isViewBlocking(GlassBlocks::never))
             .item(FusedQuartzItem::new)
-            .group(new NonNullLazyValue<>(() -> EIOCreativeTab.MAIN))
+            .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
             .build()
             .register();
     }
@@ -130,7 +130,7 @@ public class GlassBlocks {
                 .isViewBlocking(GlassBlocks::never)
                 .color(color.getMaterialColor()))
             .item(FusedQuartzItem::new)
-            .group(new NonNullLazyValue<>(() -> EIOCreativeTab.MAIN))
+            .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
             .color(new NonNullLazyValue<>(() -> () -> (ItemColor) (p_92672_, p_92673_) -> color.getMaterialColor().col))
             .build()
             .register();

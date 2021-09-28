@@ -341,8 +341,13 @@
   "block.enderio.dark_clear_glass_red": "Red Dark Clear Glass",
   "block.enderio.dark_clear_glass_white": "White Dark Clear Glass",
   "block.enderio.dark_clear_glass_yellow": "Yellow Dark Clear Glass",
+  "block.enderio.dark_steel_bars": "Dark Steel Bars",
   "block.enderio.dark_steel_block": "Dark Steel Block",
+  "block.enderio.dark_steel_door": "Dark Steel Door",
+  "block.enderio.dark_steel_ladder": "Dark Steel Ladder",
+  "block.enderio.dark_steel_trapdoor": "Dark Steel Trapdoor",
   "block.enderio.electrical_steel_block": "Electrical Steel Block",
+  "block.enderio.end_steel_bars": "End Steel Bars",
   "block.enderio.end_steel_block": "End Steel Block",
   "block.enderio.end_steel_machine_chassis": "End Steel Chassis",
   "block.enderio.energetic_alloy_block": "Energetic Alloy Block",
@@ -845,6 +850,9 @@
   "item.enderio.wood_gear": "Wooden Gear",
   "item.enderio.zombie_controller": "Z-Logic Controller",
   "item.enderio.zombie_electrode": "Zombie Electrode",
+  "itemGroup.enderio.blocks": "EnderIO Blocks",
+  "itemGroup.enderio.gear": "EnderIO Gear",
+  "itemGroup.enderio.machines": "EnderIO Machines",
   "itemGroup.enderio.main": "EnderIO",
   "itemGroup.enderio.souls": "EnderIO Souls"
 }

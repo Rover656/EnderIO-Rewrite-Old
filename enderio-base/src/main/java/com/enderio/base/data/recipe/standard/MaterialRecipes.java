@@ -1,7 +1,7 @@
 package com.enderio.base.data.recipe.standard;
 
-import com.enderio.base.common.block.registry.EIOBlocks;
-import com.enderio.base.common.item.registry.EIOItems;
+import com.enderio.base.common.block.EIOBlocks;
+import com.enderio.base.common.item.EIOItems;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
