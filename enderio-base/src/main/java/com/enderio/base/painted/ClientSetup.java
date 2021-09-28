@@ -51,11 +51,12 @@ public class ClientSetup {
         ModelLoaderRegistry.registerLoader(new ResourceLocation(EnderIO.MODID, "painted_fence"), wrapperForModel(() -> new PaintedSimpleModel(Blocks.OAK_FENCE)));
         ModelLoaderRegistry.registerLoader(new ResourceLocation(EnderIO.MODID, "painted_fence_gate"), wrapperForModel(() -> new PaintedSimpleModel(Blocks.OAK_FENCE_GATE)));
         ModelLoaderRegistry.registerLoader(new ResourceLocation(EnderIO.MODID, "painted_sand"), wrapperForModel(() -> new PaintedSimpleModel(Blocks.SAND)));
+        ModelLoaderRegistry.registerLoader(new ResourceLocation(EnderIO.MODID, "painted_stairs"), wrapperForModel(() -> new PaintedSimpleModel(Blocks.OAK_STAIRS)));
     }
 
     @SubscribeEvent
     public static void colorInit(final ColorHandlerEvent.Block e) {
-        e.getBlockColors().register(new PaintedBlockColor(), EIOBlocks.PAINTED_FENCE.get(), EIOBlocks.PAINTED_FENCE_GATE.get(), EIOBlocks.PAINTED_SAND.get());
+        e.getBlockColors().register(new PaintedBlockColor(), EIOBlocks.PAINTED_FENCE.get(), EIOBlocks.PAINTED_FENCE_GATE.get(), EIOBlocks.PAINTED_SAND.get(), EIOBlocks.PAINTED_STAIRS.get());
     }
 
     @SubscribeEvent
@@ -64,6 +65,7 @@ public class ClientSetup {
             ItemBlockRenderTypes.setRenderLayer(EIOBlocks.PAINTED_FENCE.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(EIOBlocks.PAINTED_FENCE_GATE.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(EIOBlocks.PAINTED_SAND.get(), RenderType.translucent());
+            ItemBlockRenderTypes.setRenderLayer(EIOBlocks.PAINTED_STAIRS.get(), RenderType.translucent());
         });
     }
 

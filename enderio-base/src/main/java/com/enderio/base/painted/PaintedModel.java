@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IDynamicBakedModel;
@@ -81,8 +82,8 @@ public abstract class PaintedModel implements IDynamicBakedModel {
             if (property instanceof BooleanProperty booleanProperty && toState.hasProperty(booleanProperty)) {
                 toState = toState.setValue(booleanProperty, ownBlockState.getValue(booleanProperty));
             }
-            if (property instanceof DirectionProperty directionProperty && toState.hasProperty(directionProperty)) {
-                toState = toState.setValue(directionProperty, ownBlockState.getValue(directionProperty));
+            if (property instanceof EnumProperty enumProperty && toState.hasProperty(enumProperty)) {
+                toState = toState.setValue(enumProperty, ownBlockState.getValue(enumProperty));
             }
         }
         return toState;
@@ -205,11 +206,10 @@ public abstract class PaintedModel implements IDynamicBakedModel {
         @Nonnull
         @Override
         public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull Random rand, @Nonnull IModelData extraData) {
-            if (!bakedQuads.containsKey(side)) {
+            return bakedQuads.computeIfAbsent(side, side1 -> {
                 IModelData data = new ModelDataMap.Builder().withInitial(SinglePaintedBlockEntity.PAINT, paint).build();
-                bakedQuads.put(side, PaintedModel.this.getQuadsUsingShape(Minecraft.getInstance().getItemRenderer().getModel(shapeFrom.asItem().getDefaultInstance(), null, null, 0).getQuads(state, side, rand, EmptyModelData.INSTANCE), side, rand, data));
-            }
-            return bakedQuads.get(side);
+                return PaintedModel.this.getQuadsUsingShape(Minecraft.getInstance().getItemRenderer().getModel(shapeFrom.asItem().getDefaultInstance(), null, null, 0).getQuads(state, side, rand, EmptyModelData.INSTANCE), side, rand, data);
+            });
         }
 
         @Override
