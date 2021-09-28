@@ -1,6 +1,6 @@
 package com.enderio.base.common.item.spawner;
 
-import com.enderio.base.common.item.EIOCreativeTabs;
+import com.enderio.base.common.item.EIOCreativeTab;
 import com.enderio.base.common.item.registry.EIOItems;
 import com.enderio.base.common.util.EntityCaptureUtils;
 import com.enderio.core.common.util.EntityUtil;
@@ -36,7 +36,7 @@ public class BrokenSpawnerItem extends Item {
     public void fillItemCategory(@Nonnull CreativeModeTab pCategory, @Nonnull NonNullList<ItemStack> pItems) {
         if (pCategory == getItemCategory()) {
             pItems.add(new ItemStack(this));
-        } else if (pCategory == EIOCreativeTabs.SOULS) {
+        } else if (pCategory == EIOCreativeTab.SOULS) {
             // Register for every mob that can be captured.
             for (ResourceLocation entity : EntityCaptureUtils.getCapturableEntities()) {
                 pItems.add(forType(entity));
@@ -46,7 +46,7 @@ public class BrokenSpawnerItem extends Item {
 
     @Override
     public Collection<CreativeModeTab> getCreativeTabs() {
-        return Arrays.asList(getItemCategory(), EIOCreativeTabs.SOULS);
+        return Arrays.asList(getItemCategory(), EIOCreativeTab.SOULS);
     }
 
     @Override

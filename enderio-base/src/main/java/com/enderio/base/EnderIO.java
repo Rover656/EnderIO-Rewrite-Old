@@ -2,6 +2,8 @@ package com.enderio.base;
 
 import javax.annotation.Nonnull;
 
+import com.enderio.base.common.block.registry.EIOBlocks;
+import com.enderio.base.common.item.EIOCreativeTab;
 import com.enderio.base.common.item.registry.EIOItems;
 import com.enderio.base.data.recipe.standard.StandardRecipes;
 import com.tterrag.registrate.Registrate;
@@ -21,12 +23,12 @@ import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 public class EnderIO {
     public static final @Nonnull String MODID = "enderio";
     public static final @Nonnull String DOMAIN = "enderio";
-    
 
     private static final NonNullLazyValue<Registrate> REGISTRATE = new NonNullLazyValue<>(() -> Registrate.create(DOMAIN));
 
     public EnderIO() {
         EIOItems.register();
+        EIOBlocks.register();
         EIOEnchantments.register();
 
         IEventBus modEventBus = FMLJavaModLoadingContext

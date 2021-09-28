@@ -1,5 +1,6 @@
 package com.enderio.base.data.recipe.standard;
 
+import com.enderio.base.common.block.registry.EIOBlocks;
 import com.enderio.base.common.item.registry.EIOItems;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.DataGenerator;
@@ -19,7 +20,7 @@ public class MaterialRecipes extends RecipeProvider {
 
     @Override
     protected void buildCraftingRecipes(@Nonnull Consumer<FinishedRecipe> recipeConsumer) {
-        ShapedRecipeBuilder.shaped(EIOItems.SIMPLE_MACHINE_CHASSIS::get)
+        ShapedRecipeBuilder.shaped(EIOBlocks.SIMPLE_MACHINE_CHASSIS.get().asItem())
             .pattern("BIB")
             .pattern("IGI")
             .pattern("BIB")

@@ -1,6 +1,6 @@
 package com.enderio.base.common.item.registry;
 
-import com.enderio.base.common.item.EIOCreativeTabs;
+import com.enderio.base.common.item.EIOCreativeTab;
 import com.enderio.base.EnderIO;
 import com.enderio.base.common.item.food.EnderiosItem;
 import com.enderio.base.common.item.spawner.BrokenSpawnerItem;
@@ -15,6 +15,10 @@ import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.util.NonNullLazyValue;
 import com.tterrag.registrate.util.entry.ItemEntry;
 
+import com.tterrag.registrate.util.nullness.NonNullFunction;
+import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.common.Tags;
 
 @SuppressWarnings("unused")
@@ -55,38 +59,11 @@ public class EIOItems {
 
     // region Components
 
-    // region Machine Chassis and Parts
-
-    public static final ItemEntry<MaterialItem> SIMPLE_MACHINE_CHASSIS = materialItem("simple_machine_chassis")
-        .model(ItemModelUtils::fakeBlockModel)
-        .register();
+    // region Machine Parts
 
     public static final ItemEntry<MaterialItem> SIMPLE_MACHINE_PARTS = materialItem("simple_machine_parts").register();
-
-    public static final ItemEntry<MaterialItem> INDUSTRIAL_MACHINE_CHASSIS = materialItem("industrial_machine_chassis")
-        .model(ItemModelUtils::fakeBlockModel)
-        .register();
-
     public static final ItemEntry<MaterialItem> INDUSTRIAL_MACHINE_PARTS = materialItem("industrial_machine_parts").register();
-
-    public static final ItemEntry<MaterialItem> END_STEEL_MACHINE_CHASSIS = materialItem("end_steel_machine_chassis")
-        .lang("End Steel Chassis")
-        .model(ItemModelUtils::fakeBlockModel)
-        .register();
-
-    public static final ItemEntry<MaterialItem> SOUL_MACHINE_CHASSIS = materialItem("soul_machine_chassis")
-        .model(ItemModelUtils::fakeBlockModel)
-        .register();
-
-    public static final ItemEntry<MaterialItem> ENHANCED_MACHINE_CHASSIS = materialItem("enhanced_machine_chassis")
-        .model(ItemModelUtils::fakeBlockModel)
-        .register();
-
     public static final ItemEntry<MaterialItem> ENHANCED_MACHINE_PARTS = materialItem("enhanced_machine_parts").register();
-
-    public static final ItemEntry<MaterialItem> SOULLESS_MACHINE_CHASSIS = materialItem("soulless_machine_chassis")
-        .model(ItemModelUtils::fakeBlockModel)
-        .register();
 
     // endregion
 
@@ -292,7 +269,7 @@ public class EIOItems {
     public static final ItemEntry<BrokenSpawnerItem> BROKEN_SPAWNER = REGISTRATE
         .item("broken_spawner", BrokenSpawnerItem::new)
         .model(ItemModelUtils::fakeBlockModel)
-        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.MATERIALS))
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTab.MAIN))
         .register();
 
     // endregion
@@ -302,25 +279,25 @@ public class EIOItems {
     private static ItemBuilder<MaterialItem, Registrate> materialItem(String name) {
         return REGISTRATE
             .item(name, props -> new MaterialItem(props, false))
-            .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.MATERIALS));
+            .group(new NonNullLazyValue<>(() -> EIOCreativeTab.MAIN));
     }
-    
+
     private static ItemBuilder<GearItem, Registrate> gearItem(String name) {
         return REGISTRATE
             .item(name, props -> new GearItem(props, false))
-            .model((c,p) -> EnderItemModel.gearModel(p, c.getEntry()))
-            .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.MATERIALS));
+            .model((c, p) -> EnderItemModel.gearModel(p, c.getEntry()))
+            .group(new NonNullLazyValue<>(() -> EIOCreativeTab.MAIN));
     }
 
     //  private static ItemBuilder<MaterialItem, Registrate> dependMaterialItem(String name, Tag<Item> dependency) {
     //    return REGISTRATE.item(name, props -> new MaterialItem(props, false, dependency))
-    //        .group(new NonNullLazyValue<>(() -> EIOCreativeTab.MATERIALS));
+    //        .group(new NonNullLazyValue<>(() -> EnderIO.TAB_MAIN));
     //  }
 
     private static ItemBuilder<MaterialItem, Registrate> materialItemGlinted(String name) {
         return REGISTRATE
             .item(name, props -> new MaterialItem(props, true))
-            .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.MATERIALS));
+            .group(new NonNullLazyValue<>(() -> EIOCreativeTab.MAIN));
     }
 
     // endregion
@@ -329,10 +306,7 @@ public class EIOItems {
 
     // TODO: Will need sorted once we have added more.
 
-    public static ItemEntry<SoulVialItem> EMPTY_SOUL_VIAL = REGISTRATE
-        .item("empty_soul_vial", SoulVialItem::new)
-        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.ITEMS))
-        .register();
+    public static ItemEntry<SoulVialItem> EMPTY_SOUL_VIAL = groupedItem("empty_soul_vial", SoulVialItem::new, () -> EIOCreativeTab.MAIN);
 
     public static ItemEntry<SoulVialItem> FILLED_SOUL_VIAL = REGISTRATE
         .item("filled_soul_vial", SoulVialItem::new)
@@ -341,7 +315,7 @@ public class EIOItems {
 
     public static ItemEntry<EnderiosItem> ENDERIOS = REGISTRATE
         .item("enderios", EnderiosItem::new)
-        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.ITEMS))
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTab.MAIN))
         .lang("\"Enderios\"")
         .properties(props -> props.stacksTo(1))
         .register();
@@ -350,33 +324,30 @@ public class EIOItems {
 
     // region Creative Tab Icons
 
-    public static ItemEntry<EnderfaceItem> CREATIVE_ICON_NONE = REGISTRATE
-        .item("enderface_none", EnderfaceItem::new)
-        .register();
+    public static ItemEntry<EnderfaceItem> CREATIVE_ICON_NONE = dumbItem("enderface_none", EnderfaceItem::new);
+    public static ItemEntry<EnderfaceItem> CREATIVE_ICON_ITEMS = dumbItem("enderface_items", EnderfaceItem::new);
+    public static ItemEntry<EnderfaceItem> CREATIVE_ICON_MATERIALS = dumbItem("enderface_materials", EnderfaceItem::new);
+    public static ItemEntry<EnderfaceItem> CREATIVE_ICON_MACHINES = dumbItem("enderface_machines", EnderfaceItem::new);
+    public static ItemEntry<EnderfaceItem> CREATIVE_ICON_CONDUITS = dumbItem("enderface_conduits", EnderfaceItem::new);
+    public static ItemEntry<EnderfaceItem> CREATIVE_ICON_MOBS = dumbItem("enderface_mobs", EnderfaceItem::new);
+    public static ItemEntry<EnderfaceItem> CREATIVE_ICON_INVPANEL = dumbItem("enderface_invpanel", EnderfaceItem::new);
 
-    public static ItemEntry<EnderfaceItem> CREATIVE_ICON_ITEMS = REGISTRATE
-        .item("enderface_items", EnderfaceItem::new)
-        .register();
+    // endregion
 
-    public static ItemEntry<EnderfaceItem> CREATIVE_ICON_MATERIALS = REGISTRATE
-        .item("enderface_materials", EnderfaceItem::new)
-        .register();
+    // region Helpers
 
-    public static ItemEntry<EnderfaceItem> CREATIVE_ICON_MACHINES = REGISTRATE
-        .item("enderface_machines", EnderfaceItem::new)
-        .register();
+    public static <T extends Item> ItemEntry<T> dumbItem(String name, NonNullFunction<Item.Properties, T> factory) {
+        return REGISTRATE
+            .item(name, factory)
+            .register();
+    }
 
-    public static ItemEntry<EnderfaceItem> CREATIVE_ICON_CONDUITS = REGISTRATE
-        .item("enderface_conduits", EnderfaceItem::new)
-        .register();
-
-    public static ItemEntry<EnderfaceItem> CREATIVE_ICON_MOBS = REGISTRATE
-        .item("enderface_mobs", EnderfaceItem::new)
-        .register();
-
-    public static ItemEntry<EnderfaceItem> CREATIVE_ICON_INVPANEL = REGISTRATE
-        .item("enderface_invpanel", EnderfaceItem::new)
-        .register();
+    public static <T extends Item> ItemEntry<T> groupedItem(String name, NonNullFunction<Item.Properties, T> factory, NonNullSupplier<CreativeModeTab> tab) {
+        return REGISTRATE
+            .item(name, factory)
+            .group(tab)
+            .register();
+    }
 
     // endregion
 

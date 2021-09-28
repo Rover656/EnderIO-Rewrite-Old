@@ -174,7 +174,7 @@ public class SoulVialItem extends Item {
     public void fillItemCategory(@Nonnull CreativeModeTab pCategory, @Nonnull NonNullList<ItemStack> pItems) {
         if (pCategory == getItemCategory()) {
             pItems.add(new ItemStack(EIOItems.EMPTY_SOUL_VIAL.get()));
-        } else if (pCategory == EIOCreativeTabs.SOULS) {
+        } else if (pCategory == EIOCreativeTab.SOULS) {
             // Register for every mob that can be captured.
             for (ResourceLocation entity : EntityCaptureUtils.getCapturableEntities()) {
                 ItemStack is = new ItemStack(EIOItems.FILLED_SOUL_VIAL.get());
@@ -186,7 +186,7 @@ public class SoulVialItem extends Item {
 
     @Override
     public Collection<CreativeModeTab> getCreativeTabs() {
-        return Arrays.asList(getItemCategory(), EIOCreativeTabs.SOULS);
+        return Arrays.asList(getItemCategory(), EIOCreativeTab.SOULS);
     }
 
     // endregion
