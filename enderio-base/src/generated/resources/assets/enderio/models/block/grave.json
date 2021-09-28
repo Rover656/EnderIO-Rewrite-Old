@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/skull",
-  "textures": {
-    "all": "enderio:block/grave"
-  }
-}

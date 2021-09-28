@@ -19,7 +19,6 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 @EventBusSubscriber
 public class GraveHandler {
     
-    //TODO figure out why uuid is null.
     //TODO implementation with other mods.
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void GraveDeath(LivingDropsEvent event) {

@@ -7,7 +7,6 @@ import com.enderio.base.common.util.ItemModelUtils;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.util.NonNullLazyValue;
-import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
 
 import com.tterrag.registrate.util.nullness.NonNullFunction;
@@ -243,8 +242,6 @@ public class EIOItems {
         .register();
 
     // endregion
-    
-    public static ItemEntry<BlockItem> GRAVEITEM = blockItem("grave", EIOBlocks.GRAVE).register();
 
     // region Builders
 

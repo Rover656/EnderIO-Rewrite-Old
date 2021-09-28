@@ -39,6 +39,9 @@ public class GraveBER implements BlockEntityRenderer<BlockEntity>{
         if (grave.getUuid() != null) {
             rendertype = getRenderType(pBlockEntity.getLevel().getPlayerByUUID(grave.getUuid()));
         }
+        pMatrixStack.pushPose();
+        pMatrixStack.translate(1, 1, 0);
+        pMatrixStack.popPose();
         SkullBlockRenderer.renderSkull(direction, 0.0F, 0.0F, pMatrixStack, pBuffer, pCombinedLight, skullmodelbase, rendertype);
     }
     

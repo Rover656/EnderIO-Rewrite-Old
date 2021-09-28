@@ -34,7 +34,7 @@ public class GraveBE extends BlockEntity{
         this.itemHandler = createHandler(items);
         
         setUuid(player.getUUID());
-        this.deadDir = player.getDirection().getOpposite();
+        this.deadDir = player.getMotionDirection();
     }
     
     public NonNullList<ItemStack> getItems() {
@@ -47,7 +47,6 @@ public class GraveBE extends BlockEntity{
     
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
-        System.out.println(uuid);
     }
     
     public Direction getDeadDirection() {
