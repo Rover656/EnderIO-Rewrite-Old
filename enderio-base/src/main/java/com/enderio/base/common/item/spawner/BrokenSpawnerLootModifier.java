@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nonnull;
 
 import com.enderio.base.EnderIO;
+import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
@@ -43,7 +44,7 @@ public class BrokenSpawnerLootModifier extends LootModifier {
 
             BaseSpawner spawner = spawnerBlockEntity.getSpawner();
             ItemStack brokenSpawner = BrokenSpawnerItem.forType(spawner.getEntityId(context.getLevel(), entity.getBlockPos()));
-            return generatedLoot;//Lists.newArrayList(brokenSpawner);
+            return Lists.newArrayList(brokenSpawner);
         }
 
         return generatedLoot;
