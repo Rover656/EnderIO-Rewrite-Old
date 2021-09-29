@@ -23,13 +23,14 @@ public class EIOBlocks {
     public static final BlockEntry<PaintedCraftingTableBlock> PAINTED_CRAFTING_TABLE = REGISTRATE.block("painted_crafting_table", PaintedCraftingTableBlock::new).blockstate((ctx, prov) -> {}).initialProperties(() -> Blocks.CRAFTING_TABLE).properties(BlockBehaviour.Properties::noOcclusion).simpleItem().lang("Painted Crafting Table").register();
     public static final BlockEntry<PaintedRedstoneBlock> PAINTED_REDSTONE_BLOCK = REGISTRATE.block("painted_redstone_block", PaintedRedstoneBlock::new).blockstate((ctx, prov) -> {}).initialProperties(() -> Blocks.REDSTONE_BLOCK).properties(BlockBehaviour.Properties::noOcclusion).simpleItem().lang("Painted Redstone Block").register();
     public static final BlockEntry<PaintedTrapDoorBlock> PAINTED_TRAPDOOR = REGISTRATE.block("painted_trapdoor", PaintedTrapDoorBlock::new).blockstate((ctx, prov) -> {}).initialProperties(() -> Blocks.OAK_TRAPDOOR).properties(BlockBehaviour.Properties::noOcclusion).simpleItem().lang("Painted Trapdoor").register();
+    public static final BlockEntry<PaintedWoodenPressurePlateBlock> PAINTED_WOODEN_PRESSURE_PLATE = REGISTRATE.block("painted_wooden_pressure_plate", PaintedWoodenPressurePlateBlock::new).blockstate((ctx, prov) -> {}).initialProperties(() -> Blocks.OAK_PRESSURE_PLATE).properties(BlockBehaviour.Properties::noOcclusion).simpleItem().lang("Painted Wooden Pressure Plate").register();
 
     public static Block[] getPainted() {
         return Arrays.stream(painted).map(NonNullSupplier::get).toArray(Block[]::new);
     }
     public static NonNullSupplier<Block>[] getPaintedSupplier() {
         if (painted == null)
-            painted = new NonNullSupplier[]{EIOBlocks.PAINTED_FENCE, EIOBlocks.PAINTED_FENCE_GATE, EIOBlocks.PAINTED_SAND, EIOBlocks.PAINTED_STAIRS, EIOBlocks.PAINTED_CRAFTING_TABLE, EIOBlocks.PAINTED_REDSTONE_BLOCK};
+            painted = new NonNullSupplier[]{EIOBlocks.PAINTED_FENCE, EIOBlocks.PAINTED_FENCE_GATE, EIOBlocks.PAINTED_SAND, EIOBlocks.PAINTED_STAIRS, EIOBlocks.PAINTED_CRAFTING_TABLE, EIOBlocks.PAINTED_REDSTONE_BLOCK, EIOBlocks.PAINTED_TRAPDOOR, EIOBlocks.PAINTED_WOODEN_PRESSURE_PLATE};
         return painted;
     }
 
