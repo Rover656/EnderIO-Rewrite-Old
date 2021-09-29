@@ -59,9 +59,8 @@ public class ClientSetup {
     @SubscribeEvent
     public static void colorItemInit(final ColorHandlerEvent.Item e) {
         PaintedBlockColor color = new PaintedBlockColor();
-        Block[] toColor = new Block[]{EIOBlocks.PAINTED_FENCE.get(), EIOBlocks.PAINTED_FENCE_GATE.get(), EIOBlocks.PAINTED_SAND.get(), EIOBlocks.PAINTED_STAIRS.get(), EIOBlocks.PAINTED_CRAFTING_TABLE.get()};
-        e.getBlockColors().register(color, toColor);
-        e.getItemColors().register(color, toColor);
+        e.getBlockColors().register(color, EIOBlocks.getPainted());
+        e.getItemColors().register(color, EIOBlocks.getPainted());
     }
 
     @SubscribeEvent

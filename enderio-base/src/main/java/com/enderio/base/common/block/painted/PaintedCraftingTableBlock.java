@@ -36,7 +36,7 @@ public class PaintedCraftingTableBlock extends CraftingTableBlock implements Ent
         return EIOBlockEntities.SINGLE_PAINTED.create(pos, state);
     }
 
-
+    @Override
     public MenuProvider getMenuProvider(BlockState pState, Level pLevel, BlockPos pPos) {
         return new SimpleMenuProvider((p_52229_, p_52230_, p_52231_) -> {
             return new CraftingMenu(p_52229_, p_52230_, ContainerLevelAccess.create(pLevel, pPos)) {
