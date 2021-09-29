@@ -1,6 +1,7 @@
-package com.enderio.base.common.item.spawner;
+package com.enderio.base.common.loot;
 
 import com.enderio.base.EnderIO;
+import com.enderio.base.common.item.spawner.BrokenSpawnerItem;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;

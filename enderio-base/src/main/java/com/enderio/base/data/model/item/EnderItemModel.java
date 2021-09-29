@@ -1,7 +1,7 @@
 package com.enderio.base.data.model.item;
 
 import com.enderio.base.EnderIO;
-import com.enderio.base.common.item.GearItem;
+import com.enderio.base.common.item.misc.GearItem;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelProvider;

@@ -2,7 +2,13 @@ package com.enderio.base.common.item;
 
 import com.enderio.base.EnderIO;
 import com.enderio.base.common.item.food.EnderiosItem;
+import com.enderio.base.common.item.misc.EnderfaceItem;
+import com.enderio.base.common.item.misc.GearItem;
+import com.enderio.base.common.item.misc.MaterialItem;
 import com.enderio.base.common.item.spawner.BrokenSpawnerItem;
+import com.enderio.base.common.item.tool.ElectromagnetItem;
+import com.enderio.base.common.item.tool.LevitationStaffItem;
+import com.enderio.base.common.item.tool.SoulVialItem;
 import com.enderio.base.common.util.ItemModelUtils;
 import com.enderio.base.data.model.item.EnderItemModel;
 import com.tterrag.registrate.Registrate;
@@ -288,6 +294,20 @@ public class EIOItems {
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.MAIN))
         .lang("\"Enderios\"")
         .properties(props -> props.stacksTo(1))
+        .register();
+
+    // endregion
+
+    // region Tools
+
+    public static ItemEntry<LevitationStaffItem> LEVITATION_STAFF = REGISTRATE
+        .item("staff_of_levity", LevitationStaffItem::new)
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
+        .register();
+
+    public static ItemEntry<ElectromagnetItem> ELECTROMAGNET = REGISTRATE
+        .item("electromagnet", ElectromagnetItem::new)
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
         .register();
 
     // endregion
