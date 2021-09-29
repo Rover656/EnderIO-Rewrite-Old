@@ -1,6 +1,6 @@
 package com.enderio.base.common.block;
 
-import com.enderio.base.EIOBlockEntities;
+import com.enderio.base.common.blockentity.EIOBlockEntities;
 import com.enderio.base.common.blockentity.GraveBE;
 
 import net.minecraft.core.BlockPos;

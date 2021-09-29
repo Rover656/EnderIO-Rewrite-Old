@@ -1,6 +1,7 @@
-package com.enderio.base;
+package com.enderio.base.common.blockentity;
 
-import com.enderio.base.common.blockentity.GraveBE;
+import com.enderio.base.EnderIO;
+import com.enderio.base.common.block.EIOBlocks;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.TileEntityEntry;
 

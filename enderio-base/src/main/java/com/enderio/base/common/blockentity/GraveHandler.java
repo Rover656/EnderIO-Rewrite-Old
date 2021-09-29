@@ -1,6 +1,6 @@
 package com.enderio.base.common.blockentity;
 
-import com.enderio.base.EIOBlocks;
+import com.enderio.base.common.block.EIOBlocks;
 
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;

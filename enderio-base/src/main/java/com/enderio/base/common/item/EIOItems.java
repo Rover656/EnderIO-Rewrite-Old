@@ -254,7 +254,7 @@ public class EIOItems {
     private static ItemBuilder<GearItem, Registrate> gearItem(String name) {
         return REGISTRATE
             .item(name, props -> new GearItem(props, false))
-            .model((c, p) -> EnderItemModel.gearModel(p, c.getEntry()))
+            .model((c, p) -> ItemModelUtils.gearItem(c,p))
             .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.MAIN));
     }
 

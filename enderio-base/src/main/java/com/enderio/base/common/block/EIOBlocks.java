@@ -9,9 +9,15 @@ import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.NonNullLazyValue;
 import com.tterrag.registrate.util.entry.BlockEntry;
+
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.IronBarsBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.TrapDoorBlock;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 
@@ -215,6 +221,16 @@ public class EIOBlocks {
         GlassCollisionPredicate.ANIMALS_BLOCK, true, false, true);
 
     // endregion
+    
+    //misc Region
+    
+    public static final BlockEntry<GraveBlock> GRAVE = simpleBlockBuilder("grave", new GraveBlock()).blockstate((con, prov) -> prov.simpleBlock(con.get(), prov.models().getExistingFile(new ResourceLocation(EnderIO.DOMAIN, "block/grave")))).register();
+    
+    // endregion
+    
+    public static <T extends Block> BlockBuilder<T, Registrate> simpleBlockBuilder(String name, T block) {
+        return REGISTRATE.block(name,(p) -> block).item().group(() ->EIOCreativeTabs.BLOCKS).build();
+    }
 
     private static BlockBuilder<Block, Registrate> metalBlock(String name) {
         return REGISTRATE
