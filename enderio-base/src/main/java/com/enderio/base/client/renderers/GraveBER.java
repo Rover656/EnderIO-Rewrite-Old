@@ -33,7 +33,7 @@ public class GraveBER implements BlockEntityRenderer<BlockEntity>{
     @Override
     public void render(BlockEntity pBlockEntity, float pPartialTicks, PoseStack pMatrixStack, MultiBufferSource pBuffer, int pCombinedLight, int pCombinedOverlay) {
         GraveBE grave = (GraveBE) pBlockEntity;
-        Direction direction = grave.getDeadDirection();
+        Direction direction = null;//TODO if we make the grave rotatable
         SkullModelBase skullmodelbase = new SkullModel(this.context.bakeLayer(ModelLayers.PLAYER_HEAD));
         RenderType rendertype = RenderType.entityCutoutNoCull(DefaultPlayerSkin.getDefaultSkin());
         if (grave.getUuid() != null) {

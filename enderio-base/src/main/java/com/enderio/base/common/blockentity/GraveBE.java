@@ -1,10 +1,14 @@
 package com.enderio.base.common.blockentity;
 
+import java.util.Collection;
 import java.util.UUID;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -18,23 +22,21 @@ import net.minecraftforge.items.ItemStackHandler;
 
 public class GraveBE extends BlockEntity{
     private NonNullList<ItemStack> items = NonNullList.create();
-    private ItemStackHandler itemHandler = createHandler(items);//TODO test cap with other mods.
+    private ItemStackHandler itemHandler = new ItemStackHandler();//TODO test cap with other mods.
     private LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
-    private UUID uuid ;
-    private Direction deadDir;
+    private UUID uuid;
 
     public GraveBE(BlockEntityType<?> type, BlockPos pWorldPosition, BlockState pBlockState) {
         super(type, pWorldPosition, pBlockState);
     }
     
-    public void addInventory(Player player) {
-        this.items.addAll(player.getInventory().items);
-        this.items.addAll(player.getInventory().armor);
-        this.items.addAll(player.getInventory().offhand);
+    public void makeGrave(Collection<ItemEntity> drops, Player player) {
+        NonNullList<ItemStack> stacks = NonNullList.create();
+        drops.forEach(entity -> stacks.add(entity.getItem()));
+        this.items.addAll(stacks);
         this.itemHandler = createHandler(items);
         
         setUuid(player.getUUID());
-        this.deadDir = player.getMotionDirection();
     }
     
     public NonNullList<ItemStack> getItems() {
@@ -47,10 +49,6 @@ public class GraveBE extends BlockEntity{
     
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
-    }
-    
-    public Direction getDeadDirection() {
-        return this.deadDir;
     }
     
     @Override
@@ -84,6 +82,28 @@ public class GraveBE extends BlockEntity{
                 return stack;
             }
         };
+    }
+    
+    @Override
+    public void load(CompoundTag pTag) {
+        super.load(pTag);
+        try {
+            this.uuid = pTag.getUUID("owner");
+            System.out.println(uuid + " load");
+        }catch (Exception e) {
+            //null uuid
+        }
+        ContainerHelper.loadAllItems(pTag, items);
+        
+    }
+    
+    @Override
+    public CompoundTag save(CompoundTag pTag) {
+        super.save(pTag);
+        ContainerHelper.saveAllItems(pTag, items);
+        pTag.putUUID("owner", uuid);
+        System.out.println(pTag.toString());
+        return pTag;
     }
 
 }

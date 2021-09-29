@@ -32,7 +32,7 @@ public class GraveHandler {
             player.level.setBlockAndUpdate(pos, EIOBlocks.GRAVE.getDefaultState());
             BlockEntity be =  player.level.getBlockEntity(pos);
             if (be instanceof GraveBE grave) {
-                grave.addInventory(player);//set inventory, uuid and dirction for grave.
+                grave.makeGrave(event.getDrops(), player);//set inventory, uuid and dirction for grave.
                 event.getDrops().clear();//clears items that would have been dropped.
             }
         }
