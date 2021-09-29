@@ -36,6 +36,12 @@ public abstract class PaintedModel implements IDynamicBakedModel {
 
     private static Map<ItemStack, List<Pair<BakedModel, RenderType>>> itemRenderCache = new HashMap<>();
 
+    private final ItemTransforms transforms;
+
+    protected PaintedModel(ItemTransforms transforms) {
+        this.transforms = transforms;
+    }
+
     protected abstract Block copyModelFromBlock();
 
     protected BakedModel getModel(BlockState paint) {
@@ -212,7 +218,7 @@ public abstract class PaintedModel implements IDynamicBakedModel {
 
     @Override
     public ItemTransforms getTransforms() {
-        return ItemPaintedModel.TRANSFORMS;
+        return transforms;
     }
 
     private class ItemPaintedModel implements IDynamicBakedModel {
@@ -267,16 +273,7 @@ public abstract class PaintedModel implements IDynamicBakedModel {
 
         @Override
         public ItemTransforms getTransforms() {
-            return TRANSFORMS;
+            return transforms;
         }
-        private static ItemTransforms TRANSFORMS = new ItemTransforms(
-            new ItemTransform(new Vector3f(75,45,0), new Vector3f(0, 2.5f/16, 0), new Vector3f(0.375f, 0.375f, 0.375f)),
-            new ItemTransform(new Vector3f(75,45,0), new Vector3f(0, 2.5f/16, 0), new Vector3f(0.375f, 0.375f, 0.375f)),
-            new ItemTransform(new Vector3f(0,225,0), new Vector3f(0, 0, 0), new Vector3f(0.4f, 0.4f, 0.4f)),
-            new ItemTransform(new Vector3f(0,45,0), new Vector3f(0, 0, 0), new Vector3f(0.4f, 0.4f, 0.4f)),
-            new ItemTransform(new Vector3f(0,0,0), new Vector3f(0, 0, 0), new Vector3f(1, 1, 1)),
-            new ItemTransform(new Vector3f(30,225,0), new Vector3f(0, 0, 0), new Vector3f(0.625f, 0.625f, 0.625f)),
-            new ItemTransform(new Vector3f(0,0,0), new Vector3f(0, 3f/16, 0), new Vector3f(0.25f, 0.25f, 0.25f)),
-            new ItemTransform(new Vector3f(0,0,0), new Vector3f(0, 0, 0), new Vector3f(0.5f, 0.5f, 0.5f)));
     }
 }

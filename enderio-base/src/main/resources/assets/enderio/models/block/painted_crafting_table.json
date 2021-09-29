@@ -1,3 +1,4 @@
 {
-  "loader": "enderio:painted_crafting_table"
+  "loader": "enderio:painted_model",
+  "reference": "minecraft:crafting_table"
 }

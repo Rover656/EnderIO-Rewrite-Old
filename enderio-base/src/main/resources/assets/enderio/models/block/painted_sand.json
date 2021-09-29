@@ -1,3 +1,4 @@
 {
-  "loader": "enderio:painted_sand"
+  "loader": "enderio:painted_model",
+  "reference": "minecraft:sand"
 }
