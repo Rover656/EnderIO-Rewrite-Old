@@ -7,6 +7,7 @@ import com.enderio.base.common.block.EIOBlocks;
 import com.enderio.base.common.blockentity.EIOBlockEntities;
 import com.enderio.base.common.enchantments.EIOEnchantments;
 import com.enderio.base.common.item.EIOItems;
+import com.enderio.base.common.util.EIOCapabilityManager;
 import com.enderio.base.data.recipe.standard.StandardRecipes;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.NonNullLazyValue;
@@ -37,6 +38,7 @@ public class EnderIO {
         EIOItems.register();
         EIOBlockEntities.register();
         EIOEnchantments.register();
+        
 
         IEventBus modEventBus = FMLJavaModLoadingContext
             .get()
@@ -46,6 +48,7 @@ public class EnderIO {
         modEventBus.addListener(EventPriority.LOWEST, this::gatherData);
         modEventBus.addListener(this::ModelLoaders);
         modEventBus.addListener(this::registerBERS);
+        modEventBus.addListener(EIOCapabilityManager::register);
         
     }
 
