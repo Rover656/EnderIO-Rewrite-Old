@@ -21,14 +21,6 @@ public class DarkSteelLadderBlock extends LadderBlock {
         if (!(pEntity instanceof Player playerEntity) || pEntity.isOnGround() || pEntity.isCrouching() || !playerEntity.onClimbable())
             return;
 
-        // TODO: This logic is boned.
-        Vec3 movement = pEntity.getDeltaMovement();
-        if (movement.y >= 0.01f) {
-//            pEntity.move(MoverType.SELF, new Vec3(0, 0.06f, 0));
-            pEntity.setDeltaMovement(movement.x, 0.06f, movement.y);
-        } else if (movement.y <= -0.01f) {
-//            pEntity.move(MoverType.SELF, new Vec3(0, -0.06f, 0));
-            pEntity.setDeltaMovement(movement.x, -0.06f, movement.y);
-        }
+        // TODO: Make the player go faster.
     }
 }
