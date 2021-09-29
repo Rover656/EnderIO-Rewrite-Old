@@ -22,6 +22,7 @@ public class EIOBlocks {
     public static final BlockEntry<PaintedStairBlock> PAINTED_STAIRS = REGISTRATE.block("painted_stairs", PaintedStairBlock::new).blockstate((ctx, prov) -> {}).initialProperties(() -> Blocks.OAK_STAIRS).properties(BlockBehaviour.Properties::noOcclusion).tag(BlockTags.WOODEN_STAIRS).simpleItem().lang("Painted Stair").register();
     public static final BlockEntry<PaintedCraftingTableBlock> PAINTED_CRAFTING_TABLE = REGISTRATE.block("painted_crafting_table", PaintedCraftingTableBlock::new).blockstate((ctx, prov) -> {}).initialProperties(() -> Blocks.CRAFTING_TABLE).properties(BlockBehaviour.Properties::noOcclusion).simpleItem().lang("Painted Crafting Table").register();
     public static final BlockEntry<PaintedRedstoneBlock> PAINTED_REDSTONE_BLOCK = REGISTRATE.block("painted_redstone_block", PaintedRedstoneBlock::new).blockstate((ctx, prov) -> {}).initialProperties(() -> Blocks.REDSTONE_BLOCK).properties(BlockBehaviour.Properties::noOcclusion).simpleItem().lang("Painted Redstone Block").register();
+    public static final BlockEntry<PaintedTrapDoorBlock> PAINTED_TRAPDOOR = REGISTRATE.block("painted_trapdoor", PaintedTrapDoorBlock::new).blockstate((ctx, prov) -> {}).initialProperties(() -> Blocks.OAK_TRAPDOOR).properties(BlockBehaviour.Properties::noOcclusion).simpleItem().lang("Painted Trapdoor").register();
 
     public static Block[] getPainted() {
         return Arrays.stream(painted).map(NonNullSupplier::get).toArray(Block[]::new);

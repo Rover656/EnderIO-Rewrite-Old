@@ -37,22 +37,12 @@ public class EnderIOMachines {
     @SubscribeEvent
     public static void onLivingJump(LivingEvent.LivingJumpEvent e) {
         if (e.getEntity() instanceof ServerPlayer player) {
-            Block block = getRandomBlock();
-            ItemStack painted = new ItemStack(EIOBlocks.PAINTED_FENCE.get(), 64);
-            painted.getOrCreateTagElement("BlockEntityTag").putString("paint", block.getRegistryName().toString());
-            player.addItem(painted);
-            painted = new ItemStack(EIOBlocks.PAINTED_FENCE_GATE.get(), 64);
-            painted.getOrCreateTagElement("BlockEntityTag").putString("paint", block.getRegistryName().toString());
-            player.addItem(painted);
-            painted = new ItemStack(EIOBlocks.PAINTED_SAND.get(), 64);
-            painted.getOrCreateTagElement("BlockEntityTag").putString("paint", block.getRegistryName().toString());
-            player.addItem(painted);
-            painted = new ItemStack(EIOBlocks.PAINTED_STAIRS.get(), 64);
-            painted.getOrCreateTagElement("BlockEntityTag").putString("paint", block.getRegistryName().toString());
-            player.addItem(painted);
-            painted = new ItemStack(EIOBlocks.PAINTED_CRAFTING_TABLE.get(), 64);
-            painted.getOrCreateTagElement("BlockEntityTag").putString("paint", block.getRegistryName().toString());
-            player.addItem(painted);
+            Block paint = getRandomBlock();
+            for (Block block : EIOBlocks.getPainted()) {
+                ItemStack painted = new ItemStack(block, 64);
+                painted.getOrCreateTagElement("BlockEntityTag").putString("paint", paint.getRegistryName().toString());
+                player.addItem(painted);
+            }
         }
     }
 
