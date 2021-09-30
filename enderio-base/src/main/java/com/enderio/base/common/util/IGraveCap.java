@@ -1,5 +1,6 @@
 package com.enderio.base.common.util;
 
+import java.util.Collection;
 import java.util.UUID;
 
 import net.minecraft.core.NonNullList;
@@ -11,7 +12,9 @@ import net.minecraftforge.items.IItemHandler;
 public interface IGraveCap extends IItemHandler, INBTSerializable<CompoundTag>{
     
     public NonNullList<ItemStack> getItems();
-    void setItems(NonNullList<ItemStack> stacks);
+    void setItems(Collection<ItemStack> stacks);
     UUID getUuid();
     void setUuid(UUID uuid);
+    
+   
 }

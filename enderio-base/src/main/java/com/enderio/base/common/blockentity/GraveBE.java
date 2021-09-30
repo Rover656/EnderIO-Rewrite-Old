@@ -10,6 +10,7 @@ import com.enderio.base.common.util.IGraveCap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -29,6 +30,7 @@ public class GraveBE extends BlockEntity{
     
     public void makeGrave(Collection<ItemEntity> drops, Player player) {
         NonNullList<ItemStack> stacks = NonNullList.create();
+        drops.forEach(entity -> stacks.add(entity.getItem()));
         setUuid(player.getUUID());
         graveCap.setItems(stacks);
     }
@@ -46,10 +48,29 @@ public class GraveBE extends BlockEntity{
     }
     
     @Override
+    public void setRemoved() {
+        graveHandler.invalidate();
+        super.setRemoved();
+    }
+    
+    @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
         if (cap == EIOCapabilityManager.EIO_GRAVE_CAP) {
             this.graveHandler.cast();
         }
         return super.getCapability(cap, side);
     }
+    
+   @Override
+   public void load(CompoundTag pTag) {
+       graveCap.deserializeNBT(pTag.getCompound("grave"));
+       super.load(pTag);
+   }
+   
+   @Override
+   public CompoundTag save(CompoundTag pTag) {
+    pTag.put("grave", graveCap.serializeNBT());
+    return super.save(pTag);
+   }
+   
 }
