@@ -13,11 +13,7 @@ import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.IronBarsBlock;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 
@@ -61,14 +57,18 @@ public class EIOBlocks {
     // region Dark Steel Building Blocks
 
     // TODO: FASTER THAN REGULAR LADDERS TOOLTIP
-    public static final BlockEntry<DarkSteelLadderBlock> DARK_STEEL_LADDER = REGISTRATE.block("dark_steel_ladder", Material.METAL, DarkSteelLadderBlock::new)
-        .properties(props -> props.strength(0.4f).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion())
-        .blockstate((ctx, prov) ->
-            prov.horizontalBlock(ctx.get(),
-                prov.models()
-                    .withExistingParent(ctx.getName(), prov.mcLoc("block/ladder"))
-                    .texture("particle", prov.blockTexture(ctx.get()))
-                    .texture("texture", prov.blockTexture(ctx.get()))))
+    public static final BlockEntry<DarkSteelLadderBlock> DARK_STEEL_LADDER = REGISTRATE
+        .block("dark_steel_ladder", Material.METAL, DarkSteelLadderBlock::new)
+        .properties(props -> props
+            .strength(0.4f)
+            .requiresCorrectToolForDrops()
+            .sound(SoundType.METAL)
+            .noOcclusion())
+        .blockstate((ctx, prov) -> prov.horizontalBlock(ctx.get(), prov
+            .models()
+            .withExistingParent(ctx.getName(), prov.mcLoc("block/ladder"))
+            .texture("particle", prov.blockTexture(ctx.get()))
+            .texture("texture", prov.blockTexture(ctx.get()))))
         .tag(BlockTags.CLIMBABLE)
         .item()
         .model((ctx, prov) -> prov.generated(ctx, prov.modLoc("block/dark_steel_ladder")))
@@ -78,7 +78,11 @@ public class EIOBlocks {
 
     public static final BlockEntry<IronBarsBlock> DARK_STEEL_BARS = REGISTRATE
         .block("dark_steel_bars", IronBarsBlock::new)
-        .properties(props -> props.strength(5.0f, 1000.0f).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion())
+        .properties(props -> props
+            .strength(5.0f, 1000.0f)
+            .requiresCorrectToolForDrops()
+            .sound(SoundType.METAL)
+            .noOcclusion())
         .blockstate(BlockStateUtils::paneBlock)
         .addLayer(() -> RenderType::cutoutMipped)
         .item()
@@ -88,8 +92,12 @@ public class EIOBlocks {
         .register();
 
     // TODO: Door drops itself in creative????
-    public static final BlockEntry<DoorBlock> DARK_STEEL_DOOR = REGISTRATE.block("dark_steel_door", Material.METAL, DoorBlock::new)
-        .properties(props -> props.strength(5.0f, 2000.0f).sound(SoundType.METAL).noOcclusion())
+    public static final BlockEntry<DoorBlock> DARK_STEEL_DOOR = REGISTRATE
+        .block("dark_steel_door", Material.METAL, DoorBlock::new)
+        .properties(props -> props
+            .strength(5.0f, 2000.0f)
+            .sound(SoundType.METAL)
+            .noOcclusion())
         .blockstate((ctx, prov) -> prov.doorBlock(ctx.get(), prov.modLoc("block/dark_steel_door_bottom"), prov.modLoc("block/dark_steel_door_top")))
         .addLayer(() -> RenderType::cutout)
         .item()
@@ -98,8 +106,12 @@ public class EIOBlocks {
         .build()
         .register();
 
-    public static final BlockEntry<TrapDoorBlock> DARK_STEEL_TRAPDOOR = REGISTRATE.block("dark_steel_trapdoor", Material.METAL, TrapDoorBlock::new)
-        .properties(props -> props.strength(5.0f, 2000.0f).sound(SoundType.METAL).noOcclusion())
+    public static final BlockEntry<TrapDoorBlock> DARK_STEEL_TRAPDOOR = REGISTRATE
+        .block("dark_steel_trapdoor", Material.METAL, TrapDoorBlock::new)
+        .properties(props -> props
+            .strength(5.0f, 2000.0f)
+            .sound(SoundType.METAL)
+            .noOcclusion())
         .blockstate((ctx, prov) -> prov.trapdoorBlock(ctx.get(), prov.modLoc("block/dark_steel_trapdoor"), true))
         .addLayer(() -> RenderType::cutout)
         .item()
@@ -221,26 +233,125 @@ public class EIOBlocks {
         GlassCollisionPredicate.ANIMALS_BLOCK, true, false, true);
 
     // endregion
-    
+
     //misc Region
-    
-    public static final BlockEntry<GraveBlock> GRAVE = REGISTRATE.block("grave", Material.STONE,(p) -> new GraveBlock(p))
-            .properties(props -> props
-                    .strength(-1.0F, 3600000.0F)
-                    .noDrops()
-                    .noOcclusion())
-            .blockstate((con, prov) -> prov
-                    .simpleBlock(con.get(), prov.models().getExistingFile(new ResourceLocation(EnderIO.DOMAIN, "block/grave"))))
-            .addLayer(() -> RenderType::cutout)
-            .item()
-            .group(() ->EIOCreativeTabs.BLOCKS)
-            .build()
-            .register();
-    
+
+    public static final BlockEntry<GraveBlock> GRAVE = REGISTRATE
+        .block("grave", Material.STONE, (p) -> new GraveBlock(p))
+        .properties(props -> props
+            .strength(-1.0F, 3600000.0F)
+            .noDrops()
+            .noOcclusion())
+        .blockstate((con, prov) -> prov.simpleBlock(con.get(), prov
+            .models()
+            .getExistingFile(new ResourceLocation(EnderIO.DOMAIN, "block/grave"))))
+        .addLayer(() -> RenderType::cutout)
+        .item()
+        .group(() -> EIOCreativeTabs.BLOCKS)
+        .build()
+        .register();
+
+    public static final BlockEntry<AmethystBlock> INFINITY_CRYSTAL = REGISTRATE
+        .block("infinity_crystal_block", Material.AMETHYST, AmethystBlock::new)
+        .properties(props -> props
+            .strength(1.5F)
+            .sound(SoundType.AMETHYST)
+            .requiresCorrectToolForDrops())
+        .item()
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
+        .build()
+        .register();
+
+    public static final BlockEntry<BuddingInfinityCrystalBlock> BUDDING_INFINITY_CRYSTAL = REGISTRATE
+        .block("budding_infinity_crystal", Material.AMETHYST, BuddingInfinityCrystalBlock::new)
+        .properties(props -> props
+            .strength(1.5F)
+            .sound(SoundType.AMETHYST)
+            .requiresCorrectToolForDrops()
+            .randomTicks())
+        .item()
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
+        .build()
+        .register();
+
+    public static final BlockEntry<AmethystClusterBlock> INFINITY_CRYSTAL_CLUSTER = REGISTRATE
+        .block("infinity_crystal_cluster", Material.AMETHYST, props -> new AmethystClusterBlock(7, 3, props))
+        .blockstate((ctx, prov) -> prov.directionalBlock(ctx.get(), prov.models().cross(ctx.getName(), prov.modLoc("block/" + ctx.getName()))))
+        .addLayer(() -> RenderType::cutout)
+        .properties(props -> props
+            .noOcclusion()
+            .randomTicks()
+            .sound(SoundType.AMETHYST_CLUSTER)
+            .lightLevel((state) -> 5))
+        .item()
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
+        .build()
+        .register();
+
+    public static final BlockEntry<AmethystClusterBlock> LARGE_INFINITY_BUD = REGISTRATE
+        .block("large_infinity_bud", Material.AMETHYST, props -> new AmethystClusterBlock(5, 3, props))
+        .blockstate((ctx, prov) -> prov.directionalBlock(ctx.get(), prov.models().cross(ctx.getName(), prov.modLoc("block/" + ctx.getName()))))
+        .addLayer(() -> RenderType::cutout)
+        .properties(props -> props
+            .noOcclusion()
+            .randomTicks()
+            .sound(SoundType.AMETHYST_CLUSTER)
+            .lightLevel((state) -> 4))
+        .item()
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS)) // TODO: Take away...
+        .build()
+        .register();
+
+    public static final BlockEntry<AmethystClusterBlock> MEDIUM_INFINITY_BUD = REGISTRATE
+        .block("medium_infinity_bud", Material.AMETHYST, props -> new AmethystClusterBlock(4, 3, props))
+        .blockstate((ctx, prov) -> prov.directionalBlock(ctx.get(), prov.models().cross(ctx.getName(), prov.modLoc("block/" + ctx.getName()))))
+        .addLayer(() -> RenderType::cutout)
+        .properties(props -> props
+            .noOcclusion()
+            .randomTicks()
+            .sound(SoundType.AMETHYST_CLUSTER)
+            .lightLevel((state) -> 2))
+        .item()
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS)) // TODO: Take away...
+        .build()
+        .register();
+
+    public static final BlockEntry<AmethystClusterBlock> SMALL_INFINITY_BUD = REGISTRATE
+        .block("small_infinity_bud", Material.AMETHYST, props -> new AmethystClusterBlock(3, 3, props))
+        .blockstate((ctx, prov) -> prov.directionalBlock(ctx.get(), prov.models().cross(ctx.getName(), prov.modLoc("block/" + ctx.getName()))))
+        .addLayer(() -> RenderType::cutout)
+        .properties(props -> props
+            .noOcclusion()
+            .randomTicks()
+            .sound(SoundType.AMETHYST_CLUSTER)
+            .lightLevel((state) -> 1))
+        .item()
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS)) // TODO: Take away...
+        .build()
+        .register();
+
+    /*
+   public static final Block AMETHYST_CLUSTER = register("amethyst_cluster", new AmethystClusterBlock(7, 3, BlockBehaviour.Properties.of(Material.AMETHYST).noOcclusion().randomTicks().sound(SoundType.AMETHYST_CLUSTER).strength(1.5F).lightLevel((p_152651_) -> {
+      return 5;
+   })));
+   public static final Block LARGE_AMETHYST_BUD = register("large_amethyst_bud", new AmethystClusterBlock(5, 3, BlockBehaviour.Properties.copy(AMETHYST_CLUSTER).sound(SoundType.MEDIUM_AMETHYST_BUD).lightLevel((p_152639_) -> {
+      return 4;
+   })));
+   public static final Block MEDIUM_AMETHYST_BUD = register("medium_amethyst_bud", new AmethystClusterBlock(4, 3, BlockBehaviour.Properties.copy(AMETHYST_CLUSTER).sound(SoundType.LARGE_AMETHYST_BUD).lightLevel((p_152632_) -> {
+      return 2;
+   })));
+   public static final Block SMALL_AMETHYST_BUD = register("small_amethyst_bud", new AmethystClusterBlock(3, 4, BlockBehaviour.Properties.copy(AMETHYST_CLUSTER).sound(SoundType.SMALL_AMETHYST_BUD).lightLevel((p_152629_) -> {
+      return 1;
+     */
+
     // endregion
-    
+
     public static <T extends Block> BlockBuilder<T, Registrate> simpleBlockBuilder(String name, T block) {
-        return REGISTRATE.block(name,(p) -> block).item().group(() ->EIOCreativeTabs.BLOCKS).build();
+        return REGISTRATE
+            .block(name, (p) -> block)
+            .item()
+            .group(() -> EIOCreativeTabs.BLOCKS)
+            .build();
     }
 
     private static BlockBuilder<Block, Registrate> metalBlock(String name) {

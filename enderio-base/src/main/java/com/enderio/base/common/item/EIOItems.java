@@ -97,11 +97,19 @@ public class EIOItems {
 
     // endregion
 
-    // region Powders and Fragments
+    // region Infinity
+
+    public static ItemEntry<MaterialItem> INFINITY_CRYSTAL = materialItem("infinity_crystal").register();
 
     public static final ItemEntry<MaterialItem> GRAINS_OF_INFINITY = materialItem("grains_of_infinity")
         .lang("Grains of Infinity")
         .register();
+
+    public static ItemEntry<MaterialItem> INFINITY_ROD = materialItem("infinity_rod").register();
+
+    // endregion
+
+    // region Powders and Fragments
 
     public static final ItemEntry<MaterialItem> FLOUR = materialItem("flour").register();
     public static final ItemEntry<MaterialItem> CONDUIT_BINDER_COMPOSITE = materialItem("conduit_binder_composite").register();
@@ -200,8 +208,6 @@ public class EIOItems {
     // endregion
 
     // region Misc Materials
-
-    public static ItemEntry<MaterialItem> INFINITY_ROD = materialItem("infinity_rod").register();
 
     public static ItemEntry<MaterialItem> PHOTOVOLTAIC_PLATE = materialItem("photovoltaic_plate")
         .model((ctx, prov) -> prov
