@@ -2,7 +2,8 @@ package com.enderio.base.client.renderers;
 
 import java.util.Map;
 
-import com.enderio.base.common.blockentity.GraveBE;
+import com.enderio.base.common.blockentity.GraveBlockEntity;
+import com.enderio.base.common.util.EIOCapabilityManager;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
@@ -23,26 +24,28 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 //renders grave as a playerskull
-public class GraveBER implements BlockEntityRenderer<BlockEntity>{
+public class GraveRenderer implements BlockEntityRenderer<BlockEntity>{
     private BlockEntityRendererProvider.Context context;
     
-    public GraveBER(BlockEntityRendererProvider.Context context) {
+    public GraveRenderer(BlockEntityRendererProvider.Context context) {
         this.context = context;
     }
 
     @Override
     public void render(BlockEntity pBlockEntity, float pPartialTicks, PoseStack pMatrixStack, MultiBufferSource pBuffer, int pCombinedLight, int pCombinedOverlay) {
-        GraveBE grave = (GraveBE) pBlockEntity;
+        GraveBlockEntity grave = (GraveBlockEntity) pBlockEntity;
         Direction direction = null;//TODO if we make the grave rotatable
         SkullModelBase skullmodelbase = new SkullModel(this.context.bakeLayer(ModelLayers.PLAYER_HEAD));
-        RenderType rendertype = RenderType.entityCutoutNoCull(DefaultPlayerSkin.getDefaultSkin());
-        if (grave.getUuid() != null) {
-            rendertype = getRenderType(pBlockEntity.getLevel().getPlayerByUUID(grave.getUuid()));
-        }
+        RenderType[] rendertype = new RenderType[] {RenderType.entityCutoutNoCull(DefaultPlayerSkin.getDefaultSkin())};// other way?
+        grave.getCapability(EIOCapabilityManager.OWNER).ifPresent((cap) -> {
+            if (cap.getUUID() != null) {
+                rendertype[0] = getRenderType(pBlockEntity.getLevel().getPlayerByUUID(cap.getUUID()));
+            }
+        });
         pMatrixStack.pushPose();
         pMatrixStack.translate(1, 1, 0);
         pMatrixStack.popPose();
-        SkullBlockRenderer.renderSkull(direction, 0.0F, 0.0F, pMatrixStack, pBuffer, pCombinedLight, skullmodelbase, rendertype);
+        SkullBlockRenderer.renderSkull(direction, 0.0F, 0.0F, pMatrixStack, pBuffer, pCombinedLight, skullmodelbase, rendertype[0]);
     }
     
     public RenderType getRenderType(Player player) {

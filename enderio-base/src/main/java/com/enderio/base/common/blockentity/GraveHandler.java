@@ -1,6 +1,7 @@
 package com.enderio.base.common.blockentity;
 
 import com.enderio.base.common.block.EIOBlocks;
+import com.enderio.base.common.util.EIOCapabilityManager;
 
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
@@ -39,9 +40,12 @@ public class GraveHandler {
             } 
             player.level.setBlockAndUpdate(pos, EIOBlocks.GRAVE.getDefaultState());
             BlockEntity be =  player.level.getBlockEntity(pos);
-            if (be instanceof GraveBE grave) {
-                grave.makeGrave(event.getDrops(), player);//set inventory, uuid and dirction for grave.
-                event.getDrops().clear();//clears items that would have been dropped.
+            if (be instanceof GraveBlockEntity grave) {
+                grave.getCapability(EIOCapabilityManager.OWNER).ifPresent(owner -> {
+                    owner.setUUID(player.getUUID());
+                    grave.addDrops(event.getDrops());//add items to grave
+                    event.getDrops().clear();//clears items that would have been dropped.
+                });
             }
         }
     }

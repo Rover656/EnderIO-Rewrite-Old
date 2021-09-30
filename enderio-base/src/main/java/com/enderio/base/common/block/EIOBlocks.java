@@ -224,7 +224,18 @@ public class EIOBlocks {
     
     //misc Region
     
-    public static final BlockEntry<GraveBlock> GRAVE = simpleBlockBuilder("grave", new GraveBlock()).blockstate((con, prov) -> prov.simpleBlock(con.get(), prov.models().getExistingFile(new ResourceLocation(EnderIO.DOMAIN, "block/grave")))).register();
+    public static final BlockEntry<GraveBlock> GRAVE = REGISTRATE.block("grave", Material.STONE,(p) -> new GraveBlock(p))
+            .properties(props -> props
+                    .strength(-1.0F, 3600000.0F)
+                    .noDrops()
+                    .noOcclusion())
+            .blockstate((con, prov) -> prov
+                    .simpleBlock(con.get(), prov.models().getExistingFile(new ResourceLocation(EnderIO.DOMAIN, "block/grave"))))
+            .addLayer(() -> RenderType::cutout)
+            .item()
+            .group(() ->EIOCreativeTabs.BLOCKS)
+            .build()
+            .register();
     
     // endregion
     

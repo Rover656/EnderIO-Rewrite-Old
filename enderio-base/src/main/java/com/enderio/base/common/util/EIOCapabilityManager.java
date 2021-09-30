@@ -1,20 +1,23 @@
 package com.enderio.base.common.util;
 
-import javax.annotation.Nonnull;
+import com.enderio.base.EnderIO;
 
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
+@Mod.EventBusSubscriber(modid = EnderIO.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EIOCapabilityManager {
     
-    @CapabilityInject(IGraveCap.class)
-    @Nonnull
-    public static Capability<IGraveCap> EIO_GRAVE_CAP;
+    @CapabilityInject(IOwner.class)
+    public static Capability<IOwner> OWNER;
     
+    @SubscribeEvent
     public static void register(RegisterCapabilitiesEvent event)
     {
-        event.register(IGraveCap.class);
+        event.register(IOwner.class);
     }
 
 }
