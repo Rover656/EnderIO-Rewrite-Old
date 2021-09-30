@@ -1,4 +1,4 @@
-package com.enderio.base.common.capability.entitycapture;
+package com.enderio.base.common.capability.entity;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;

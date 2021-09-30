@@ -1,12 +1,12 @@
 package com.enderio.base.common.item.tool;
 
 import com.enderio.base.common.capability.EIOCapabilities;
-import com.enderio.base.common.capability.entitycapture.EntityStorage;
-import com.enderio.base.common.capability.entitycapture.IEntityStorage;
+import com.enderio.base.common.capability.entity.EntityStorage;
+import com.enderio.base.common.capability.entity.IEntityStorage;
 import com.enderio.base.common.item.EIOCreativeTabs;
 import com.enderio.base.common.item.EIOItems;
 import com.enderio.base.common.util.EntityCaptureUtils;
-import com.enderio.core.common.capability.IMultiCapProvider;
+import com.enderio.core.common.capability.IMultiCapability;
 import com.enderio.core.common.capability.MultiCapabilityProvider;
 import com.enderio.core.common.util.EntityUtil;
 import net.minecraft.core.BlockPos;
@@ -39,7 +39,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public class SoulVialItem extends Item implements IMultiCapProvider {
+public class SoulVialItem extends Item implements IMultiCapability {
     public SoulVialItem(Properties pProperties) {
         super(pProperties);
     }

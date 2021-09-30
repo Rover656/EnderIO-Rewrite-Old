@@ -1,7 +1,7 @@
 package com.enderio.base.common.capability;
 
 import com.enderio.base.EnderIO;
-import com.enderio.base.common.capability.entitycapture.IEntityStorage;
+import com.enderio.base.common.capability.entity.IEntityStorage;
 import com.enderio.base.common.capability.toggled.IToggled;
 import com.enderio.base.common.capability.owner.IOwner;
 import net.minecraftforge.common.capabilities.Capability;
@@ -16,7 +16,8 @@ public class EIOCapabilities {
     public static Capability<IEntityStorage> ENTITY_STORAGE;
 
     @CapabilityInject(IToggled.class)
-    public static Capability<IToggled> TOGGLED_ITEM;
+    public static Capability<IToggled> TOGGLED;
+
     @CapabilityInject(IOwner.class)
     public static Capability<IOwner> OWNER;
 

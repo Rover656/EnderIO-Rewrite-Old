@@ -5,7 +5,10 @@ import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
 
-public interface IMultiCapProvider {
+/**
+ * Implement for an item that should use the {@link MultiCapabilityProvider} when initializing capabilities.
+ */
+public interface IMultiCapability {
     @Nullable
     MultiCapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt, MultiCapabilityProvider provider);
 }

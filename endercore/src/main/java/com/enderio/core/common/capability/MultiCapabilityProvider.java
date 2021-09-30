@@ -13,7 +13,11 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Automatically combines multiple capabilities together; handling serialization too.
+ */
 public class MultiCapabilityProvider implements ICapabilitySerializable<CompoundTag> {
+    // TODO: Allow non-serialized too...
     private final Map<Capability<?>, LazyOptional<? extends INBTSerializable<Tag>>> capabilities;
 
     public MultiCapabilityProvider() {
@@ -59,7 +63,7 @@ public class MultiCapabilityProvider implements ICapabilitySerializable<Compound
                 .ifPresent(capability -> {
                     String key = entry
                         .getKey()
-                        .getName();
+                        .getName(); // TODO: More robust keys? Moving a package or renaming a class will break this completely.
                     if (nbt.contains(key)) {
                         capability.deserializeNBT(nbt.get(key));
                     }

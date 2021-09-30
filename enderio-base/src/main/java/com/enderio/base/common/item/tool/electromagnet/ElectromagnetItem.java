@@ -1,11 +1,11 @@
-package com.enderio.base.common.item.tool;
+package com.enderio.base.common.item.tool.electromagnet;
 
 import com.enderio.base.common.item.util.IEnergyBar;
 import com.enderio.base.common.capability.EIOCapabilities;
 import com.enderio.base.common.capability.toggled.IToggled;
 import com.enderio.base.common.capability.toggled.Toggled;
-import com.enderio.core.common.capability.IMultiCapProvider;
 import com.enderio.core.common.capability.MultiCapabilityProvider;
+import com.enderio.core.common.capability.IMultiCapability;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.CreativeModeTab;
@@ -17,14 +17,15 @@ import net.minecraftforge.energy.EnergyStorage;
 
 import javax.annotation.Nullable;
 
-public class ElectromagnetItem extends Item implements IEnergyBar, IMultiCapProvider {
+// TODO: Behaviours
+public class ElectromagnetItem extends Item implements IEnergyBar, IMultiCapability {
     public ElectromagnetItem(Properties pProperties) {
         super(pProperties);
     }
 
     @Override
     public boolean isFoil(ItemStack pStack) {
-        return pStack.getCapability(EIOCapabilities.TOGGLED_ITEM).map(IToggled::isEnabled).orElse(false);
+        return pStack.getCapability(EIOCapabilities.TOGGLED).map(IToggled::isEnabled).orElse(false);
     }
 
     @Override
@@ -42,7 +43,7 @@ public class ElectromagnetItem extends Item implements IEnergyBar, IMultiCapProv
     @Nullable
     @Override
     public MultiCapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt, MultiCapabilityProvider provider) {
-        provider.add(EIOCapabilities.TOGGLED_ITEM, LazyOptional.of(Toggled::new));
+        provider.add(EIOCapabilities.TOGGLED, LazyOptional.of(Toggled::new));
         provider.add(CapabilityEnergy.ENERGY, LazyOptional.of(() -> new EnergyStorage(1000)));
         return provider;
     }

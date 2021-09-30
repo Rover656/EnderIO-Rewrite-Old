@@ -1,7 +1,7 @@
 package com.enderio.core.mixin.common;
 
 import com.enderio.core.common.capability.MultiCapabilityProvider;
-import com.enderio.core.common.capability.IMultiCapProvider;
+import com.enderio.core.common.capability.IMultiCapability;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -11,9 +11,9 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import javax.annotation.Nullable;
 
-@Mixin(IMultiCapProvider.class)
+@Mixin(IMultiCapability.class)
 public interface MultiCapProviderMixin extends IForgeItem {
-    @Shadow
+    @Shadow(remap = false)
     @Nullable
     MultiCapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt, MultiCapabilityProvider provider);
 

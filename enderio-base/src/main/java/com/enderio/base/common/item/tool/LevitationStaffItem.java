@@ -5,7 +5,7 @@ import com.enderio.base.common.capability.EIOCapabilities;
 import com.enderio.base.common.capability.toggled.IToggled;
 import com.enderio.base.common.capability.toggled.Toggled;
 import com.enderio.core.common.capability.MultiCapabilityProvider;
-import com.enderio.core.common.capability.IMultiCapProvider;
+import com.enderio.core.common.capability.IMultiCapability;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
@@ -25,7 +25,7 @@ import net.minecraftforge.energy.EnergyStorage;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class LevitationStaffItem extends Item implements IEnergyBar, IMultiCapProvider {
+public class LevitationStaffItem extends Item implements IEnergyBar, IMultiCapability {
     public LevitationStaffItem(Properties pProperties) {
         super(pProperties);
     }
@@ -33,7 +33,7 @@ public class LevitationStaffItem extends Item implements IEnergyBar, IMultiCapPr
     @Override
     public boolean isFoil(ItemStack pStack) {
         return pStack
-            .getCapability(EIOCapabilities.TOGGLED_ITEM)
+            .getCapability(EIOCapabilities.TOGGLED)
             .map(IToggled::isEnabled)
             .orElse(false);
     }
@@ -81,21 +81,21 @@ public class LevitationStaffItem extends Item implements IEnergyBar, IMultiCapPr
 
     private boolean isEnabled(@Nonnull ItemStack itemStack) {
         return itemStack
-            .getCapability(EIOCapabilities.TOGGLED_ITEM)
+            .getCapability(EIOCapabilities.TOGGLED)
             .map(IToggled::isEnabled)
             .orElse(false);
     }
 
     private void toggleEnabled(ItemStack itemStack) {
         itemStack
-            .getCapability(EIOCapabilities.TOGGLED_ITEM)
+            .getCapability(EIOCapabilities.TOGGLED)
             .ifPresent(IToggled::toggle);
     }
 
     @Nullable
     @Override
     public MultiCapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt, MultiCapabilityProvider provider) {
-        provider.add(EIOCapabilities.TOGGLED_ITEM, LazyOptional.of(Toggled::new));
+        provider.add(EIOCapabilities.TOGGLED, LazyOptional.of(Toggled::new));
         provider.add(CapabilityEnergy.ENERGY, LazyOptional.of(() -> new EnergyStorage(1000)));
         return provider;
     }
