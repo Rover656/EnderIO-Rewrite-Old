@@ -1,22 +1,23 @@
 package com.enderio.base.common.item;
 
 import com.enderio.base.EnderIO;
+import com.enderio.base.common.item.capacitors.Capacitor;
 import com.enderio.base.common.item.food.EnderiosItem;
 import com.enderio.base.common.item.misc.EnderfaceItem;
 import com.enderio.base.common.item.misc.GearItem;
 import com.enderio.base.common.item.misc.MaterialItem;
 import com.enderio.base.common.item.spawner.BrokenSpawnerItem;
-import com.enderio.base.common.item.tool.electromagnet.ElectromagnetItem;
 import com.enderio.base.common.item.tool.LevitationStaffItem;
 import com.enderio.base.common.item.tool.SoulVialItem;
+import com.enderio.base.common.item.tool.electromagnet.ElectromagnetItem;
 import com.enderio.base.data.model.item.ItemModelUtils;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.util.NonNullLazyValue;
 import com.tterrag.registrate.util.entry.ItemEntry;
-
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
+
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.Tags;
@@ -89,6 +90,13 @@ public class EIOItems {
     public static final ItemEntry<MaterialItem> GUARDIAN_DIODE = materialItem("guardian_diode").register();
 
     // endregion
+    
+    // region capacitors
+    
+    public static final ItemEntry<Capacitor> BASIC_CAPACITOR = REGISTRATE.item("basic_capacitor", p -> new Capacitor(p, null)).group(() -> EIOCreativeTabs.MAIN).register();
+    public static final ItemEntry<Capacitor> DOUBLE_LAYER_CAPACITOR = REGISTRATE.item("double_layer_capacitor", p -> new Capacitor(p,null)).group(() -> EIOCreativeTabs.MAIN).register();
+    public static final ItemEntry<Capacitor> OCTADIC_CAPACITOR = REGISTRATE.item("octadic_capacitor", p -> new Capacitor(p,null)).group(() -> EIOCreativeTabs.MAIN).register();
+    public static final ItemEntry<Capacitor> LOOT_CAPACITOR = REGISTRATE.item("loot_capacitor", p -> new Capacitor(p,null)).register();
 
     // endregion
 
