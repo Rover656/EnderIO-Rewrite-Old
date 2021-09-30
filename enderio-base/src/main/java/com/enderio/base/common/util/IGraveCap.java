@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandler;
 
+// A capability for the Grave BE
 public interface IGraveCap extends IItemHandler, INBTSerializable<CompoundTag>{
     
     public NonNullList<ItemStack> getItems();

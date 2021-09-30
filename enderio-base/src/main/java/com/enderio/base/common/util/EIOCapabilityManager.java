@@ -15,7 +15,6 @@ public class EIOCapabilityManager {
     public static void register(RegisterCapabilitiesEvent event)
     {
         event.register(IGraveCap.class);
-        System.out.println("reg");
     }
 
 }
