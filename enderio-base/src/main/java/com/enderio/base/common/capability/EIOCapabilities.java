@@ -3,6 +3,7 @@ package com.enderio.base.common.capability;
 import com.enderio.base.EnderIO;
 import com.enderio.base.common.capability.entitycapture.IEntityStorage;
 import com.enderio.base.common.capability.toggled.IToggled;
+import com.enderio.base.common.capability.owner.IOwner;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
@@ -16,10 +17,14 @@ public class EIOCapabilities {
 
     @CapabilityInject(IToggled.class)
     public static Capability<IToggled> TOGGLED_ITEM;
+    @CapabilityInject(IOwner.class)
+    public static Capability<IOwner> OWNER;
 
     @SubscribeEvent
-    public static void registerCaps(RegisterCapabilitiesEvent event) {
+    public static void register(RegisterCapabilitiesEvent event)
+    {
         event.register(IEntityStorage.class);
         event.register(IToggled.class);
+        event.register(IOwner.class);
     }
 }
