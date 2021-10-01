@@ -20,27 +20,24 @@ import net.minecraftforge.registries.ForgeRegistries;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class SinglePaintedBlockEntity extends BlockEntity {
+public class DoublePaintedBlockEntity extends SinglePaintedBlockEntity {
 
-    private Block paint;
+    private Block paint2;
 
-    public Block getPaint() {
-        return paint;
-    }
-    public Block setPaint() {
-        return paint;
+    public Block getPaint2() {
+        return paint2;
     }
 
-    public static final ModelProperty<Block> PAINT = new ModelProperty<>();
+    public static final ModelProperty<Block> PAINT2 = new ModelProperty<>();
 
-    public SinglePaintedBlockEntity(BlockEntityType<?> pType, BlockPos pWorldPosition, BlockState pBlockState) {
+    public DoublePaintedBlockEntity(BlockEntityType<?> pType, BlockPos pWorldPosition, BlockState pBlockState) {
         super(pType, pWorldPosition, pBlockState);
     }
 
     @Nonnull
     @Override
     public IModelData getModelData() {
-        return new ModelDataMap.Builder().withInitial(PAINT, paint).build();
+        return new ModelDataMap.Builder().withInitial(PAINT, getPaint()).withInitial(PAINT2, paint2).build();
     }
 
     @Nullable
@@ -53,31 +50,19 @@ public class SinglePaintedBlockEntity extends BlockEntity {
 
     @Override
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        Block oldPaint = paint;
-        CompoundTag tag = pkt.getTag();
-        handleUpdateTag(tag);
-        if (oldPaint != paint) {
+        Block oldPaint = getPaint2();
+        super.onDataPacket(net, pkt);
+        if (oldPaint != paint2) {
             ModelDataManager.requestModelDataRefresh(this);
             level.setBlock(getBlockPos(), level.getBlockState(getBlockPos()), 9);
         }
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        readPaint(tag);
-    }
-
-    @Override
-    public CompoundTag getUpdateTag() {
-        CompoundTag nbt = super.getUpdateTag();
-        writePaint(nbt);
-        return nbt;
-    }
-
     protected void readPaint(CompoundTag tag) {
-        if (tag.contains("paint")) {
-            paint = PaintUtils.getBlockFromRL(tag.getString("paint"));
+        super.readPaint(tag);
+        if (tag.contains("paint2")) {
+            paint2 = PaintUtils.getBlockFromRL(tag.getString("paint2"));
             if (level != null) {
                 if (level.isClientSide) {
                     ModelDataManager.requestModelDataRefresh(this);
@@ -88,14 +73,10 @@ public class SinglePaintedBlockEntity extends BlockEntity {
     }
 
     @Override
-    public CompoundTag save(CompoundTag tag) {
-        writePaint(tag);
-        return super.save(tag);
-    }
-
     protected void writePaint(CompoundTag tag) {
-        if (paint != null) {
-            tag.putString("paint", paint.getRegistryName().toString());
+        super.writePaint(tag);
+        if (paint2 != null) {
+            tag.putString("paint2", paint2.getRegistryName().toString());
         }
     }
 }

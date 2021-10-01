@@ -43,6 +43,11 @@ public class EnderIOMachines {
                 painted.getOrCreateTagElement("BlockEntityTag").putString("paint", paint.getRegistryName().toString());
                 player.addItem(painted);
             }
+            for (Block block : EIOBlocks.getDoublePainted()) {
+                ItemStack painted = new ItemStack(block, 64);
+                painted.getOrCreateTagElement("BlockEntityTag").putString("paint", paint.getRegistryName().toString());
+                player.addItem(painted);
+            }
         }
     }
 

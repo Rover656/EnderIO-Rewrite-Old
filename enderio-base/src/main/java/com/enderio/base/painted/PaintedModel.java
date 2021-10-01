@@ -1,6 +1,7 @@
 package com.enderio.base.painted;
 
 import com.enderio.base.common.block.painted.SinglePaintedBlockEntity;
+import com.enderio.base.common.util.PaintUtils;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
@@ -44,31 +45,16 @@ public abstract class PaintedModel implements IDynamicBakedModel {
 
     protected abstract Block copyModelFromBlock();
 
-    protected BakedModel getModel(BlockState paint) {
-        return Minecraft.getInstance().getBlockRenderer().getBlockModel(paint);
+    protected BakedModel getModel(BlockState state) {
+        return Minecraft.getInstance().getBlockRenderer().getBlockModel(state);
     }
 
     protected BakedModel getModelFromOwn(BlockState ownBlockState) {
         return getModel(copyBlockState(ownBlockState));
     }
 
-    @Nonnull
-    @Override
-    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull Random rand, @Nonnull IModelData extraData) {
-        List<BakedQuad> shape = getModelFromOwn(state).getQuads(copyBlockState(state), side, rand);
-        Direction direction = null;
-        if (state != null) {
-            for (Property<?> property : state.getProperties()) {
-                if (property instanceof DirectionProperty directionProperty) {
-                    direction = state.getValue(directionProperty).getOpposite();
-                }
-            }
-        }
-        return getQuadsUsingShape(shape, side, rand, extraData, direction);
-    }
 
-    public List<BakedQuad> getQuadsUsingShape(List<BakedQuad> shape, @Nullable Direction side, @Nonnull Random rand, @Nonnull IModelData extraData, @Nullable Direction rotation) {
-        Block paint = extraData.getData(SinglePaintedBlockEntity.PAINT);
+    public List<BakedQuad> getQuadsUsingShape(Block paint, List<BakedQuad> shape, @Nullable Direction side, @Nonnull Random rand, @Nullable Direction rotation) {
         if (paint != null) {
             BakedModel model = getModel(paintWithRotation(paint, rotation));
             Optional<Pair<TextureAtlasSprite, Boolean>> spriteOptional = getSpriteData(paint, side, rand, rotation);
@@ -208,7 +194,7 @@ public abstract class PaintedModel implements IDynamicBakedModel {
         if (tag != null && tag.contains("BlockEntityTag")) {
             CompoundTag blockEntityTag = tag.getCompound("BlockEntityTag");
             if (blockEntityTag.contains("paint")) {
-                Block paint = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockEntityTag.getString("paint")));
+                Block paint = PaintUtils.getBlockFromRL(blockEntityTag.getString("paint"));
                 return List.of(Pair.of(new ItemPaintedModel(paint, copyModelFromBlock()), ItemBlockRenderTypes.getRenderType(itemStack, fabulous)));
             }
         }
@@ -235,10 +221,7 @@ public abstract class PaintedModel implements IDynamicBakedModel {
         @Nonnull
         @Override
         public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull Random rand, @Nonnull IModelData extraData) {
-            return bakedQuads.computeIfAbsent(side, side1 -> {
-                IModelData data = new ModelDataMap.Builder().withInitial(SinglePaintedBlockEntity.PAINT, paint).build();
-                return PaintedModel.this.getQuadsUsingShape(Minecraft.getInstance().getItemRenderer().getModel(shapeFrom.asItem().getDefaultInstance(), null, null, 0).getQuads(state, side, rand, EmptyModelData.INSTANCE), side, rand, data, null);
-            });
+            return bakedQuads.computeIfAbsent(side, side1 -> PaintedModel.this.getQuadsUsingShape(paint, Minecraft.getInstance().getItemRenderer().getModel(shapeFrom.asItem().getDefaultInstance(), null, null, 0).getQuads(state, side, rand, EmptyModelData.INSTANCE), side, rand, null));
         }
 
         @Override

@@ -1,6 +1,7 @@
 package com.enderio.base.common.block.painted;
 
 import com.enderio.base.EIOEntities;
+import com.enderio.base.common.util.PaintUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
@@ -36,7 +37,7 @@ public class PaintedSandEntity extends FallingBlockEntity implements IEntityAddi
 
     public Block getPaint() {
         if (blockData != null) {
-            return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockData.getString("paint")));
+            return PaintUtils.getBlockFromRL(blockData.getString("paint"));
         }
         return null;
     }

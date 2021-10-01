@@ -3,6 +3,7 @@ package com.enderio.base.painted;
 import com.enderio.base.EIOBlocks;
 import com.enderio.base.EnderIO;
 import com.enderio.base.common.block.painted.SinglePaintedBlockEntity;
+import com.enderio.base.common.util.PaintUtils;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Pair;
@@ -53,7 +54,8 @@ public class ClientSetup {
 
     @SubscribeEvent
     public static void modelInit(final ModelRegistryEvent e) {
-        ModelLoaderRegistry.registerLoader(new ResourceLocation(EnderIO.MODID, "painted_model"), wrapperForModel());
+        ModelLoaderRegistry.registerLoader(new ResourceLocation(EnderIO.MODID, "painted_model"), new WrappedModelLoader(false));
+        ModelLoaderRegistry.registerLoader(new ResourceLocation(EnderIO.MODID, "painted_slab"), new WrappedModelLoader(true));
     }
 
     @SubscribeEvent
@@ -61,16 +63,19 @@ public class ClientSetup {
         PaintedBlockColor color = new PaintedBlockColor();
         e.getBlockColors().register(color, EIOBlocks.getPainted());
         e.getItemColors().register(color, EIOBlocks.getPainted());
+        e.getBlockColors().register(color, EIOBlocks.getDoublePainted());
+        e.getItemColors().register(color, EIOBlocks.getDoublePainted());
     }
 
     @SubscribeEvent
     public static void init(FMLClientSetupEvent e) {
         e.enqueueWork(() -> {
-            ItemBlockRenderTypes.setRenderLayer(EIOBlocks.PAINTED_FENCE.get(), RenderType.translucent());
-            ItemBlockRenderTypes.setRenderLayer(EIOBlocks.PAINTED_FENCE_GATE.get(), RenderType.translucent());
-            ItemBlockRenderTypes.setRenderLayer(EIOBlocks.PAINTED_SAND.get(), RenderType.translucent());
-            ItemBlockRenderTypes.setRenderLayer(EIOBlocks.PAINTED_STAIRS.get(), RenderType.translucent());
-            ItemBlockRenderTypes.setRenderLayer(EIOBlocks.PAINTED_CRAFTING_TABLE.get(), RenderType.translucent());
+            for (Block paintedBlock: EIOBlocks.getPainted()) {
+                ItemBlockRenderTypes.setRenderLayer(paintedBlock, RenderType.translucent());
+            }
+            for (Block paintedBlock: EIOBlocks.getDoublePainted()) {
+                ItemBlockRenderTypes.setRenderLayer(paintedBlock, RenderType.translucent());
+            }
         });
     }
 
@@ -96,7 +101,7 @@ public class ClientSetup {
             if (itemStack.getTag() != null && itemStack.getTag().contains("BlockEntityTag")){
                 CompoundTag blockEntityTag = itemStack.getTag().getCompound("BlockEntityTag");
                 if (blockEntityTag.contains("paint")) {
-                    Block paint = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(blockEntityTag.get("paint").getAsString()));
+                    Block paint = PaintUtils.getBlockFromRL(blockEntityTag.getString("paint"));
                     if (paint == null)
                         return 0;
                     return Minecraft.getInstance().getItemColors().getColor(paint.asItem().getDefaultInstance(), tintIndex);
@@ -106,18 +111,18 @@ public class ClientSetup {
         }
     }
 
-    private static IModelLoader<?> wrapperForModel() {
-        return new WrappedModelLoader();
-    }
     private static class WrappedModelLoader implements IModelLoader<Geometry> {
 
         private static ItemTransforms.Deserializer INSTANCE = new ItemTransforms.Deserializer();
 
+        private final boolean isDouble;
 
-
+        WrappedModelLoader(boolean isDouble) {
+            this.isDouble = isDouble;
+        }
         @Override
         public Geometry read(JsonDeserializationContext deserializationContext, JsonObject modelContents) {
-            return new Geometry(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(modelContents.get("reference").getAsString())), getItemTransforms(deserializationContext, modelContents));
+            return new Geometry(PaintUtils.getBlockFromRL(modelContents.get("reference").getAsString()), getItemTransforms(deserializationContext, modelContents), isDouble);
         }
 
         private static ItemTransforms getItemTransforms(JsonDeserializationContext deserializationContext, JsonObject modelContents) {
@@ -139,15 +144,17 @@ public class ClientSetup {
 
         final Block shape;
         ItemTransforms transforms;
+        final boolean isDouble;
 
-        private Geometry(Block shape, ItemTransforms itemTransforms) {
+        private Geometry(Block shape, ItemTransforms itemTransforms, boolean isDouble) {
             this.shape = shape;
             this.transforms = itemTransforms;
+            this.isDouble = isDouble;
         }
 
         @Override
         public BakedModel bake(IModelConfiguration owner, ModelBakery bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelTransform, ItemOverrides overrides, ResourceLocation modelLocation) {
-            return new PaintedSimpleModel(shape, transforms);
+            return isDouble ? new PaintedSlabModel(shape, transforms) : new PaintedSimpleModel(shape, transforms);
         }
 
         @Override
