@@ -1,5 +1,7 @@
 package com.enderio.base.common.item;
 
+import java.util.HashMap;
+
 import com.enderio.base.EnderIO;
 import com.enderio.base.common.item.capacitors.Capacitor;
 import com.enderio.base.common.item.food.EnderiosItem;
@@ -93,10 +95,10 @@ public class EIOItems {
     
     // region capacitors
     
-    public static final ItemEntry<Capacitor> BASIC_CAPACITOR = REGISTRATE.item("basic_capacitor", p -> new Capacitor(p, null)).group(() -> EIOCreativeTabs.MAIN).register();
-    public static final ItemEntry<Capacitor> DOUBLE_LAYER_CAPACITOR = REGISTRATE.item("double_layer_capacitor", p -> new Capacitor(p,null)).group(() -> EIOCreativeTabs.MAIN).register();
-    public static final ItemEntry<Capacitor> OCTADIC_CAPACITOR = REGISTRATE.item("octadic_capacitor", p -> new Capacitor(p,null)).group(() -> EIOCreativeTabs.MAIN).register();
-    public static final ItemEntry<Capacitor> LOOT_CAPACITOR = REGISTRATE.item("loot_capacitor", p -> new Capacitor(p,null)).register();
+    public static final ItemEntry<Capacitor> BASIC_CAPACITOR = REGISTRATE.item("basic_capacitor", p -> new Capacitor(p, Capacitor.BASIC)).group(() -> EIOCreativeTabs.MAIN).register();
+    public static final ItemEntry<Capacitor> DOUBLE_LAYER_CAPACITOR = REGISTRATE.item("double_layer_capacitor", p -> new Capacitor(p,Capacitor.DOUBLE)).group(() -> EIOCreativeTabs.MAIN).register();
+    public static final ItemEntry<Capacitor> OCTADIC_CAPACITOR = REGISTRATE.item("octadic_capacitor", p -> new Capacitor(p,Capacitor.OCTADIC)).group(() -> EIOCreativeTabs.MAIN).register();
+    public static final ItemEntry<Capacitor> LOOT_CAPACITOR = REGISTRATE.item("loot_capacitor", p -> new Capacitor(p,new HashMap<>())).register();
 
     // endregion
 

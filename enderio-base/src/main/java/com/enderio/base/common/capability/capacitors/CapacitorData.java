@@ -1,22 +1,15 @@
 package com.enderio.base.common.capability.capacitors;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 
 public class CapacitorData implements ICapacitorData{
-    private MachinePropertie machinePropertie;
+    private float base = 0;
+    private Map<String, Float> specializations = new HashMap<>();
     
-    public CapacitorData() {
-        
-    }
-    
-    public CapacitorData(MachinePropertie machinePropertie) {
-        this.machinePropertie = machinePropertie;
-    }
-    
-    public void update(MachinePropertie machinePropertie) {
-        this.machinePropertie = machinePropertie;
-    }
 
     @Override
     public Tag serializeNBT() {
@@ -31,9 +24,27 @@ public class CapacitorData implements ICapacitorData{
     }
 
     @Override
-    public MachinePropertie getMachinePropertie() {
-        // TODO Auto-generated method stub
-        return null;
+    public void setBase(float base) {
+        this.base = base;
     }
 
+    @Override
+    public float getBase() {
+        return this.base;
+    }
+
+    @Override
+    public void addSpecialization(String type, float modifier) {
+        this.specializations.put(type, modifier);
+    }
+
+    @Override
+    public void addAllSpecialization(Map<String, Float> specializations) {
+        this.specializations.putAll(specializations);
+    }
+
+    @Override
+    public Map<String, Float> getSpecializations() {
+        return this.specializations;
+    }
 }
