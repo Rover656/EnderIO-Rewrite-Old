@@ -2,6 +2,7 @@ package com.enderio.base.painted;
 
 import com.enderio.base.EIOBlocks;
 import com.enderio.base.EnderIO;
+import com.enderio.base.common.block.painted.IPaintableBlockEntity;
 import com.enderio.base.common.block.painted.SinglePaintedBlockEntity;
 import com.enderio.base.common.util.PaintUtils;
 import com.google.gson.JsonDeserializationContext;
@@ -85,12 +86,14 @@ public class ClientSetup {
         public int getColor(BlockState state, @Nullable BlockAndTintGetter level, @Nullable BlockPos pos, int tintIndex) {
             if (level != null) {
                 BlockEntity entity = level.getBlockEntity(pos);
-                if (entity instanceof SinglePaintedBlockEntity paintedBlockEntity) {
-                    Block paint = paintedBlockEntity.getPaint();
-                    if (paint == null)
-                        return 0;
-                    BlockState paintState = paint.defaultBlockState();
-                    return Minecraft.getInstance().getBlockColors().getColor(paintState, level, pos, tintIndex);
+                if (entity instanceof IPaintableBlockEntity paintedBlockEntity) {
+                    Block[] paints = paintedBlockEntity.getPaints();
+                    for (Block paint: paints) {
+                        BlockState paintState = paint.defaultBlockState();
+                        int color = Minecraft.getInstance().getBlockColors().getColor(paintState, level, pos, tintIndex);
+                        if (color != -1)
+                            return color;
+                    }
                 }
             }
             return 0;
