@@ -9,12 +9,13 @@ import javax.annotation.Nullable;
 import com.enderio.base.common.capability.EIOCapabilities;
 import com.enderio.base.common.capability.capacitors.CapacitorData;
 import com.enderio.base.common.capability.capacitors.ICapacitorData;
+import com.enderio.base.common.item.EIOItems;
+import com.enderio.base.common.util.CapacitorUtil;
 import com.enderio.core.common.capability.IMultiCapability;
 import com.enderio.core.common.capability.MultiCapabilityProvider;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -35,8 +36,9 @@ public class Capacitor extends Item implements IMultiCapability{
         OCTADIC.put(ICapacitorData.ALL_PRODUCTION_SPEED, 4.0F);
     }
     
-    public Capacitor(Properties pProperties, Map<String, Float> specialization) {
+    public Capacitor(Properties pProperties, float base, Map<String, Float> specialization) {
         super(pProperties);
+        this.data.setBase(base);
         this.data.addAllSpecialization(specialization);
     }
     
@@ -44,16 +46,19 @@ public class Capacitor extends Item implements IMultiCapability{
     public void appendHoverText(ItemStack pStack, Level pLevel, List<Component> pTooltipComponents,
             TooltipFlag pIsAdvanced) {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-        pTooltipComponents.add(new TranslatableComponent("Stats:"));
-        pStack.getCapability(EIOCapabilities.CAPACITOR).ifPresent(cap ->{
-            pTooltipComponents.add(new TranslatableComponent(cap.getBase() + ""));
-        });
+        if (pStack.is(EIOItems.LOOT_CAPACITOR.get())) {
+            pTooltipComponents.add(CapacitorUtil.getTooltip(pStack));
+        }
     }
 
     @Nullable
     @Override
     public MultiCapabilityProvider initCapabilities(ItemStack stack, CompoundTag nbt, MultiCapabilityProvider provider) {
-        provider.add(EIOCapabilities.CAPACITOR, LazyOptional.of(() -> data));
+        if (stack.is(EIOItems.LOOT_CAPACITOR.get())) {
+            provider.add(EIOCapabilities.CAPACITOR, LazyOptional.of(CapacitorData::new));
+        }else {
+            provider.add(EIOCapabilities.CAPACITOR, LazyOptional.of(() -> data));
+        }
         return provider;
     }
 

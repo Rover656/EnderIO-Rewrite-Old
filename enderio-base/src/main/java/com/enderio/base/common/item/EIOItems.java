@@ -95,10 +95,10 @@ public class EIOItems {
     
     // region capacitors
     
-    public static final ItemEntry<Capacitor> BASIC_CAPACITOR = REGISTRATE.item("basic_capacitor", p -> new Capacitor(p, Capacitor.BASIC)).group(() -> EIOCreativeTabs.MAIN).register();
-    public static final ItemEntry<Capacitor> DOUBLE_LAYER_CAPACITOR = REGISTRATE.item("double_layer_capacitor", p -> new Capacitor(p,Capacitor.DOUBLE)).group(() -> EIOCreativeTabs.MAIN).register();
-    public static final ItemEntry<Capacitor> OCTADIC_CAPACITOR = REGISTRATE.item("octadic_capacitor", p -> new Capacitor(p,Capacitor.OCTADIC)).group(() -> EIOCreativeTabs.MAIN).register();
-    public static final ItemEntry<Capacitor> LOOT_CAPACITOR = REGISTRATE.item("loot_capacitor", p -> new Capacitor(p,new HashMap<>())).register();
+    public static final ItemEntry<Capacitor> BASIC_CAPACITOR = REGISTRATE.item("basic_capacitor", p -> new Capacitor(p, 0.0F, Capacitor.BASIC)).properties(p -> p.stacksTo(1)).group(() -> EIOCreativeTabs.MAIN).register();
+    public static final ItemEntry<Capacitor> DOUBLE_LAYER_CAPACITOR = REGISTRATE.item("double_layer_capacitor", p -> new Capacitor(p, 0.0F, Capacitor.DOUBLE)).properties(p -> p.stacksTo(1)).group(() -> EIOCreativeTabs.MAIN).register();
+    public static final ItemEntry<Capacitor> OCTADIC_CAPACITOR = REGISTRATE.item("octadic_capacitor", p -> new Capacitor(p, 0.0F, Capacitor.OCTADIC)).properties(p -> p.stacksTo(1)).group(() -> EIOCreativeTabs.MAIN).register();
+    public static final ItemEntry<Capacitor> LOOT_CAPACITOR = REGISTRATE.item("loot_capacitor", p -> new Capacitor(p, 0, new HashMap<>())).properties(p -> p.stacksTo(1)).register();
 
     // endregion
 

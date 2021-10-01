@@ -861,5 +861,10 @@
   "itemGroup.enderio.gear": "EnderIO Gear",
   "itemGroup.enderio.machines": "EnderIO Machines",
   "itemGroup.enderio.main": "EnderIO",
-  "itemGroup.enderio.souls": "EnderIO Souls"
+  "itemGroup.enderio.souls": "EnderIO Souls",
+  
+  "loot.enderio.capacitor.type.all_energy_consuption" : "Hungry",
+  "loot.enderio.capacitor.type.all_production_speed" : "Fast",
+  "loot.enderio.capacitor.type.alloy_energy_consuption" : "Melted",
+  "loot.enderio.capacitor.type.alloy_production_speed" : "Smelting"
 }
