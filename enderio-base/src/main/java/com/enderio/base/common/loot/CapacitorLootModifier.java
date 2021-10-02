@@ -24,15 +24,29 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = EnderIO.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CapacitorLootModifier extends LootModifier{
+    /**
+     * The minimum base value
+     */
     private float min;
+    /**
+     * The maximum base value
+     */
     private float max;
 
+    /**
+     * Constructs a LootModifier.
+     *
+     * @param conditionsIn the ILootConditions that need to be matched before the loot is modified.
+     */
     protected CapacitorLootModifier(LootItemCondition[] conditionsIn, float min, float max) {
         super(conditionsIn);
         this.min = min;
         this.max = max;
     }
 
+    /**
+     * Makes a loot capacitor with random stats and adds it to the loot.
+     */
     @Override
     protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
         ItemStack capacitor = new ItemStack(EIOItems.LOOT_CAPACITOR.get());
@@ -41,7 +55,6 @@ public class CapacitorLootModifier extends LootModifier{
             cap.addNewSpecialization(CapacitorUtil.getRandomType(), UniformGenerator.between(0.0F, 4.5F).getFloat(context));
         });
         generatedLoot.add(capacitor);
-        System.out.println("hey");
         return generatedLoot;
     }
     
@@ -51,7 +64,7 @@ public class CapacitorLootModifier extends LootModifier{
         public CapacitorLootModifier read(ResourceLocation location, JsonObject object,
                 LootItemCondition[] ailootcondition) {
             float min = GsonHelper.getAsFloat(object,"min");
-            float max = GsonHelper.getAsFloat(object,"min");
+            float max = GsonHelper.getAsFloat(object,"max");
             return new CapacitorLootModifier(ailootcondition, min, max);
         }
 

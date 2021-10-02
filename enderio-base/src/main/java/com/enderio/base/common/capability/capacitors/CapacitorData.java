@@ -2,6 +2,7 @@ package com.enderio.base.common.capability.capacitors;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -11,6 +12,7 @@ import net.minecraftforge.common.util.Constants;
 public class CapacitorData implements ICapacitorData{
     private float base = 0;
     private Map<String, Float> specializations = new HashMap<>();
+    private int flavor = -1;
     
     public CapacitorData() {
         
@@ -66,7 +68,7 @@ public class CapacitorData implements ICapacitorData{
     @Override
     public void addNewSpecialization(String type, float modifier) {
         this.specializations.clear();
-        this.specializations.put(type, modifier);
+        addSpecialization(type, modifier);
     }
 
     @Override
@@ -77,5 +79,14 @@ public class CapacitorData implements ICapacitorData{
     @Override
     public Map<String, Float> getSpecializations() {
         return this.specializations;
+    }
+
+    //TODO more flavor text
+    @Override
+    public int getFlavor() {
+        if (this.flavor == -1) {
+            this.flavor = new Random().nextInt(2);
+        }
+        return this.flavor;
     }
 }
