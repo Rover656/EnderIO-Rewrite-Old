@@ -22,8 +22,4 @@ public class PaintedFenceBlock extends FenceBlock implements EntityBlock {
         return EIOBlockEntities.SINGLE_PAINTED.create(pos, state);
     }
 
-    @Override
-    public boolean connectsTo(BlockState pState, boolean pIsSideSolid, Direction pDirection) {
-        return super.connectsTo(pState, pIsSideSolid, pDirection);
-    }
 }

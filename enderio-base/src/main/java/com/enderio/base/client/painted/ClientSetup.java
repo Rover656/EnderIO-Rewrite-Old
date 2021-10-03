@@ -1,9 +1,8 @@
-package com.enderio.base.painted;
+package com.enderio.base.client.painted;
 
 import com.enderio.base.EIOBlocks;
 import com.enderio.base.EnderIO;
-import com.enderio.base.common.block.painted.IPaintableBlockEntity;
-import com.enderio.base.common.block.painted.SinglePaintedBlockEntity;
+import com.enderio.base.common.blockentity.IPaintableBlockEntity;
 import com.enderio.base.common.util.PaintUtils;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
@@ -39,19 +38,19 @@ import net.minecraftforge.client.model.geometry.IModelGeometry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.resource.IResourceType;
 import net.minecraftforge.resource.VanillaResourceType;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
 @Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientSetup {
+
+    private ClientSetup(){}
 
     @SubscribeEvent
     public static void modelInit(final ModelRegistryEvent e) {
@@ -84,11 +83,13 @@ public class ClientSetup {
 
         @Override
         public int getColor(BlockState state, @Nullable BlockAndTintGetter level, @Nullable BlockPos pos, int tintIndex) {
-            if (level != null) {
+            if (level != null && pos != null) {
                 BlockEntity entity = level.getBlockEntity(pos);
                 if (entity instanceof IPaintableBlockEntity paintedBlockEntity) {
                     Block[] paints = paintedBlockEntity.getPaints();
                     for (Block paint: paints) {
+                        if (paint == null)
+                            continue;
                         BlockState paintState = paint.defaultBlockState();
                         int color = Minecraft.getInstance().getBlockColors().getColor(paintState, level, pos, tintIndex);
                         if (color != -1)

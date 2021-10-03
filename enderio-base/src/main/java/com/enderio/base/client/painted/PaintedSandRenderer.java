@@ -1,6 +1,6 @@
-package com.enderio.base.painted;
+package com.enderio.base.client.painted;
 
-import com.enderio.base.common.block.painted.PaintedSandEntity;
+import com.enderio.base.common.entity.PaintedSandEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;

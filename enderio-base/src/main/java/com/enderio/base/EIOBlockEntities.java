@@ -1,7 +1,7 @@
 package com.enderio.base;
 
-import com.enderio.base.common.block.painted.DoublePaintedBlockEntity;
-import com.enderio.base.common.block.painted.SinglePaintedBlockEntity;
+import com.enderio.base.common.blockentity.DoublePaintedBlockEntity;
+import com.enderio.base.common.blockentity.SinglePaintedBlockEntity;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.TileEntityBuilder;
 import com.tterrag.registrate.util.entry.TileEntityEntry;

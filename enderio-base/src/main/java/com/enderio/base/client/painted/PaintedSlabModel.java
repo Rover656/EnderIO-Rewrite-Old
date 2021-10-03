@@ -1,16 +1,12 @@
-package com.enderio.base.painted;
+package com.enderio.base.client.painted;
 
-import com.enderio.base.common.block.painted.DoublePaintedBlockEntity;
-import com.enderio.base.common.block.painted.SinglePaintedBlockEntity;
+import com.enderio.base.common.blockentity.DoublePaintedBlockEntity;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.client.model.data.IDynamicBakedModel;
@@ -41,7 +37,7 @@ public class PaintedSlabModel extends PaintedModel implements IDynamicBakedModel
     @Override
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull Random rand, @Nonnull IModelData extraData) {
         List<BakedQuad> quads = new ArrayList<>();
-        if (state.hasProperty(SlabBlock.TYPE)) {
+        if (state != null && state.hasProperty(SlabBlock.TYPE)) {
             SlabType slabType = state.getValue(SlabBlock.TYPE);
             if (slabType == SlabType.BOTTOM || slabType == SlabType.DOUBLE) {
                 Block paint = extraData.getData(DoublePaintedBlockEntity.PAINT);

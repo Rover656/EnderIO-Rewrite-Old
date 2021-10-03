@@ -1,4 +1,4 @@
-package com.enderio.base.common.block.painted;
+package com.enderio.base.common.blockentity;
 
 import com.enderio.base.common.util.PaintUtils;
 import net.minecraft.core.BlockPos;
@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.ModelDataManager;
@@ -17,29 +18,27 @@ import net.minecraftforge.common.util.Constants;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class DoublePaintedBlockEntity extends SinglePaintedBlockEntity {
+public class SinglePaintedBlockEntity extends BlockEntity implements IPaintableBlockEntity {
 
-    private Block paint2;
+    private Block paint;
 
-    public Block getPaint2() {
-        return paint2;
+    public Block getPaint() {
+        return paint;
+    }
+    public Block setPaint() {
+        return paint;
     }
 
-    @Override
-    public Block[] getPaints() {
-        return new Block[]{getPaint(), getPaint2()};
-    }
+    public static final ModelProperty<Block> PAINT = new ModelProperty<>();
 
-    public static final ModelProperty<Block> PAINT2 = new ModelProperty<>();
-
-    public DoublePaintedBlockEntity(BlockEntityType<?> pType, BlockPos pWorldPosition, BlockState pBlockState) {
+    public SinglePaintedBlockEntity(BlockEntityType<?> pType, BlockPos pWorldPosition, BlockState pBlockState) {
         super(pType, pWorldPosition, pBlockState);
     }
 
     @Nonnull
     @Override
     public IModelData getModelData() {
-        return new ModelDataMap.Builder().withInitial(PAINT, getPaint()).withInitial(PAINT2, paint2).build();
+        return new ModelDataMap.Builder().withInitial(PAINT, paint).build();
     }
 
     @Nullable
@@ -52,19 +51,31 @@ public class DoublePaintedBlockEntity extends SinglePaintedBlockEntity {
 
     @Override
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        Block oldPaint = getPaint2();
-        super.onDataPacket(net, pkt);
-        if (oldPaint != paint2) {
+        Block oldPaint = paint;
+        CompoundTag tag = pkt.getTag();
+        handleUpdateTag(tag);
+        if (oldPaint != paint) {
             ModelDataManager.requestModelDataRefresh(this);
             level.setBlock(getBlockPos(), level.getBlockState(getBlockPos()), 9);
         }
     }
 
     @Override
+    public void load(CompoundTag tag) {
+        super.load(tag);
+        readPaint(tag);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        CompoundTag nbt = super.getUpdateTag();
+        writePaint(nbt);
+        return nbt;
+    }
+
     protected void readPaint(CompoundTag tag) {
-        super.readPaint(tag);
-        if (tag.contains("paint2")) {
-            paint2 = PaintUtils.getBlockFromRL(tag.getString("paint2"));
+        if (tag.contains("paint")) {
+            paint = PaintUtils.getBlockFromRL(tag.getString("paint"));
             if (level != null) {
                 if (level.isClientSide) {
                     ModelDataManager.requestModelDataRefresh(this);
@@ -75,10 +86,14 @@ public class DoublePaintedBlockEntity extends SinglePaintedBlockEntity {
     }
 
     @Override
+    public CompoundTag save(CompoundTag tag) {
+        writePaint(tag);
+        return super.save(tag);
+    }
+
     protected void writePaint(CompoundTag tag) {
-        super.writePaint(tag);
-        if (paint2 != null) {
-            tag.putString("paint2", paint2.getRegistryName().toString());
+        if (paint != null) {
+            tag.putString("paint", paint.getRegistryName().toString());
         }
     }
 }

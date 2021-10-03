@@ -1,6 +1,6 @@
-package com.enderio.base.painted;
+package com.enderio.base.client.painted;
 
-import com.enderio.base.common.block.painted.SinglePaintedBlockEntity;
+import com.enderio.base.common.blockentity.SinglePaintedBlockEntity;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.core.Direction;

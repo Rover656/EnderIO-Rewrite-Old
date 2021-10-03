@@ -1,4 +1,4 @@
-package com.enderio.base.common.block.painted;
+package com.enderio.base.common.entity;
 
 import com.enderio.base.EIOEntities;
 import com.enderio.base.common.util.PaintUtils;

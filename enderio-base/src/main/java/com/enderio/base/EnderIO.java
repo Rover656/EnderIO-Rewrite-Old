@@ -3,6 +3,7 @@ package com.enderio.base;
 import javax.annotation.Nonnull;
 
 import com.enderio.base.data.recipe.standard.StandardRecipes;
+import com.enderio.base.data.tag.EnderTagProvider;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.NonNullLazyValue;
 
@@ -55,6 +56,7 @@ public class EnderIO {
         DataGenerator generator = event.getGenerator();
         if (event.includeServer()) {
             StandardRecipes.generate(generator);
+            generator.addProvider(new EnderTagProvider(event.getGenerator(), event.getExistingFileHelper()));
         }
     }
 

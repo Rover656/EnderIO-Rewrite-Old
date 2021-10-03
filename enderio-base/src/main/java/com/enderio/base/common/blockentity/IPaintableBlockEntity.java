@@ -1,4 +1,4 @@
-package com.enderio.base.common.block.painted;
+package com.enderio.base.common.blockentity;
 
 import net.minecraft.world.level.block.Block;
 

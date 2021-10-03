@@ -1,7 +1,7 @@
 package com.enderio.base;
 
-import com.enderio.base.common.block.painted.PaintedSandEntity;
-import com.enderio.base.painted.PaintedSandRenderer;
+import com.enderio.base.common.entity.PaintedSandEntity;
+import com.enderio.base.client.painted.PaintedSandRenderer;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.EntityEntry;
 import net.minecraft.world.entity.EntityType;

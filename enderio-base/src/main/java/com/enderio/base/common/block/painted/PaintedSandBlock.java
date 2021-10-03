@@ -1,6 +1,8 @@
 package com.enderio.base.common.block.painted;
 
 import com.enderio.base.EIOBlockEntities;
+import com.enderio.base.common.entity.PaintedSandEntity;
+import com.enderio.base.common.blockentity.SinglePaintedBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
