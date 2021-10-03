@@ -83,7 +83,7 @@ public class ClientSetup {
 
         @Override
         public int getColor(BlockState state, @Nullable BlockAndTintGetter level, @Nullable BlockPos pos, int tintIndex) {
-            if (level != null && pos != null) {
+            if (level != null && pos != null && tintIndex != 0) {
                 BlockEntity entity = level.getBlockEntity(pos);
                 if (entity instanceof IPaintableBlockEntity paintedBlockEntity) {
                     Block[] paints = paintedBlockEntity.getPaints();
@@ -97,7 +97,7 @@ public class ClientSetup {
                     }
                 }
             }
-            return 0;
+            return 0xFFFFFF;
         }
 
         @Override

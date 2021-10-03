@@ -205,11 +205,9 @@ public abstract class PaintedModel implements IDynamicBakedModel {
         Block paint = data.getData(SinglePaintedBlockEntity.PAINT);
         if (paint != null) {
             BakedModel model = getModel(paint.defaultBlockState());
-            for (BakedQuad quad : model.getQuads(paint.defaultBlockState(), Direction.UP, new Random(), EmptyModelData.INSTANCE)) {
-                return quad.getSprite();
-            }
+            return model.getParticleIcon(EmptyModelData.INSTANCE);
         }
-        return getParticleIcon();
+        return getMissingTexture();
     }
 
     @Override
