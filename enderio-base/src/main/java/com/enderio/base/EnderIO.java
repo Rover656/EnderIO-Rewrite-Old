@@ -2,6 +2,11 @@ package com.enderio.base;
 
 import javax.annotation.Nonnull;
 
+import com.enderio.base.client.renderers.GraveRenderer;
+import com.enderio.base.common.block.EIOBlocks;
+import com.enderio.base.common.blockentity.EIOBlockEntities;
+import com.enderio.base.common.enchantments.EIOEnchantments;
+import com.enderio.base.common.item.EIOItems;
 import com.enderio.base.data.recipe.standard.StandardRecipes;
 import com.enderio.base.data.tag.EnderTagProvider;
 import com.tterrag.registrate.Registrate;
@@ -9,6 +14,7 @@ import com.tterrag.registrate.util.NonNullLazyValue;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -26,11 +32,13 @@ public class EnderIO {
     private static final NonNullLazyValue<Registrate> REGISTRATE = new NonNullLazyValue<>(() -> Registrate.create(DOMAIN));
 
     public EnderIO() {
+        EIOBlocks.register();
         EIOItems.register();
         EIOBlocks.register();
         EIOBlockEntities.register();
         EIOEntities.register();
         EIOEnchantments.register();
+
 
         IEventBus modEventBus = FMLJavaModLoadingContext
             .get()
@@ -39,6 +47,7 @@ public class EnderIO {
         // Run datagen after registrate is finished.
         modEventBus.addListener(EventPriority.LOWEST, this::gatherData);
         modEventBus.addListener(this::ModelLoaders);
+        modEventBus.addListener(this::registerBERS);
 
     }
 
@@ -58,6 +67,10 @@ public class EnderIO {
             StandardRecipes.generate(generator);
             generator.addProvider(new EnderTagProvider(event.getGenerator(), event.getExistingFileHelper()));
         }
+    }
+
+    public void registerBERS(RegisterRenderers event) {
+        event.registerBlockEntityRenderer(EIOBlockEntities.GRAVE.get(), GraveRenderer::new);
     }
 
     public static Registrate registrate() {
