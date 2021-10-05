@@ -6,6 +6,7 @@ import com.enderio.base.client.renderers.GraveRenderer;
 import com.enderio.base.common.block.EIOBlocks;
 import com.enderio.base.common.blockentity.EIOBlockEntities;
 import com.enderio.base.common.enchantments.EIOEnchantments;
+import com.enderio.base.common.entity.EIOEntities;
 import com.enderio.base.common.item.EIOItems;
 import com.enderio.base.data.recipe.standard.StandardRecipes;
 import com.tterrag.registrate.Registrate;
@@ -27,14 +28,17 @@ public class EnderIO {
     public static final @Nonnull String MODID = "enderio";
     public static final @Nonnull String DOMAIN = "enderio";
 
+
     private static final NonNullLazyValue<Registrate> REGISTRATE = new NonNullLazyValue<>(() -> Registrate.create(DOMAIN));
 
     public EnderIO() {
         EIOBlocks.register();
         EIOItems.register();
+        EIOBlocks.register();
         EIOBlockEntities.register();
+        EIOEntities.register();
         EIOEnchantments.register();
-        
+
 
         IEventBus modEventBus = FMLJavaModLoadingContext
             .get()
@@ -44,7 +48,7 @@ public class EnderIO {
         modEventBus.addListener(EventPriority.LOWEST, this::gatherData);
         modEventBus.addListener(this::ModelLoaders);
         modEventBus.addListener(this::registerBERS);
-        
+
     }
 
     //TODO Move to an other location
@@ -67,7 +71,7 @@ public class EnderIO {
     public void registerBERS(RegisterRenderers event) {
         event.registerBlockEntityRenderer(EIOBlockEntities.GRAVE.get(), GraveRenderer::new);
     }
-    
+
     public static Registrate registrate() {
         return REGISTRATE.get();
     }
