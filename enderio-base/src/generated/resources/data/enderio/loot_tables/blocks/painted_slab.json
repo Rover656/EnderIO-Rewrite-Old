@@ -7,23 +7,6 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:copy_name",
-              "source": "block_entity"
-            },
-            {
-              "function": "minecraft:copy_nbt",
-              "source": "block_entity",
-              "ops": [
-                {
-                  "source": "paint",
-                  "target": "BlockEntityTag.paint",
-                  "op": "replace"
-                }
-              ]
-            }
-          ],
           "conditions": [
             {
               "condition": "minecraft:inverted",
@@ -36,6 +19,19 @@
               }
             }
           ],
+          "functions": [
+            {
+              "function": "minecraft:copy_nbt",
+              "source": "block_entity",
+              "ops": [
+                {
+                  "source": "paint",
+                  "target": "BlockEntityTag.paint",
+                  "op": "replace"
+                }
+              ]
+            }
+          ],
           "name": "enderio:painted_slab"
         }
       ]
@@ -46,23 +42,6 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:copy_name",
-              "source": "block_entity"
-            },
-            {
-              "function": "minecraft:copy_nbt",
-              "source": "block_entity",
-              "ops": [
-                {
-                  "source": "paint2",
-                  "target": "BlockEntityTag.paint",
-                  "op": "replace"
-                }
-              ]
-            }
-          ],
           "conditions": [
             {
               "condition": "minecraft:inverted",
@@ -73,6 +52,19 @@
                   "type": "bottom"
                 }
               }
+            }
+          ],
+          "functions": [
+            {
+              "function": "minecraft:copy_nbt",
+              "source": "block_entity",
+              "ops": [
+                {
+                  "source": "paint2",
+                  "target": "BlockEntityTag.paint",
+                  "op": "replace"
+                }
+              ]
             }
           ],
           "name": "enderio:painted_slab"

@@ -1,8 +1,11 @@
 package com.enderio.base.client.painted;
 
 import com.enderio.base.common.blockentity.DoublePaintedBlockEntity;
+import com.enderio.base.common.blockentity.SinglePaintedBlockEntity;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
@@ -51,5 +54,18 @@ public class PaintedSlabModel extends PaintedModel implements IDynamicBakedModel
             }
         }
         return quads;
+    }
+
+    @Override
+    public TextureAtlasSprite getParticleIcon(@Nonnull IModelData data) {
+        TextureAtlasSprite sprite = super.getParticleIcon(data);
+        if (!sprite.getName().getPath().equals("missingno"))
+            return sprite;
+        Block paint = data.getData(DoublePaintedBlockEntity.PAINT2);
+        if (paint != null) {
+            BakedModel model = getModel(paint.defaultBlockState());
+            return model.getParticleIcon(EmptyModelData.INSTANCE);
+        }
+        return getMissingTexture();
     }
 }

@@ -1,6 +1,6 @@
-package com.enderio.base;
+package com.enderio.base.common.entity;
 
-import com.enderio.base.common.entity.PaintedSandEntity;
+import com.enderio.base.EnderIO;
 import com.enderio.base.client.painted.PaintedSandRenderer;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.EntityEntry;

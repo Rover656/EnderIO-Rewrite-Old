@@ -1,7 +1,7 @@
 package com.enderio.base.client.painted;
 
-import com.enderio.base.EIOBlocks;
 import com.enderio.base.EnderIO;
+import com.enderio.base.common.block.EIOBlocks;
 import com.enderio.base.common.blockentity.IPaintableBlockEntity;
 import com.enderio.base.common.util.PaintUtils;
 import com.google.gson.JsonDeserializationContext;
@@ -61,10 +61,10 @@ public class ClientSetup {
     @SubscribeEvent
     public static void colorItemInit(final ColorHandlerEvent.Item e) {
         PaintedBlockColor color = new PaintedBlockColor();
-        e.getBlockColors().register(color, EIOBlocks.getPainted());
-        e.getItemColors().register(color, EIOBlocks.getPainted());
-        e.getBlockColors().register(color, EIOBlocks.getDoublePainted());
-        e.getItemColors().register(color, EIOBlocks.getDoublePainted());
+        e.getBlockColors().register(color, EIOBlocks.getPainted().toArray(new Block[0]));
+        e.getItemColors().register(color, EIOBlocks.getPainted().toArray(new Block[0]));
+        e.getBlockColors().register(color, EIOBlocks.PAINTED_SLAB.get());
+        e.getItemColors().register(color, EIOBlocks.PAINTED_SLAB.get());
     }
 
     @SubscribeEvent
@@ -73,9 +73,8 @@ public class ClientSetup {
             for (Block paintedBlock: EIOBlocks.getPainted()) {
                 ItemBlockRenderTypes.setRenderLayer(paintedBlock, RenderType.translucent());
             }
-            for (Block paintedBlock: EIOBlocks.getDoublePainted()) {
-                ItemBlockRenderTypes.setRenderLayer(paintedBlock, RenderType.translucent());
-            }
+            ItemBlockRenderTypes.setRenderLayer(EIOBlocks.PAINTED_SLAB.get(), RenderType.translucent());
+
         });
     }
 

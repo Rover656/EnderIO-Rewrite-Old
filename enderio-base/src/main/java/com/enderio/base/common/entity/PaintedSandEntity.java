@@ -1,6 +1,5 @@
 package com.enderio.base.common.entity;
 
-import com.enderio.base.EIOEntities;
 import com.enderio.base.common.util.PaintUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;

@@ -1,6 +1,6 @@
 package com.enderio.base.common.block.painted;
 
-import com.enderio.base.EIOBlockEntities;
+import com.enderio.base.common.blockentity.EIOBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;

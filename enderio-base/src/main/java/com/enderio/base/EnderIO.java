@@ -6,9 +6,9 @@ import com.enderio.base.client.renderers.GraveRenderer;
 import com.enderio.base.common.block.EIOBlocks;
 import com.enderio.base.common.blockentity.EIOBlockEntities;
 import com.enderio.base.common.enchantments.EIOEnchantments;
+import com.enderio.base.common.entity.EIOEntities;
 import com.enderio.base.common.item.EIOItems;
 import com.enderio.base.data.recipe.standard.StandardRecipes;
-import com.enderio.base.data.tag.EnderTagProvider;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.NonNullLazyValue;
 
@@ -65,7 +65,6 @@ public class EnderIO {
         DataGenerator generator = event.getGenerator();
         if (event.includeServer()) {
             StandardRecipes.generate(generator);
-            generator.addProvider(new EnderTagProvider(event.getGenerator(), event.getExistingFileHelper()));
         }
     }
 
