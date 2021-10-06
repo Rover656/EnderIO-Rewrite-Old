@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.SlabType;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class PaintedSlabBlockItem extends BlockItem {
@@ -25,7 +26,8 @@ public class PaintedSlabBlockItem extends BlockItem {
 
     //copied with hate, but I need to deal special with tileentitydata in that item
     @Override
-    protected boolean updateCustomBlockEntityTag(BlockPos pPos, Level pLevel, @Nullable Player pPlayer, ItemStack pStack, BlockState pState) {
+    protected boolean updateCustomBlockEntityTag(@Nonnull BlockPos pPos, Level pLevel, @Nullable Player pPlayer, @Nonnull ItemStack pStack,
+        @Nonnull BlockState pState) {
         MinecraftServer minecraftserver = pLevel.getServer();
         if (minecraftserver == null) {
             return false;

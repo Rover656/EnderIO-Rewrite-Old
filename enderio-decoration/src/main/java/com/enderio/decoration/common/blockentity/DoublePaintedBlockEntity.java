@@ -40,10 +40,7 @@ public class DoublePaintedBlockEntity extends SinglePaintedBlockEntity {
     @Nonnull
     @Override
     public IModelData getModelData() {
-        return new ModelDataMap.Builder()
-            .withInitial(PAINT, getPaint())
-            .withInitial(PAINT2, paint2)
-            .build();
+        return new ModelDataMap.Builder().withInitial(PAINT, getPaint()).withInitial(PAINT2, paint2).build();
     }
 
     @Nullable
@@ -85,9 +82,7 @@ public class DoublePaintedBlockEntity extends SinglePaintedBlockEntity {
     protected void writePaint(CompoundTag tag) {
         super.writePaint(tag);
         if (paint2 != null) {
-            tag.putString("paint2", Objects
-                .requireNonNull(paint2.getRegistryName())
-                .toString());
+            tag.putString("paint2", Objects.requireNonNull(paint2.getRegistryName()).toString());
         }
     }
 }

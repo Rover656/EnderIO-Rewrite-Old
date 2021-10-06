@@ -14,9 +14,7 @@ import javax.annotation.Nullable;
 public class PaintedStairBlock extends StairBlock implements EntityBlock {
 
     public PaintedStairBlock(Properties properties) {
-        super(() -> DecorBlocks.PAINTED_SAND
-            .get()
-            .defaultBlockState(), properties);
+        super(() -> DecorBlocks.PAINTED_SAND.get().defaultBlockState(), properties);
     }
 
     @Nullable

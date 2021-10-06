@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
 @EventBusSubscriber
 public class GraveHandler {
-    
+
     //TODO implementation with other mods and config?
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void GraveDeath(LivingDropsEvent event) {
@@ -34,12 +34,13 @@ public class GraveHandler {
         if (event.getEntityLiving() instanceof Player player) {
             if (player.isCreative()) {return;}
             MutableBlockPos pos = new MutableBlockPos(player.getBlockX(), player.getBlockY(), player.getBlockZ());
-            BlockPlaceContext pUseContext = new BlockPlaceContext(player, InteractionHand.MAIN_HAND, new ItemStack(EIOBlocks.GRAVE.get()), new BlockHitResult(Vec3.atCenterOf(pos), Direction.NORTH, pos, true));
+            BlockPlaceContext pUseContext = new BlockPlaceContext(player, InteractionHand.MAIN_HAND, new ItemStack(EIOBlocks.GRAVE.get()),
+                new BlockHitResult(Vec3.atCenterOf(pos), Direction.NORTH, pos, true));
             while (!player.level.getBlockState(pos).canBeReplaced(pUseContext)) {//check if a grave can be made
                 pos.move(0, 1, 0);
-            } 
+            }
             player.level.setBlockAndUpdate(pos, EIOBlocks.GRAVE.getDefaultState());
-            BlockEntity be =  player.level.getBlockEntity(pos);
+            BlockEntity be = player.level.getBlockEntity(pos);
             if (be instanceof GraveBlockEntity grave) {
                 grave.getCapability(EIOCapabilities.OWNER).ifPresent(owner -> {
                     owner.setUUID(player.getUUID());

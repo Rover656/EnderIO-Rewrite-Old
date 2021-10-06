@@ -9,8 +9,7 @@ import net.minecraftforge.client.model.generators.ModelProvider;
 
 public class BlockStateUtils {
     public static void paneBlock(DataGenContext<Block, ? extends IronBarsBlock> ctx, RegistrateBlockstateProvider cons) {
-        cons.paneBlock(ctx.get(),
-            cons.models().panePost(ctx.getName().concat("_post"), cons.blockTexture(ctx.get()), cons.blockTexture(ctx.get())),
+        cons.paneBlock(ctx.get(), cons.models().panePost(ctx.getName().concat("_post"), cons.blockTexture(ctx.get()), cons.blockTexture(ctx.get())),
             cons.models().paneSide(ctx.getName().concat("_side"), cons.blockTexture(ctx.get()), cons.blockTexture(ctx.get())),
             cons.models().paneSideAlt(ctx.getName().concat("_side_alt"), cons.blockTexture(ctx.get()), cons.blockTexture(ctx.get())),
             cons.models().paneNoSide(ctx.getName().concat("_no_side"), cons.blockTexture(ctx.get())),

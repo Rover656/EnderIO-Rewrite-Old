@@ -1,6 +1,5 @@
 package com.enderio.decoration.common.block;
 
-import com.enderio.base.data.loot.LootTableUtils;
 import com.enderio.decoration.EIODecor;
 import com.enderio.decoration.common.block.painted.*;
 import com.enderio.decoration.common.item.PaintedSlabBlockItem;
@@ -9,6 +8,7 @@ import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.level.block.Block;
@@ -53,6 +53,7 @@ public class DecorBlocks {
     public static final BlockEntry<PaintedSlabBlock> PAINTED_SLAB = REGISTRATE
         .block("painted_slab", PaintedSlabBlock::new)
         .blockstate((ctx, cons) -> BlockStateUtils.paintedBlock(ctx, cons, Blocks.OAK_SLAB))
+        .addLayer(() -> RenderType::translucent)
         .initialProperties(() -> Blocks.OAK_SLAB)
         .loot(LootTableUtils::paintedSlab)
         .tag(BlockTags.WOODEN_SLABS, BlockTags.MINEABLE_WITH_AXE)
@@ -62,10 +63,7 @@ public class DecorBlocks {
     public static final BlockEntry<SinglePaintedBlock> PAINTED_GLOWSTONE = paintedBlock("painted_glowstone", SinglePaintedBlock::new, Blocks.GLOWSTONE);
 
     public static List<? extends Block> getPainted() {
-        return painted
-            .stream()
-            .map(NonNullSupplier::get)
-            .toList();
+        return painted.stream().map(NonNullSupplier::get).toList();
     }
 
     public static List<NonNullSupplier<? extends Block>> getPaintedSupplier() {
@@ -78,6 +76,7 @@ public class DecorBlocks {
         BlockEntry<T> paintedBlockEntry = REGISTRATE
             .block(name, blockFactory)
             .blockstate((ctx, cons) -> BlockStateUtils.paintedBlock(ctx, cons, copyFrom))
+            .addLayer(() -> RenderType::translucent)
             .loot(LootTableUtils::withPaint)
             .initialProperties(() -> copyFrom)
             .properties(BlockBehaviour.Properties::noOcclusion)

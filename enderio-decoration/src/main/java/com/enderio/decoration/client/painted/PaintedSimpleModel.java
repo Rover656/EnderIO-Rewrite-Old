@@ -38,9 +38,7 @@ public class PaintedSimpleModel extends PaintedModel implements IDynamicBakedMod
         if (state != null) {
             for (Property<?> property : state.getProperties()) {
                 if (property instanceof DirectionProperty directionProperty) {
-                    direction = state
-                        .getValue(directionProperty)
-                        .getOpposite();
+                    direction = state.getValue(directionProperty).getOpposite();
                 }
             }
         }

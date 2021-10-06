@@ -49,9 +49,7 @@ public class PaintedSandEntity extends FallingBlockEntity implements IEntityAddi
     public void setPaint(Block block) {
         if (blockData == null)
             blockData = new CompoundTag();
-        blockData.putString("paint", Objects
-            .requireNonNull(block.getRegistryName())
-            .toString());
+        blockData.putString("paint", Objects.requireNonNull(block.getRegistryName()).toString());
     }
 
     @Override

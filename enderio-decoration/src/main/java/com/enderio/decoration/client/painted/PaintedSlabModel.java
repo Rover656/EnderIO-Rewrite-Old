@@ -42,16 +42,14 @@ public class PaintedSlabModel extends PaintedModel implements IDynamicBakedModel
             SlabType slabType = state.getValue(SlabBlock.TYPE);
             if (slabType == SlabType.BOTTOM || slabType == SlabType.DOUBLE) {
                 Block paint = extraData.getData(DoublePaintedBlockEntity.PAINT);
-                List<BakedQuad> shape = getModel(referenceModel
-                    .defaultBlockState()
-                    .setValue(SlabBlock.TYPE, SlabType.BOTTOM)).getQuads(state, side, rand, EmptyModelData.INSTANCE);
+                List<BakedQuad> shape = getModel(referenceModel.defaultBlockState().setValue(SlabBlock.TYPE, SlabType.BOTTOM)).getQuads(state, side, rand,
+                    EmptyModelData.INSTANCE);
                 quads.addAll(getQuadsUsingShape(paint, shape, side, rand, null));
             }
             if (slabType == SlabType.TOP || slabType == SlabType.DOUBLE) {
                 Block paint = extraData.getData(DoublePaintedBlockEntity.PAINT2);
-                List<BakedQuad> shape = getModel(referenceModel
-                    .defaultBlockState()
-                    .setValue(SlabBlock.TYPE, SlabType.TOP)).getQuads(state, side, rand, EmptyModelData.INSTANCE);
+                List<BakedQuad> shape = getModel(referenceModel.defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP)).getQuads(state, side, rand,
+                    EmptyModelData.INSTANCE);
                 quads.addAll(getQuadsUsingShape(paint, shape, side, rand, null));
             }
         }
@@ -61,10 +59,7 @@ public class PaintedSlabModel extends PaintedModel implements IDynamicBakedModel
     @Override
     public TextureAtlasSprite getParticleIcon(@Nonnull IModelData data) {
         TextureAtlasSprite sprite = super.getParticleIcon(data);
-        if (!sprite
-            .getName()
-            .getPath()
-            .equals("missingno"))
+        if (!sprite.getName().getPath().equals("missingno"))
             return sprite;
         Block paint = data.getData(DoublePaintedBlockEntity.PAINT2);
         if (paint != null) {

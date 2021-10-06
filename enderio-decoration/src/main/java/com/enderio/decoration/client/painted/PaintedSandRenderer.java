@@ -34,9 +34,7 @@ public class PaintedSandRenderer extends FallingBlockRenderer {
                 pMatrixStack.pushPose();
                 BlockPos blockpos = new BlockPos(pEntity.getX(), pEntity.getBoundingBox().maxY, pEntity.getZ());
                 pMatrixStack.translate(-0.5D, 0.0D, -0.5D);
-                BlockRenderDispatcher blockrenderdispatcher = Minecraft
-                    .getInstance()
-                    .getBlockRenderer();
+                BlockRenderDispatcher blockrenderdispatcher = Minecraft.getInstance().getBlockRenderer();
                 for (net.minecraft.client.renderer.RenderType type : net.minecraft.client.renderer.RenderType.chunkBufferLayers()) {
                     if (ItemBlockRenderTypes.canRenderInLayer(blockstate, type)) {
                         net.minecraftforge.client.ForgeHooksClient.setRenderLayer(type);

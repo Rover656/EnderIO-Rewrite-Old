@@ -6,10 +6,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.util.INBTSerializable;
 
 // A capability for the Grave BE
-public interface IOwner extends INBTSerializable<CompoundTag>{
-    
+public interface IOwner extends INBTSerializable<CompoundTag> {
+
     UUID getUUID();
+
     void setUUID(UUID uuid);
-    
-   
+
 }

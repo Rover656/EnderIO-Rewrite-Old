@@ -63,22 +63,10 @@ public class ClientSetup {
     public static void colorItemInit(final ColorHandlerEvent.Item e) {
         // TODO: Move into registrate.
         PaintedBlockColor color = new PaintedBlockColor();
-        e
-            .getBlockColors()
-            .register(color, DecorBlocks
-                .getPainted()
-                .toArray(new Block[0]));
-        e
-            .getItemColors()
-            .register(color, DecorBlocks
-                .getPainted()
-                .toArray(new Block[0]));
-        e
-            .getBlockColors()
-            .register(color, DecorBlocks.PAINTED_SLAB.get());
-        e
-            .getItemColors()
-            .register(color, DecorBlocks.PAINTED_SLAB.get());
+        e.getBlockColors().register(color, DecorBlocks.getPainted().toArray(new Block[0]));
+        e.getItemColors().register(color, DecorBlocks.getPainted().toArray(new Block[0]));
+        e.getBlockColors().register(color, DecorBlocks.PAINTED_SLAB.get());
+        e.getItemColors().register(color, DecorBlocks.PAINTED_SLAB.get());
     }
 
     @SubscribeEvent
@@ -104,10 +92,7 @@ public class ClientSetup {
                         if (paint == null)
                             continue;
                         BlockState paintState = paint.defaultBlockState();
-                        int color = Minecraft
-                            .getInstance()
-                            .getBlockColors()
-                            .getColor(paintState, level, pos, tintIndex);
+                        int color = Minecraft.getInstance().getBlockColors().getColor(paintState, level, pos, tintIndex);
                         if (color != -1)
                             return color;
                     }
@@ -118,22 +103,13 @@ public class ClientSetup {
 
         @Override
         public int getColor(ItemStack itemStack, int tintIndex) {
-            if (itemStack.getTag() != null && itemStack
-                .getTag()
-                .contains("BlockEntityTag")) {
-                CompoundTag blockEntityTag = itemStack
-                    .getTag()
-                    .getCompound("BlockEntityTag");
+            if (itemStack.getTag() != null && itemStack.getTag().contains("BlockEntityTag")) {
+                CompoundTag blockEntityTag = itemStack.getTag().getCompound("BlockEntityTag");
                 if (blockEntityTag.contains("paint")) {
                     Block paint = PaintUtils.getBlockFromRL(blockEntityTag.getString("paint"));
                     if (paint == null)
                         return 0;
-                    return Minecraft
-                        .getInstance()
-                        .getItemColors()
-                        .getColor(paint
-                            .asItem()
-                            .getDefaultInstance(), tintIndex);
+                    return Minecraft.getInstance().getItemColors().getColor(paint.asItem().getDefaultInstance(), tintIndex);
                 }
             }
             return 0;
@@ -153,9 +129,8 @@ public class ClientSetup {
         @Nonnull
         @Override
         public Geometry read(@Nonnull JsonDeserializationContext deserializationContext, JsonObject modelContents) {
-            return new Geometry(PaintUtils.getBlockFromRL(modelContents
-                .get("reference")
-                .getAsString()), getItemTransforms(deserializationContext, modelContents), isDouble);
+            return new Geometry(PaintUtils.getBlockFromRL(modelContents.get("reference").getAsString()),
+                getItemTransforms(deserializationContext, modelContents), isDouble);
         }
 
         private static ItemTransforms getItemTransforms(JsonDeserializationContext deserializationContext, JsonObject modelContents) {

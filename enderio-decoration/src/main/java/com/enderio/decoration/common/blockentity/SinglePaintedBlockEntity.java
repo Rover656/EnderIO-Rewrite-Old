@@ -27,10 +27,6 @@ public class SinglePaintedBlockEntity extends BlockEntity implements IPaintableB
         return paint;
     }
 
-    public Block setPaint() {
-        return paint;
-    } // TODO: What is this??
-
     public static final ModelProperty<Block> PAINT = new ModelProperty<>();
 
     public SinglePaintedBlockEntity(BlockEntityType<?> pType, BlockPos pWorldPosition, BlockState pBlockState) {
@@ -40,9 +36,7 @@ public class SinglePaintedBlockEntity extends BlockEntity implements IPaintableB
     @Nonnull
     @Override
     public IModelData getModelData() {
-        return new ModelDataMap.Builder()
-            .withInitial(PAINT, paint)
-            .build();
+        return new ModelDataMap.Builder().withInitial(PAINT, paint).build();
     }
 
     @Nullable
@@ -102,9 +96,7 @@ public class SinglePaintedBlockEntity extends BlockEntity implements IPaintableB
 
     protected void writePaint(CompoundTag tag) {
         if (paint != null) {
-            tag.putString("paint", Objects
-                .requireNonNull(paint.getRegistryName())
-                .toString());
+            tag.putString("paint", Objects.requireNonNull(paint.getRegistryName()).toString());
         }
     }
 }

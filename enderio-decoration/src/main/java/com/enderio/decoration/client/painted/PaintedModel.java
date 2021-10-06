@@ -43,10 +43,7 @@ public abstract class PaintedModel implements IDynamicBakedModel {
     protected abstract Block copyModelFromBlock();
 
     protected BakedModel getModel(BlockState state) {
-        return Minecraft
-            .getInstance()
-            .getBlockRenderer()
-            .getBlockModel(state);
+        return Minecraft.getInstance().getBlockRenderer().getBlockModel(state);
     }
 
     protected BakedModel getModelFromOwn(BlockState ownBlockState) {
@@ -80,9 +77,7 @@ public abstract class PaintedModel implements IDynamicBakedModel {
         BlockState state = paint.defaultBlockState();
         if (rotation != null) {
             for (Property<?> property : state.getProperties()) {
-                if (property instanceof DirectionProperty directionProperty && directionProperty
-                    .getPossibleValues()
-                    .contains(rotation)) {
+                if (property instanceof DirectionProperty directionProperty && directionProperty.getPossibleValues().contains(rotation)) {
                     state = state.setValue(directionProperty, rotation);
                 }
             }
@@ -100,13 +95,7 @@ public abstract class PaintedModel implements IDynamicBakedModel {
     private Optional<Pair<TextureAtlasSprite, Boolean>> getSpriteData(Block paint, Direction side, Random rand, Direction rotation) {
         BlockState state = paintWithRotation(paint, rotation);
         List<BakedQuad> quads = getModel(state).getQuads(state, side, rand, EmptyModelData.INSTANCE);
-        return quads.isEmpty() ?
-            Optional.empty() :
-            Optional.of(Pair.of(quads
-                .get(0)
-                .getSprite(), quads
-                .get(0)
-                .isTinted()));
+        return quads.isEmpty() ? Optional.empty() : Optional.of(Pair.of(quads.get(0).getSprite(), quads.get(0).isTinted()));
     }
 
     /**
@@ -128,13 +117,7 @@ public abstract class PaintedModel implements IDynamicBakedModel {
         LightUtil.unpack(shape.getVertices(), normalData, DefaultVertexFormat.BLOCK, 0, 4);
         Direction normal = Direction.getNearest(normalData[0], normalData[1], normalData[2]);
         List<BakedQuad> quads = model.getQuads(state, normal, new Random());
-        return quads.isEmpty() ?
-            Pair.of(getMissingTexture(), false) :
-            Pair.of(quads
-                .get(0)
-                .getSprite(), quads
-                .get(0)
-                .isTinted());
+        return quads.isEmpty() ? Pair.of(getMissingTexture(), false) : Pair.of(quads.get(0).getSprite(), quads.get(0).isTinted());
     }
 
     /**
@@ -178,16 +161,8 @@ public abstract class PaintedModel implements IDynamicBakedModel {
         for (int i = 0; i < 4; i++) {
             float[] textureData = new float[2]; // uv data pair
             LightUtil.unpack(copied.getVertices(), textureData, DefaultVertexFormat.BLOCK, i, 2);
-            textureData[0] = (textureData[0] - toCopy
-                .getSprite()
-                .getU0()) * sprite.getWidth() / toCopy
-                .getSprite()
-                .getWidth() + sprite.getU0();
-            textureData[1] = (textureData[1] - toCopy
-                .getSprite()
-                .getV0()) * sprite.getHeight() / toCopy
-                .getSprite()
-                .getHeight() + sprite.getV0();
+            textureData[0] = (textureData[0] - toCopy.getSprite().getU0()) * sprite.getWidth() / toCopy.getSprite().getWidth() + sprite.getU0();
+            textureData[1] = (textureData[1] - toCopy.getSprite().getV0()) * sprite.getHeight() / toCopy.getSprite().getHeight() + sprite.getV0();
             int[] packedTextureData = new int[8];
             LightUtil.pack(textureData, packedTextureData, DefaultVertexFormat.BLOCK, 0, 0);
             //put uv data back
@@ -198,10 +173,7 @@ public abstract class PaintedModel implements IDynamicBakedModel {
     }
 
     public TextureAtlasSprite getMissingTexture() {
-        return Minecraft
-            .getInstance()
-            .getTextureAtlas(TextureAtlas.LOCATION_BLOCKS)
-            .apply(new ResourceLocation("minecraft", "missingno"));
+        return Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(new ResourceLocation("minecraft", "missingno"));
     }
 
     @Override
@@ -302,9 +274,7 @@ public abstract class PaintedModel implements IDynamicBakedModel {
             return bakedQuads.computeIfAbsent(side, side1 -> PaintedModel.this.getQuadsUsingShape(paint, Minecraft
                 .getInstance()
                 .getItemRenderer()
-                .getModel(shapeFrom
-                    .asItem()
-                    .getDefaultInstance(), null, null, 0)
+                .getModel(shapeFrom.asItem().getDefaultInstance(), null, null, 0)
                 .getQuads(state, side, rand, EmptyModelData.INSTANCE), side, rand, null));
         }
 

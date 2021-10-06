@@ -22,9 +22,7 @@ public class EIOEnchantments {
         .lang("Repellent")
         .register();
 
-    public static final RegistryEntry<ShimmerEnchantment> SHIMMER = enchantmentBuilder("shimmer", new ShimmerEnchantment())
-        .lang("Shimmer")
-        .register();
+    public static final RegistryEntry<ShimmerEnchantment> SHIMMER = enchantmentBuilder("shimmer", new ShimmerEnchantment()).lang("Shimmer").register();
 
     public static final RegistryEntry<SoulBoundEnchantment> SOULBOUND = enchantmentBuilder("soulbound", new SoulBoundEnchantment())
         .lang("Soulbound")
@@ -39,9 +37,7 @@ public class EIOEnchantments {
         .lang("Wither Weapon")
         .register();
 
-    public static final RegistryEntry<XPBoostEnchantment> XP_BOOST = enchantmentBuilder("xp_boost", new XPBoostEnchantment())
-        .lang("XP Boost")
-        .register();
+    public static final RegistryEntry<XPBoostEnchantment> XP_BOOST = enchantmentBuilder("xp_boost", new XPBoostEnchantment()).lang("XP Boost").register();
 
     // endregion
 

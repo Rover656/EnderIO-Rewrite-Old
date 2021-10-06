@@ -14,9 +14,7 @@ public class DecorBlockEntities {
     public static final TileEntityEntry<SinglePaintedBlockEntity> SINGLE_PAINTED = REGISTRATE
         .tileEntity("single_painted",
             (TileEntityBuilder.BlockEntityFactory<SinglePaintedBlockEntity>) (pos, state, type) -> new SinglePaintedBlockEntity(type, pos, state))
-        .validBlocks(DecorBlocks
-            .getPaintedSupplier()
-            .toArray(new NonNullSupplier[0]))
+        .validBlocks(DecorBlocks.getPaintedSupplier().toArray(new NonNullSupplier[0]))
         .register();
 
     public static final TileEntityEntry<DoublePaintedBlockEntity> DOUBLE_PAINTED = REGISTRATE
