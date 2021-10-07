@@ -9,15 +9,10 @@ import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.NonNullLazyValue;
 import com.tterrag.registrate.util.entry.BlockEntry;
-
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.IronBarsBlock;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.TrapDoorBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 
@@ -46,9 +41,7 @@ public class EIOBlocks {
 
     public static final BlockEntry<Block> INDUSTRIAL_MACHINE_CHASSIS = chassisBlock("industrial_machine_chassis").register();
 
-    public static final BlockEntry<Block> END_STEEL_MACHINE_CHASSIS = chassisBlock("end_steel_machine_chassis")
-        .lang("End Steel Chassis")
-        .register();
+    public static final BlockEntry<Block> END_STEEL_MACHINE_CHASSIS = chassisBlock("end_steel_machine_chassis").lang("End Steel Chassis").register();
 
     public static final BlockEntry<Block> SOUL_MACHINE_CHASSIS = chassisBlock("soul_machine_chassis").register();
 
@@ -61,14 +54,14 @@ public class EIOBlocks {
     // region Dark Steel Building Blocks
 
     // TODO: FASTER THAN REGULAR LADDERS TOOLTIP
-    public static final BlockEntry<DarkSteelLadderBlock> DARK_STEEL_LADDER = REGISTRATE.block("dark_steel_ladder", Material.METAL, DarkSteelLadderBlock::new)
+    public static final BlockEntry<DarkSteelLadderBlock> DARK_STEEL_LADDER = REGISTRATE
+        .block("dark_steel_ladder", Material.METAL, DarkSteelLadderBlock::new)
         .properties(props -> props.strength(0.4f).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion())
-        .blockstate((ctx, prov) ->
-            prov.horizontalBlock(ctx.get(),
-                prov.models()
-                    .withExistingParent(ctx.getName(), prov.mcLoc("block/ladder"))
-                    .texture("particle", prov.blockTexture(ctx.get()))
-                    .texture("texture", prov.blockTexture(ctx.get()))))
+        .blockstate((ctx, prov) -> prov.horizontalBlock(ctx.get(), prov
+            .models()
+            .withExistingParent(ctx.getName(), prov.mcLoc("block/ladder"))
+            .texture("particle", prov.blockTexture(ctx.get()))
+            .texture("texture", prov.blockTexture(ctx.get()))))
         .tag(BlockTags.CLIMBABLE)
         .item()
         .model((ctx, prov) -> prov.generated(ctx, prov.modLoc("block/dark_steel_ladder")))
@@ -88,7 +81,8 @@ public class EIOBlocks {
         .register();
 
     // TODO: Door drops itself in creative????
-    public static final BlockEntry<DoorBlock> DARK_STEEL_DOOR = REGISTRATE.block("dark_steel_door", Material.METAL, DoorBlock::new)
+    public static final BlockEntry<DoorBlock> DARK_STEEL_DOOR = REGISTRATE
+        .block("dark_steel_door", Material.METAL, DoorBlock::new)
         .properties(props -> props.strength(5.0f, 2000.0f).sound(SoundType.METAL).noOcclusion())
         .blockstate((ctx, prov) -> prov.doorBlock(ctx.get(), prov.modLoc("block/dark_steel_door_bottom"), prov.modLoc("block/dark_steel_door_top")))
         .addLayer(() -> RenderType::cutout)
@@ -98,7 +92,8 @@ public class EIOBlocks {
         .build()
         .register();
 
-    public static final BlockEntry<TrapDoorBlock> DARK_STEEL_TRAPDOOR = REGISTRATE.block("dark_steel_trapdoor", Material.METAL, TrapDoorBlock::new)
+    public static final BlockEntry<TrapDoorBlock> DARK_STEEL_TRAPDOOR = REGISTRATE
+        .block("dark_steel_trapdoor", Material.METAL, TrapDoorBlock::new)
         .properties(props -> props.strength(5.0f, 2000.0f).sound(SoundType.METAL).noOcclusion())
         .blockstate((ctx, prov) -> prov.trapdoorBlock(ctx.get(), prov.modLoc("block/dark_steel_trapdoor"), true))
         .addLayer(() -> RenderType::cutout)
@@ -122,6 +117,7 @@ public class EIOBlocks {
 
     // region Fused Quartz/Glass
 
+    // TODO: Keep the important ones (the ones for recipes in here, maybe just keeping fused and quite clear, move the special ones to decor?)
     public static final GlassBlocks FUSED_QUARTZ = new GlassBlocks(REGISTRATE, "fused_quartz", "Fused Quartz", GlassCollisionPredicate.NONE, false, false,
         true);
     public static final GlassBlocks ENLIGHTENED_FUSED_QUARTZ = new GlassBlocks(REGISTRATE, "fused_quartz_e", "Enlightened Fused Quartz",
@@ -221,34 +217,29 @@ public class EIOBlocks {
         GlassCollisionPredicate.ANIMALS_BLOCK, true, false, true);
 
     // endregion
-    
+
     //misc Region
-    
-    public static final BlockEntry<GraveBlock> GRAVE = REGISTRATE.block("grave", Material.STONE,(p) -> new GraveBlock(p))
-            .properties(props -> props
-                    .strength(-1.0F, 3600000.0F)
-                    .noDrops()
-                    .noOcclusion())
-            .blockstate((con, prov) -> prov
-                    .simpleBlock(con.get(), prov.models().getExistingFile(new ResourceLocation(EnderIO.DOMAIN, "block/grave"))))
-            .addLayer(() -> RenderType::cutout)
-            .item()
-            .group(() ->EIOCreativeTabs.BLOCKS)
-            .build()
-            .register();
-    
+
+    public static final BlockEntry<GraveBlock> GRAVE = REGISTRATE
+        .block("grave", Material.STONE, (p) -> new GraveBlock(p))
+        .properties(props -> props.strength(-1.0F, 3600000.0F).noDrops().noOcclusion())
+        .blockstate((con, prov) -> prov.simpleBlock(con.get(), prov.models().getExistingFile(new ResourceLocation(EnderIO.DOMAIN, "block/grave"))))
+        .addLayer(() -> RenderType::cutout)
+        .item()
+        .group(() -> EIOCreativeTabs.BLOCKS)
+        .build()
+        .register();
+
     // endregion
-    
+
     public static <T extends Block> BlockBuilder<T, Registrate> simpleBlockBuilder(String name, T block) {
-        return REGISTRATE.block(name,(p) -> block).item().group(() ->EIOCreativeTabs.BLOCKS).build();
+        return REGISTRATE.block(name, (p) -> block).item().group(() -> EIOCreativeTabs.BLOCKS).build();
     }
 
     private static BlockBuilder<Block, Registrate> metalBlock(String name) {
         return REGISTRATE
             .block(name, Material.METAL, Block::new)
-            .properties(props -> props
-                .sound(SoundType.METAL)
-                .color(MaterialColor.METAL))
+            .properties(props -> props.sound(SoundType.METAL).color(MaterialColor.METAL))
             .item()
             .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
             .build();
@@ -258,10 +249,7 @@ public class EIOBlocks {
         return REGISTRATE
             .block(name, Material.METAL, Block::new)
             .addLayer(() -> RenderType::cutout)
-            .properties(props -> props
-                .noOcclusion()
-                .sound(SoundType.METAL)
-                .color(MaterialColor.METAL))
+            .properties(props -> props.noOcclusion().sound(SoundType.METAL).color(MaterialColor.METAL))
             .item()
             .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
             .build();

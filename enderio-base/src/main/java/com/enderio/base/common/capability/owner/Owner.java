@@ -4,13 +4,13 @@ import java.util.UUID;
 
 import net.minecraft.nbt.CompoundTag;
 
-public class Owner implements IOwner{
+public class Owner implements IOwner {
     private UUID uuid;
-    
+
     public Owner() {
-        
+
     }
-    
+
     @Override
     public UUID getUUID() {
         return this.uuid;
@@ -21,19 +21,18 @@ public class Owner implements IOwner{
         this.uuid = uuid;
     }
 
-
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag nbt = new CompoundTag();
         nbt.putUUID("owner", uuid);
         return nbt;
     }
-    
+
     @Override
     public void deserializeNBT(CompoundTag nbt) {
         try {
             this.uuid = nbt.getUUID("owner");
-        }catch (Exception e) {
+        } catch (Exception e) {
             //null uuid
         }
     }

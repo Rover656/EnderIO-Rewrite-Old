@@ -21,7 +21,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class GraveBlockEntity extends BlockEntity{    
+public class GraveBlockEntity extends BlockEntity {
     private Owner owner = new Owner();
     private LazyOptional<IOwner> ownerLazy = LazyOptional.of(() -> owner);
     private GraveItemStackHandler itemHandler = new GraveItemStackHandler();
@@ -30,25 +30,24 @@ public class GraveBlockEntity extends BlockEntity{
     public GraveBlockEntity(BlockEntityType<?> type, BlockPos pWorldPosition, BlockState pBlockState) {
         super(type, pWorldPosition, pBlockState);
     }
-    
+
     public void addDrops(Collection<ItemEntity> drops) {
         NonNullList<ItemStack> stacks = NonNullList.create();
         drops.forEach(entity -> stacks.add(entity.getItem()));
         this.itemHandler.setItems(stacks);
     }
-    
+
     public Collection<ItemStack> getItems() {
         return this.itemHandler.getItems();
     }
 
-    
     @Override
     public void setRemoved() {
         ownerLazy.invalidate();
         itemLazy.invalidate();
         super.setRemoved();
     }
-    
+
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
         if (cap == EIOCapabilities.OWNER) {
@@ -59,39 +58,39 @@ public class GraveBlockEntity extends BlockEntity{
         }
         return super.getCapability(cap, side);
     }
-    
-   @Override
-   public void load(CompoundTag pTag) {
-       owner.deserializeNBT(pTag.getCompound("owner"));
-       itemHandler.deserializeNBT(pTag.getCompound("inv"));
-       super.load(pTag);
-   }
-   
-   @Override
-   public CompoundTag save(CompoundTag pTag) {
-       pTag.put("owner", owner.serializeNBT());
-       pTag.put("inv", itemHandler.serializeNBT());
-       return super.save(pTag);
-   }
-   
-   private class GraveItemStackHandler extends ItemStackHandler  {
-       
-       public void setItems(NonNullList<ItemStack> items) {
-           this.stacks = items;
-       }
-       
-       public NonNullList<ItemStack> getItems() {
-           return stacks;
-       }
-       
-       @Override
-       public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-           return stack;
-       }
-       
-       @Override
-       public ItemStack extractItem(int slot, int amount, boolean simulate) {
-           return ItemStack.EMPTY;
-       }    
-   }
+
+    @Override
+    public void load(CompoundTag pTag) {
+        owner.deserializeNBT(pTag.getCompound("owner"));
+        itemHandler.deserializeNBT(pTag.getCompound("inv"));
+        super.load(pTag);
+    }
+
+    @Override
+    public CompoundTag save(CompoundTag pTag) {
+        pTag.put("owner", owner.serializeNBT());
+        pTag.put("inv", itemHandler.serializeNBT());
+        return super.save(pTag);
+    }
+
+    private class GraveItemStackHandler extends ItemStackHandler {
+
+        public void setItems(NonNullList<ItemStack> items) {
+            this.stacks = items;
+        }
+
+        public NonNullList<ItemStack> getItems() {
+            return stacks;
+        }
+
+        @Override
+        public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+            return stack;
+        }
+
+        @Override
+        public ItemStack extractItem(int slot, int amount, boolean simulate) {
+            return ItemStack.EMPTY;
+        }
+    }
 }
