@@ -3,6 +3,7 @@ package com.enderio.decoration.common.block;
 import com.enderio.decoration.EIODecor;
 import com.enderio.decoration.common.block.painted.*;
 import com.enderio.decoration.common.item.PaintedSlabBlockItem;
+import com.enderio.decoration.data.loot.LootTableUtils;
 import com.enderio.decoration.data.model.block.BlockStateUtils;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntry;
@@ -22,7 +23,7 @@ public class DecorBlocks {
 
     private static final Registrate REGISTRATE = EIODecor.registrate();
 
-    // painted region
+    // region Painted
 
     private static final List<NonNullSupplier<? extends Block>> painted = new ArrayList<>();
 
@@ -69,8 +70,10 @@ public class DecorBlocks {
     public static List<NonNullSupplier<? extends Block>> getPaintedSupplier() {
         return painted;
     }
+
     // endregion
 
+    @SafeVarargs
     private static <T extends Block> BlockEntry<T> paintedBlock(String name, NonNullFunction<BlockBehaviour.Properties, T> blockFactory, Block copyFrom,
         Tag.Named<Block>... tags) {
         BlockEntry<T> paintedBlockEntry = REGISTRATE
