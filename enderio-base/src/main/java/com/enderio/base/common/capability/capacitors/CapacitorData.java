@@ -24,7 +24,7 @@ public class CapacitorData implements ICapacitorData{
     }
 
     @Override
-    public Tag serializeNBT() {
+    public CompoundTag serializeNBT() {
         CompoundTag nbt = new CompoundTag();
         nbt.putFloat("base", this.base);
         ListTag list = new ListTag();
@@ -34,7 +34,7 @@ public class CapacitorData implements ICapacitorData{
             entry.putFloat("value", f);
             list.add(entry);
         });
-        nbt.put("Specializations", list);
+        nbt.put("specializations", list);
         return nbt;
     }
 
@@ -43,9 +43,10 @@ public class CapacitorData implements ICapacitorData{
         if (nbt instanceof CompoundTag tag) {
             this.specializations.clear();
             this.base = tag.getFloat("base");
-            ListTag List = tag.getList("Specializations", Constants.NBT.TAG_COMPOUND);
-            for (int i = 0; i < List.size(); i++) {
-                addSpecialization(List.getCompound(i).getString("type"), List.getCompound(i).getFloat("value"));
+            ListTag list = tag.getList("specializations", Constants.NBT.TAG_COMPOUND);
+            for (int i = 0; i < list.size(); i++) {
+                CompoundTag listElement = list.getCompound(i);
+                addSpecialization(listElement.getString("type"), listElement.getFloat("value"));
             }
         }
     }

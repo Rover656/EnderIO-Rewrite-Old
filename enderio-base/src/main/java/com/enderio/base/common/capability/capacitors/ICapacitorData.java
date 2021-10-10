@@ -2,6 +2,7 @@ package com.enderio.base.common.capability.capacitors;
 
 import java.util.Map;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraftforge.common.util.INBTSerializable;
 
