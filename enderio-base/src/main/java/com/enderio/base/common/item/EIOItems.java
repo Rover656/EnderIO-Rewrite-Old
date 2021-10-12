@@ -2,7 +2,7 @@ package com.enderio.base.common.item;
 
 import com.enderio.base.EnderIO;
 import com.enderio.base.common.capability.capacitors.ICapacitorData;
-import com.enderio.base.common.item.capacitors.Capacitor;
+import com.enderio.base.common.item.capacitors.LootCapacitorItem;
 import com.enderio.base.common.item.food.EnderiosItem;
 import com.enderio.base.common.item.misc.EnderfaceItem;
 import com.enderio.base.common.item.misc.GearItem;
@@ -11,7 +11,6 @@ import com.enderio.base.common.item.spawner.BrokenSpawnerItem;
 import com.enderio.base.common.item.tool.LevitationStaffItem;
 import com.enderio.base.common.item.tool.SoulVialItem;
 import com.enderio.base.common.item.tool.electromagnet.ElectromagnetItem;
-import com.enderio.base.common.util.CapacitorUtil;
 import com.enderio.base.data.model.item.ItemModelUtils;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.ItemBuilder;
@@ -100,7 +99,7 @@ public class EIOItems {
     public static final ItemEntry<Item> BASIC_CAPACITOR = REGISTRATE.item("basic_capacitor", Item::new).properties(p -> p.stacksTo(1)).group(() -> EIOCreativeTabs.MAIN).register();
     public static final ItemEntry<Item> DOUBLE_LAYER_CAPACITOR = REGISTRATE.item("double_layer_capacitor", Item::new).properties(p -> p.stacksTo(1)).group(() -> EIOCreativeTabs.MAIN).register();
     public static final ItemEntry<Item> OCTADIC_CAPACITOR = REGISTRATE.item("octadic_capacitor", Item::new).properties(p -> p.stacksTo(1)).group(() -> EIOCreativeTabs.MAIN).register();
-    public static final ItemEntry<Capacitor> LOOT_CAPACITOR = REGISTRATE.item("loot_capacitor", Capacitor::new).properties(p -> p.stacksTo(1)).register();
+    public static final ItemEntry<LootCapacitorItem> LOOT_CAPACITOR = REGISTRATE.item("loot_capacitor", LootCapacitorItem::new).properties(p -> p.stacksTo(1)).register();
     
     // endregion
     

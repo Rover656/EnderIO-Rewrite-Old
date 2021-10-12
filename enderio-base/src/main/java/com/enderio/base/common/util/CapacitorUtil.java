@@ -1,13 +1,15 @@
 package com.enderio.base.common.util;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 import com.enderio.base.common.capability.EIOCapabilities;
-import com.enderio.base.common.capability.capacitors.CapacitorData;
 import com.enderio.base.common.capability.capacitors.ICapacitorData;
-
 import com.enderio.base.common.recipe.CapacitorDataRecipe;
 import com.enderio.base.common.recipe.EIORecipes;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -23,20 +25,15 @@ public class CapacitorUtil {
      * Static maps with specializations for the "basic"
      */
     private static ArrayList<String> types = new ArrayList<>();
-    public static Map<String, Float> BASIC = new HashMap<>();
-    public static Map<String, Float> DOUBLE = new HashMap<>();
-    public static Map<String, Float> OCTADIC = new HashMap<>();
     static {
-        BASIC.put(ICapacitorData.ALL_ENERGY_CONSUMPSTION, 1.0F);
-        BASIC.put(ICapacitorData.ALL_PRODUCTION_SPEED, 1.0F);
-        DOUBLE.put(ICapacitorData.ALL_ENERGY_CONSUMPSTION, 2.0F);
-        DOUBLE.put(ICapacitorData.ALL_PRODUCTION_SPEED, 2.0F);
-        OCTADIC.put(ICapacitorData.ALL_ENERGY_CONSUMPSTION, 4.0F);
-        OCTADIC.put(ICapacitorData.ALL_PRODUCTION_SPEED, 4.0F);
         types.add(ICapacitorData.ALL_ENERGY_CONSUMPSTION);
         types.add(ICapacitorData.ALL_PRODUCTION_SPEED);
         types.add(ICapacitorData.ALLOY_ENERGY_CONSUMPSTION);
         types.add(ICapacitorData.ALLOY_ENERGY_CONSUMPSTION);
+    }
+    
+    public static void addType(String type) {
+        types.add(type);
     }
 
     public static Optional<ICapacitorData> getCapacitorData(ItemStack itemStack, Level level) {

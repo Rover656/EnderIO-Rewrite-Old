@@ -20,14 +20,14 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.LazyOptional;
 
-public class Capacitor extends Item implements IMultiCapability{
+public class LootCapacitorItem extends Item implements IMultiCapability{
     private CapacitorData data = new CapacitorData();
     
-    public Capacitor(Properties pProperties) {
+    public LootCapacitorItem(Properties pProperties) {
         super(pProperties);
     }
     
-    public Capacitor(Properties pProperties, float base, Map<String, Float> specialization) {
+    public LootCapacitorItem(Properties pProperties, float base, Map<String, Float> specialization) {
         super(pProperties);
         this.data.setBase(base);
         this.data.addAllSpecialization(specialization);
