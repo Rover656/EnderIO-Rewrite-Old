@@ -15,6 +15,12 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
+import net.minecraftforge.client.model.generators.BlockModelProvider;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.VariantBlockStateBuilder;
+
+import java.util.Objects;
 
 @SuppressWarnings("unused")
 public class EIOBlocks {
@@ -62,6 +68,7 @@ public class EIOBlocks {
             .withExistingParent(ctx.getName(), prov.mcLoc("block/ladder"))
             .texture("particle", prov.blockTexture(ctx.get()))
             .texture("texture", prov.blockTexture(ctx.get()))))
+        .addLayer(() -> RenderType::cutoutMipped)
         .tag(BlockTags.CLIMBABLE)
         .item()
         .model((ctx, prov) -> prov.generated(ctx, prov.modLoc("block/dark_steel_ladder")))
@@ -220,15 +227,70 @@ public class EIOBlocks {
 
     //misc Region
 
-    public static final BlockEntry<GraveBlock> GRAVE = REGISTRATE
-        .block("grave", Material.STONE, (p) -> new GraveBlock(p))
-        .properties(props -> props.strength(-1.0F, 3600000.0F).noDrops().noOcclusion())
-        .blockstate((con, prov) -> prov.simpleBlock(con.get(), prov.models().getExistingFile(new ResourceLocation(EnderIO.DOMAIN, "block/grave"))))
-        .addLayer(() -> RenderType::cutout)
-        .item()
-        .group(() -> EIOCreativeTabs.BLOCKS)
-        .build()
-        .register();
+    public static final BlockEntry<GraveBlock> GRAVE = REGISTRATE.block("grave", Material.STONE, GraveBlock::new)
+            .properties(props -> props
+                    .strength(-1.0F, 3600000.0F)
+                    .noDrops()
+                    .noOcclusion())
+            .blockstate((con, prov) -> prov
+                    .simpleBlock(con.get(), prov.models().getExistingFile(new ResourceLocation(EnderIO.DOMAIN, "block/grave"))))
+            .addLayer(() -> RenderType::cutout)
+            .item()
+            .group(() ->EIOCreativeTabs.BLOCKS)
+            .build()
+            .register();
+
+    // endregion
+
+    // region Pressure Plates
+
+    public static final BlockEntry<EIOPressurePlateBlock> DARK_STEEL_PRESSURE_PLATE = pressurePlateBlock("dark_steel_pressure_plate",
+        new ResourceLocation("enderio", "block/block_dark_steel_pressure_plate"), EIOPressurePlateBlock.PLAYER, false);
+
+    public static final BlockEntry<EIOPressurePlateBlock> SILENT_DARK_STEEL_PRESSURE_PLATE = pressurePlateBlock("silent_dark_steel_pressure_plate",
+        new ResourceLocation("enderio", "block/block_dark_steel_pressure_plate"), EIOPressurePlateBlock.PLAYER, true);
+
+    public static final BlockEntry<EIOPressurePlateBlock> SOULARIUM_PRESSURE_PLATE = pressurePlateBlock("soularium_pressure_plate",
+        new ResourceLocation("enderio", "block/block_soularium_pressure_plate"), EIOPressurePlateBlock.HOSTILE_MOB, false);
+
+    public static final BlockEntry<EIOPressurePlateBlock> SILENT_SOULARIUM_PRESSURE_PLATE = pressurePlateBlock("silent_soularium_pressure_plate",
+        new ResourceLocation("enderio", "block/block_soularium_pressure_plate"), EIOPressurePlateBlock.HOSTILE_MOB, true);
+
+    public static final BlockEntry<SilentPressurePlateBlock> SILENT_OAK_PRESSURE_PLATE = silentPressurePlateBlock(
+        (PressurePlateBlock) Blocks.OAK_PRESSURE_PLATE);
+
+    public static final BlockEntry<SilentPressurePlateBlock> SILENT_ACACIA_PRESSURE_PLATE = silentPressurePlateBlock(
+        (PressurePlateBlock) Blocks.ACACIA_PRESSURE_PLATE);
+
+    public static final BlockEntry<SilentPressurePlateBlock> SILENT_DARK_OAK_PRESSURE_PLATE = silentPressurePlateBlock(
+        (PressurePlateBlock) Blocks.DARK_OAK_PRESSURE_PLATE);
+
+    public static final BlockEntry<SilentPressurePlateBlock> SILENT_SPRUCE_PRESSURE_PLATE = silentPressurePlateBlock(
+        (PressurePlateBlock) Blocks.SPRUCE_PRESSURE_PLATE);
+
+    public static final BlockEntry<SilentPressurePlateBlock> SILENT_BIRCH_PRESSURE_PLATE = silentPressurePlateBlock(
+        (PressurePlateBlock) Blocks.BIRCH_PRESSURE_PLATE);
+
+    public static final BlockEntry<SilentPressurePlateBlock> SILENT_JUNGLE_PRESSURE_PLATE = silentPressurePlateBlock(
+        (PressurePlateBlock) Blocks.JUNGLE_PRESSURE_PLATE);
+
+    public static final BlockEntry<SilentPressurePlateBlock> SILENT_CRIMSON_PRESSURE_PLATE = silentPressurePlateBlock(
+        (PressurePlateBlock) Blocks.CRIMSON_PRESSURE_PLATE);
+
+    public static final BlockEntry<SilentPressurePlateBlock> SILENT_WARPED_PRESSURE_PLATE = silentPressurePlateBlock(
+        (PressurePlateBlock) Blocks.WARPED_PRESSURE_PLATE);
+
+    public static final BlockEntry<SilentPressurePlateBlock> SILENT_STONE_PRESSURE_PLATE = silentPressurePlateBlock(
+        (PressurePlateBlock) Blocks.STONE_PRESSURE_PLATE);
+
+    public static final BlockEntry<SilentPressurePlateBlock> SILENT_POLISHED_BLACKSTONE_PRESSURE_PLATE = silentPressurePlateBlock(
+        (PressurePlateBlock) Blocks.POLISHED_BLACKSTONE_PRESSURE_PLATE);
+
+    public static final BlockEntry<SilentWeightedPressurePlateBlock> SILENT_HEAVY_WEIGHTED_PRESSURE_PLATE = silentWeightedPressurePlateBlockBlock(
+        (WeightedPressurePlateBlock) Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE);
+
+    public static final BlockEntry<SilentWeightedPressurePlateBlock> SILENT_LIGHT_WEIGHTED_PRESSURE_PLATE = silentWeightedPressurePlateBlockBlock(
+        (WeightedPressurePlateBlock) Blocks.LIGHT_WEIGHTED_PRESSURE_PLATE);
 
     // endregion
 
@@ -254,6 +316,85 @@ public class EIOBlocks {
             .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
             .build();
     }
+
+    private static BlockEntry<EIOPressurePlateBlock> pressurePlateBlock(String name, ResourceLocation texture, EIOPressurePlateBlock.Detector type, boolean silent) {
+
+        BlockBuilder<EIOPressurePlateBlock, Registrate> bb = REGISTRATE.block(name, Material.METAL, (props) -> new EIOPressurePlateBlock(props, type, silent));
+
+        bb.blockstate((ctx, prov) -> {
+
+            BlockModelProvider modProv = prov.models();
+            ModelFile dm = modProv
+                .withExistingParent(ctx.getName() + "_down", prov.mcLoc("block/pressure_plate_down"))
+                .texture("texture", texture);
+            ModelFile um = modProv
+                .withExistingParent(ctx.getName() , prov.mcLoc("block/pressure_plate_up"))
+                .texture("texture", texture);
+
+            VariantBlockStateBuilder vb = prov.getVariantBuilder(ctx.get());
+            vb
+                .partialState()
+                .with(PressurePlateBlock.POWERED, true)
+                .addModels(new ConfiguredModel(dm));
+            vb
+                .partialState()
+                .with(PressurePlateBlock.POWERED, false)
+                .addModels(new ConfiguredModel(um));
+        });
+
+        bb = bb.item().group(() -> EIOCreativeTabs.BLOCKS).build();
+        return bb.register();
+    }
+
+    private static BlockEntry<SilentPressurePlateBlock> silentPressurePlateBlock(PressurePlateBlock block) {
+
+        ResourceLocation upModelLoc = Objects.requireNonNull(block.getRegistryName());
+        ResourceLocation downModelLoc = new ResourceLocation(upModelLoc.getNamespace(), upModelLoc.getPath() + "_down");
+
+        BlockBuilder<SilentPressurePlateBlock, Registrate> bb = REGISTRATE.block("silent_" + upModelLoc.getPath(),
+            (props) -> new SilentPressurePlateBlock(block));
+
+        bb.blockstate((ctx, prov) -> {
+            VariantBlockStateBuilder vb = prov.getVariantBuilder(ctx.get());
+            vb
+                .partialState()
+                .with(PressurePlateBlock.POWERED, true)
+                .addModels(new ConfiguredModel(prov.models().getExistingFile(downModelLoc)));
+            vb
+                .partialState()
+                .with(PressurePlateBlock.POWERED, false)
+                .addModels(new ConfiguredModel(prov.models().getExistingFile(upModelLoc)));
+        });
+
+        var itemBuilder = bb.item();
+        itemBuilder.model((ctx, prov) -> prov.withExistingParent(ctx.getName(), upModelLoc));
+        itemBuilder.group(() -> EIOCreativeTabs.BLOCKS);
+        bb = itemBuilder.build();
+
+        return bb.register();
+    }
+    private static BlockEntry<SilentWeightedPressurePlateBlock> silentWeightedPressurePlateBlockBlock(WeightedPressurePlateBlock block) {
+        ResourceLocation upModelLoc = Objects.requireNonNull(block.getRegistryName());
+        ResourceLocation downModelLoc = new ResourceLocation(upModelLoc.getNamespace(), upModelLoc.getPath() + "_down");
+
+        BlockBuilder<SilentWeightedPressurePlateBlock, Registrate> bb = REGISTRATE.block("silent_" + upModelLoc.getPath(),
+            (props) -> new SilentWeightedPressurePlateBlock(block));
+
+        bb.blockstate((ctx, prov) -> prov.getVariantBuilder(ctx.get()).forAllStates(blockState -> {
+            if(blockState.getValue(WeightedPressurePlateBlock.POWER) == 0) {
+                return new ConfiguredModel[] {new ConfiguredModel(prov.models().getExistingFile(upModelLoc))};
+            }
+            return new ConfiguredModel[] {new ConfiguredModel(prov.models().getExistingFile(downModelLoc))};
+        }));
+
+        var itemBuilder = bb.item();
+        itemBuilder.model((ctx, prov) -> prov.withExistingParent(ctx.getName(), upModelLoc));
+        itemBuilder.group(() -> EIOCreativeTabs.BLOCKS);
+        bb = itemBuilder.build();
+
+        return bb.register();
+    }
+
 
     public static void register() {}
 
