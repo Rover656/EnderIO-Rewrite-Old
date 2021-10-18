@@ -55,8 +55,8 @@ public class ClientSetup {
 
     @SubscribeEvent
     public static void modelInit(final ModelRegistryEvent e) {
-        ModelLoaderRegistry.registerLoader(new ResourceLocation(EnderIO.MODID, "painted_model"), new WrappedModelLoader(false));
-        ModelLoaderRegistry.registerLoader(new ResourceLocation(EnderIO.MODID, "painted_slab"), new WrappedModelLoader(true));
+        ModelLoaderRegistry.registerLoader(EnderIO.loc("painted_model"), new WrappedModelLoader(false));
+        ModelLoaderRegistry.registerLoader(EnderIO.loc("painted_slab"), new WrappedModelLoader(true));
     }
 
     @SubscribeEvent

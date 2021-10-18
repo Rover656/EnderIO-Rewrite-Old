@@ -64,8 +64,8 @@ public class GlassBlocks {
 
     private static ResourceLocation getModelFile(String name) {
         return name.contains("clear_glass") ?
-            new ResourceLocation(EnderIO.DOMAIN, "block/clear_glass") :
-            new ResourceLocation(EnderIO.DOMAIN, "block/fused_quartz");
+            EnderIO.loc("block/clear_glass") :
+            EnderIO.loc("block/fused_quartz");
     }
 
     // Dirty dirty. TODO: Just access transforms for these in Blocks??

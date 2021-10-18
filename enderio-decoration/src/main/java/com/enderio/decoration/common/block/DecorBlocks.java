@@ -61,6 +61,7 @@ public class DecorBlocks {
         .item(PaintedSlabBlockItem::new)
         .build()
         .register();
+
     public static final BlockEntry<SinglePaintedBlock> PAINTED_GLOWSTONE = paintedBlock("painted_glowstone", SinglePaintedBlock::new, Blocks.GLOWSTONE);
 
     public static List<? extends Block> getPainted() {

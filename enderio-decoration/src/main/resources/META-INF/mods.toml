@@ -11,7 +11,7 @@ description="Decorative blocks powered by Ender IO."
 displayURL="http://enderio.com/"
 logoFile="logo.png"
 
-[[dependencies.enderio]]
+[[dependencies.enderiodecoration]]
 modId="enderio"
 mandatory=true
 versionRange="[6.0,)"

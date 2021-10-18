@@ -1,6 +1,8 @@
 package com.enderio.base.client.renderers;
 
 import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.enderio.base.common.blockentity.GraveBlockEntity;
 import com.enderio.base.common.capability.EIOCapabilities;
@@ -23,30 +25,34 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
+import javax.annotation.Nonnull;
+
 //renders grave as a playerskull
 public class GraveRenderer implements BlockEntityRenderer<BlockEntity> {
-    private BlockEntityRendererProvider.Context context;
+    private final BlockEntityRendererProvider.Context context;
 
     public GraveRenderer(BlockEntityRendererProvider.Context context) {
         this.context = context;
     }
 
     @Override
-    public void render(BlockEntity pBlockEntity, float pPartialTicks, PoseStack pMatrixStack, MultiBufferSource pBuffer, int pCombinedLight,
+    public void render(@Nonnull BlockEntity pBlockEntity, float pPartialTicks, PoseStack pMatrixStack, @Nonnull MultiBufferSource pBuffer, int pCombinedLight,
         int pCombinedOverlay) {
         GraveBlockEntity grave = (GraveBlockEntity) pBlockEntity;
         Direction direction = null;//TODO if we make the grave rotatable
         SkullModelBase skullmodelbase = new SkullModel(this.context.bakeLayer(ModelLayers.PLAYER_HEAD));
-        RenderType[] rendertype = new RenderType[] { RenderType.entityCutoutNoCull(DefaultPlayerSkin.getDefaultSkin()) };// other way?
+        AtomicReference<RenderType> rendertype = new AtomicReference<>(RenderType.entityCutoutNoCull(DefaultPlayerSkin.getDefaultSkin()));// other way?
         grave.getCapability(EIOCapabilities.OWNER).ifPresent((cap) -> {
             if (cap.getUUID() != null) {
-                rendertype[0] = getRenderType(pBlockEntity.getLevel().getPlayerByUUID(cap.getUUID()));
+                // TODO: Deal with the ugly null checks...
+                Player player = Objects.requireNonNull(pBlockEntity.getLevel()).getPlayerByUUID(cap.getUUID());
+                rendertype.set(getRenderType(Objects.requireNonNull(player)));
             }
         });
         pMatrixStack.pushPose();
         pMatrixStack.translate(1, 1, 0);
         pMatrixStack.popPose();
-        SkullBlockRenderer.renderSkull(direction, 0.0F, 0.0F, pMatrixStack, pBuffer, pCombinedLight, skullmodelbase, rendertype[0]);
+        SkullBlockRenderer.renderSkull(direction, 0.0F, 0.0F, pMatrixStack, pBuffer, pCombinedLight, skullmodelbase, rendertype.get());
     }
 
     public RenderType getRenderType(Player player) {

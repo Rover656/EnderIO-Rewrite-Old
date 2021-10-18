@@ -33,7 +33,7 @@ public class GearBEWLR extends BlockEntityWithoutLevelRenderer {
         }
         BakedModel model = mc
             .getModelManager()
-            .getModel(new ResourceLocation(EnderIO.MODID, "item/" + pStack.getItem().getRegistryName().getPath().toString() + "_helper"));
+            .getModel(EnderIO.loc("item/" + pStack.getItem().getRegistryName().getPath().toString() + "_helper"));
         pPoseStack.pushPose();
         if (tpr != 0) {
             PoseStackHelper.rotateAroundPivot(pPoseStack, new Vector3f(0.5F, 0.5F, 0F), Vector3f.ZP,

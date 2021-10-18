@@ -9,6 +9,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.fmllegacy.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fmllegacy.network.NetworkHooks;
@@ -62,7 +63,7 @@ public class PaintedSandEntity extends FallingBlockEntity implements IEntityAddi
     public void readSpawnData(FriendlyByteBuf additionalData) {
         ResourceLocation rl = additionalData.readResourceLocation();
         Block block = ForgeRegistries.BLOCKS.getValue(rl);
-        if (block != null)
+        if (block != Blocks.AIR)
             setPaint(block);
     }
 }
