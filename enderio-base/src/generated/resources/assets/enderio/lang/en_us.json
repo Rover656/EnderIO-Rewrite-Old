@@ -731,6 +731,8 @@
   "block.enderio.industrial_machine_chassis": "Industrial Machine Chassis",
   "block.enderio.pulsating_iron_block": "Pulsating Iron Block",
   "block.enderio.redstone_alloy_block": "Redstone Alloy Block",
+  "block.enderio.resetting_lever_five": "Resetting Lever 5s",
+  "block.enderio.resetting_lever_five_inv": "Resetting Lever 5s inverted",
   "block.enderio.silent_acacia_pressure_plate": "Silent Acacia Pressure Plate",
   "block.enderio.silent_birch_pressure_plate": "Silent Birch Pressure Plate",
   "block.enderio.silent_crimson_pressure_plate": "Silent Crimson Pressure Plate",
