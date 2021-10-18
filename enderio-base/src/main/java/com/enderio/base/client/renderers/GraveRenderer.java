@@ -41,7 +41,7 @@ public class GraveRenderer implements BlockEntityRenderer<BlockEntity> {
         GraveBlockEntity grave = (GraveBlockEntity) pBlockEntity;
         Direction direction = null;//TODO if we make the grave rotatable
         SkullModelBase skullmodelbase = new SkullModel(this.context.bakeLayer(ModelLayers.PLAYER_HEAD));
-        AtomicReference<RenderType> rendertype = new AtomicReference<>(RenderType.entityCutoutNoCull(DefaultPlayerSkin.getDefaultSkin()));// other way?
+        AtomicReference<RenderType> rendertype = new AtomicReference<>(RenderType.entityCutoutNoCull(DefaultPlayerSkin.getDefaultSkin()));
         grave.getCapability(EIOCapabilities.OWNER).ifPresent((cap) -> {
             if (cap.getUUID() != null) {
                 // TODO: Deal with the ugly null checks...
