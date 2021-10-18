@@ -208,15 +208,16 @@ subprojects {
         }
         repositories {
             def pubHypherion = System.getenv('MAVEN_URL') != null
-            if (pubHypherion) {
+            
+            //if (pubHypherion) {
                 maven {
                     url System.getenv('MAVEN_URL')
                     credentials {
                         username System.getenv('MAVEN_USER')
-                        password System.getenv('MAVEN_PASS')
+                        password System.getenv('MAVEN_PASS_2')
                     }
                 }
-            } else {
+            //} else {
                 maven {
                     url "https://maven.nerdthings.dev/snapshots"
                     credentials {
@@ -224,7 +225,7 @@ subprojects {
                         password = System.getenv("MAVEN_PASSWORD")
                     }
                 }
-            }
+            //}
         }
     }
 
