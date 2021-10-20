@@ -430,14 +430,13 @@ public class EIOBlocks {
         bb.blockstate((ctx, prov) -> {
 
             BlockModelProvider modProv = prov.models();
-            BlockModelBuilder baseModel = modProv.withExistingParent(ctx.getName(), prov.mcLoc("block/lever"));
-            BlockModelBuilder onModel = modProv
-                .withExistingParent(ctx.getName() + "_on" , prov.mcLoc("block/lever_on"));
+            ModelFile.ExistingModelFile baseModel = modProv.getExistingFile(prov.mcLoc("block/lever"));
+            ModelFile.ExistingModelFile onModel = modProv.getExistingFile(prov.mcLoc("block/lever_on"));
 
             VariantBlockStateBuilder vb = prov.getVariantBuilder(ctx.get());
 
             vb.forAllStates(blockState -> {
-                BlockModelBuilder model = blockState.getValue(ResettingLeverBlock.POWERED) ? onModel : baseModel;
+                ModelFile.ExistingModelFile model = blockState.getValue(ResettingLeverBlock.POWERED) ? onModel : baseModel;
                 int rotationX = blockState.getValue(LeverBlock.FACE) == AttachFace.CEILING ? 180 : blockState.getValue(LeverBlock.FACE) == AttachFace.WALL ? 90 : 0;
                 Direction f = blockState.getValue(LeverBlock.FACING);
                 int rotationY = f.get2DDataValue() * 90;
