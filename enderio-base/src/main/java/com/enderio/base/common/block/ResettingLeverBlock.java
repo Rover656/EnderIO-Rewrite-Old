@@ -23,7 +23,7 @@ public class ResettingLeverBlock extends LeverBlock {
     private final int delay;
     private final boolean inverted;
 
-    public ResettingLeverBlock(Properties props, int delaySeconds, boolean inverted) {
+    public ResettingLeverBlock(int delaySeconds, boolean inverted) {
         super(BlockBehaviour.Properties.copy(Blocks.LEVER));
         this.delay = delaySeconds * 20;
         this.inverted = inverted;
@@ -39,6 +39,7 @@ public class ResettingLeverBlock extends LeverBlock {
         return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
     }
 
+    @Deprecated
     @Override
     public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, Random pRand) {
         super.tick(pState, pLevel, pPos, pRand);

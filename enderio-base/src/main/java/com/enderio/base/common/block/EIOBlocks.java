@@ -294,7 +294,24 @@ public class EIOBlocks {
     // region resetting levers
 
     public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_FIVE = resettingLeverBlock("resetting_lever_five",5, false);
+
     public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_FIVE_INV = resettingLeverBlock("resetting_lever_five_inv",5, true);
+
+    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_TEN = resettingLeverBlock("resetting_lever_ten",10, false);
+
+    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_TEN_INV = resettingLeverBlock("resetting_lever_ten_inv",10, true);
+
+    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_THIRTY = resettingLeverBlock("resetting_lever_thirty",30, false);
+
+    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_THIRTY_INV = resettingLeverBlock("resetting_lever_thirty_inv",30, true);
+
+    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_SIXTY = resettingLeverBlock("resetting_lever_sixty",60, false);
+
+    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_SIXTY_INV = resettingLeverBlock("resetting_lever_sixty_inv",60, true);
+
+    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_THREE_HUNDRED = resettingLeverBlock("resetting_lever_three_hundred",300, false);
+
+    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_THREE_HUNDRED_INV = resettingLeverBlock("resetting_lever_three_hundred_inv",300, true);
 
     // endregion
 
@@ -406,7 +423,9 @@ public class EIOBlocks {
 
     private static BlockEntry<ResettingLeverBlock> resettingLeverBlock(String name, int duration, boolean inverted) {
 
-        BlockBuilder<ResettingLeverBlock, Registrate> bb = REGISTRATE.block(name, (props) -> new ResettingLeverBlock(props, duration, inverted));
+        BlockBuilder<ResettingLeverBlock, Registrate> bb = REGISTRATE.block(name, (props) -> new ResettingLeverBlock(duration, inverted));
+        String durLab = "(" + (duration >= 60 ? duration / 60 : duration) + " " + (duration == 60 ? "minute" : duration > 60 ? "minutes" : "seconds") + ")";
+        bb.lang("Resetting Lever " + (inverted ? "Inverted " : "") +  durLab);
 
         bb.blockstate((ctx, prov) -> {
 
@@ -425,17 +444,14 @@ public class EIOBlocks {
                 if(blockState.getValue(LeverBlock.FACE) != AttachFace.CEILING) {
                     rotationY = (rotationY + 180) % 360;
                 }
-                ConfiguredModel result = new ConfiguredModel(model, rotationX, rotationY, false);
-
-                return new ConfiguredModel[] {result};
+                return new ConfiguredModel[] {new ConfiguredModel(model, rotationX, rotationY, false)};
             });
         });
 
-        bb.lang("Resetting Lever " + duration + "s" + (inverted ? " Inverted" : ""));
-
-        bb = bb.item().group(() -> EIOCreativeTabs.BLOCKS).build();
+        var ib = bb.item().group(() -> EIOCreativeTabs.BLOCKS);
+        ib.model((ctx, prov) -> prov.withExistingParent(ctx.getName(), prov.mcLoc("item/lever")));
+        bb = ib.build();
         return bb.register();
-
     }
 
 
