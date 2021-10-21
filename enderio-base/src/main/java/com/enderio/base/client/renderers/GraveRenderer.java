@@ -23,6 +23,7 @@ import net.minecraft.client.renderer.blockentity.SkullBlockRenderer;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.SkullBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import javax.annotation.Nonnull;
@@ -43,25 +44,14 @@ public class GraveRenderer implements BlockEntityRenderer<BlockEntity> {
         SkullModelBase skullmodelbase = new SkullModel(this.context.bakeLayer(ModelLayers.PLAYER_HEAD));
         AtomicReference<RenderType> rendertype = new AtomicReference<>(RenderType.entityCutoutNoCull(DefaultPlayerSkin.getDefaultSkin()));
         grave.getCapability(EIOCapabilities.OWNER).ifPresent((cap) -> {
-            if (cap.getUUID() != null) {
-                // TODO: Deal with the ugly null checks...
-                Player player = Objects.requireNonNull(pBlockEntity.getLevel()).getPlayerByUUID(cap.getUUID());
-                rendertype.set(getRenderType(Objects.requireNonNull(player)));
+            if (cap.getProfile() != null) {
+                rendertype.set(SkullBlockRenderer.getRenderType(SkullBlock.Types.PLAYER, cap.getProfile()));
             }
         });
         pMatrixStack.pushPose();
         pMatrixStack.translate(1, 1, 0);
         pMatrixStack.popPose();
         SkullBlockRenderer.renderSkull(direction, 0.0F, 0.0F, pMatrixStack, pBuffer, pCombinedLight, skullmodelbase, rendertype.get());
-    }
-
-    public RenderType getRenderType(Player player) {
-        Minecraft minecraft = Minecraft.getInstance();
-        GameProfile pProfile = new GameProfile(player.getUUID(), player.getDisplayName().getContents());
-        Map<Type, MinecraftProfileTexture> map = minecraft.getSkinManager().getInsecureSkinInformation(pProfile);
-        return map.containsKey(Type.SKIN) ?
-            RenderType.entityTranslucent(minecraft.getSkinManager().registerTexture(map.get(Type.SKIN), Type.SKIN)) :
-            RenderType.entityCutoutNoCull(DefaultPlayerSkin.getDefaultSkin(Player.createPlayerUUID(pProfile)));
     }
 
 }

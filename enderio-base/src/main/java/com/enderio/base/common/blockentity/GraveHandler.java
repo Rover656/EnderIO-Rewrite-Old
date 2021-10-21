@@ -43,7 +43,7 @@ public class GraveHandler {
             BlockEntity be = player.level.getBlockEntity(pos);
             if (be instanceof GraveBlockEntity grave) {
                 grave.getCapability(EIOCapabilities.OWNER).ifPresent(owner -> {
-                    owner.setUUID(player.getUUID());
+                    owner.setProfile(player.getGameProfile());
                     grave.addDrops(event.getDrops());//add items to grave
                     event.getDrops().clear();//clears items that would have been dropped.
                 });

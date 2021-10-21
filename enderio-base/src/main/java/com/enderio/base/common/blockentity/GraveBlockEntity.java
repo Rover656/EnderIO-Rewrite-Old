@@ -23,12 +23,15 @@ import net.minecraftforge.items.ItemStackHandler;
 
 public class GraveBlockEntity extends BlockEntity {
     private Owner owner = new Owner();
-    private LazyOptional<IOwner> ownerLazy = LazyOptional.of(() -> owner);
+    private LazyOptional<IOwner> ownerLazy;
     private GraveItemStackHandler itemHandler = new GraveItemStackHandler();
-    private LazyOptional<IItemHandler> itemLazy = LazyOptional.of(() -> itemHandler);
+    private LazyOptional<IItemHandler> itemLazy;
 
     public GraveBlockEntity(BlockEntityType<?> type, BlockPos pWorldPosition, BlockState pBlockState) {
         super(type, pWorldPosition, pBlockState);
+
+        ownerLazy = LazyOptional.of(() -> owner);
+        itemLazy = LazyOptional.of(() -> itemHandler);
     }
 
     public void addDrops(Collection<ItemEntity> drops) {
@@ -42,10 +45,10 @@ public class GraveBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void setRemoved() {
+    public void invalidateCaps() {
+        super.invalidateCaps();
         ownerLazy.invalidate();
         itemLazy.invalidate();
-        super.setRemoved();
     }
 
     @Override
