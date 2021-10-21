@@ -31,10 +31,10 @@ public class BlockRecipes extends RecipeProvider {
         addLeverRecipes(recipeConsumer);
         addMetalBlockRecipes(recipeConsumer);
         addChassisRecipes(recipeConsumer);
-        addConstructionBlocks(recipeConsumer);
+        addConstructionBlockRecipes(recipeConsumer);
     }
 
-    private void addConstructionBlocks(Consumer<FinishedRecipe> recipeConsumer) {
+    private void addConstructionBlockRecipes(Consumer<FinishedRecipe> recipeConsumer) {
 
         ShapedRecipeBuilder
             .shaped(EIOBlocks.DARK_STEEL_LADDER
