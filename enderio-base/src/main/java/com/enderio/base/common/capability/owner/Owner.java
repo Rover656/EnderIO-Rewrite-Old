@@ -18,14 +18,15 @@ public class Owner implements IOwner {
     }
 
     @Override
-    public void setProfile(GameProfile profile) {
-        synchronized(this) {
+    public void setProfile(GameProfile profile, ProfileSetCallback callback) {
+        synchronized (this) {
             owner = profile;
         }
 
         // Perform update.
         SkullBlockEntity.updateGameprofile(owner, (p_155747_) -> {
             owner = p_155747_;
+            callback.profileSet(owner);
         });
     }
 

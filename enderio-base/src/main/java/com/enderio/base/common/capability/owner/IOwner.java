@@ -1,7 +1,5 @@
 package com.enderio.base.common.capability.owner;
 
-import java.util.UUID;
-
 import com.mojang.authlib.GameProfile;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -11,6 +9,14 @@ public interface IOwner extends INBTSerializable<CompoundTag> {
 
     GameProfile getProfile();
 
-    void setProfile(GameProfile profile);
+    default void setProfile(GameProfile profile) {
+        setProfile(profile, prof -> {});
+    }
+
+    void setProfile(GameProfile profile, ProfileSetCallback callback);
+
+    interface ProfileSetCallback {
+        void profileSet(GameProfile profile);
+    }
 
 }

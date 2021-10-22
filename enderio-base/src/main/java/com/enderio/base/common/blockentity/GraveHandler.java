@@ -9,8 +9,11 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.FakePlayer;
@@ -43,7 +46,7 @@ public class GraveHandler {
             BlockEntity be = player.level.getBlockEntity(pos);
             if (be instanceof GraveBlockEntity grave) {
                 grave.getCapability(EIOCapabilities.OWNER).ifPresent(owner -> {
-                    owner.setProfile(player.getGameProfile());
+                    owner.setProfile(player.getGameProfile(), prof -> grave.setChanged());
                     grave.addDrops(event.getDrops());//add items to grave
                     event.getDrops().clear();//clears items that would have been dropped.
                 });
