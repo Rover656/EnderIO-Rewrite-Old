@@ -3,6 +3,7 @@ package com.enderio.base.common.item;
 import com.enderio.base.EnderIO;
 import com.enderio.base.common.item.food.EnderiosItem;
 import com.enderio.base.common.item.spawner.BrokenSpawnerItem;
+import com.enderio.base.common.tag.EIOTags;
 import com.enderio.base.common.util.ItemModelUtils;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.ItemBuilder;
@@ -290,6 +291,13 @@ public class EIOItems {
         .register();
 
     // endregion
+
+    public static ItemEntry<YetaWrenchItem> YETA_WRENCH = REGISTRATE
+        .item("yeta_wrench", YetaWrenchItem::new)
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
+        .properties(props -> props.stacksTo(1))
+        .tag(EIOTags.Items.WRENCH)
+        .register();
 
     // region Creative Tab Icons
 
