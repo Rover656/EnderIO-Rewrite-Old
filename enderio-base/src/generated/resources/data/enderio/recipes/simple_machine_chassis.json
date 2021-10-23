@@ -9,11 +9,11 @@
     "B": {
       "item": "minecraft:iron_bars"
     },
-    "I": {
-      "tag": "forge:ingots/iron"
-    },
     "G": {
       "item": "enderio:grains_of_infinity"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
     }
   },
   "result": {

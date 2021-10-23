@@ -20,15 +20,13 @@ public class EIOCapabilities {
     @CapabilityInject(IToggled.class)
     public static Capability<IToggled> TOGGLED;
 
-    @CapabilityInject(IOwner.class)
-    public static Capability<IOwner> OWNER;
     
     @CapabilityInject(ICapacitorData.class)
     public static Capability<ICapacitorData> CAPACITOR;
 
+    public static final Capability<IOwner> OWNER = CapabilityManager.get(new CapabilityToken<>() {});
     @SubscribeEvent
-    public static void register(RegisterCapabilitiesEvent event)
-    {
+    public static void register(RegisterCapabilitiesEvent event) {
         event.register(IEntityStorage.class);
         event.register(IToggled.class);
         event.register(IOwner.class);

@@ -65,6 +65,6 @@ public class BrokenSpawnerLootModifier extends LootModifier {
 
     @SubscribeEvent
     public static void register(@Nonnull RegistryEvent.Register<GlobalLootModifierSerializer<?>> event) {
-        event.getRegistry().register(new Serializer().setRegistryName(new ResourceLocation(EnderIO.DOMAIN, "broken_spawner")));
+        event.getRegistry().register(new Serializer().setRegistryName(EnderIO.loc("broken_spawner")));
     }
 }
