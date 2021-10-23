@@ -9,7 +9,7 @@ import com.enderio.base.common.capability.EIOCapabilities;
 import com.enderio.base.common.capability.capacitors.CapacitorData;
 import com.enderio.base.common.item.EIOItems;
 import com.enderio.base.common.util.CapacitorUtil;
-import com.enderio.core.common.capability.IMultiCapability;
+import com.enderio.core.common.capability.IMultiCapabilityItem;
 import com.enderio.core.common.capability.MultiCapabilityProvider;
 
 import net.minecraft.nbt.CompoundTag;
@@ -20,7 +20,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.LazyOptional;
 
-public class LootCapacitorItem extends Item implements IMultiCapability{
+public class LootCapacitorItem extends Item implements IMultiCapabilityItem {
     private CapacitorData data = new CapacitorData();
     
     public LootCapacitorItem(Properties pProperties) {
@@ -46,9 +46,9 @@ public class LootCapacitorItem extends Item implements IMultiCapability{
     @Override
     public MultiCapabilityProvider initCapabilities(ItemStack stack, CompoundTag nbt, MultiCapabilityProvider provider) {
         if (stack.is(EIOItems.LOOT_CAPACITOR.get())) { // each stack loot capacitors needs it own capability
-            provider.add(EIOCapabilities.CAPACITOR, LazyOptional.of(CapacitorData::new));
+            provider.addSerialized(EIOCapabilities.CAPACITOR, LazyOptional.of(CapacitorData::new));
         }else {// other capacitors share (each will always be the same as another stack).
-            provider.add(EIOCapabilities.CAPACITOR, LazyOptional.of(() -> data));
+            provider.addSerialized(EIOCapabilities.CAPACITOR, LazyOptional.of(() -> data));
         }
         return provider;
     }

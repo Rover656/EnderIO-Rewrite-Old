@@ -10,7 +10,7 @@ import javax.annotation.Nullable;
 /**
  * Implement for an item that should use the {@link MultiCapabilityProvider} when initializing capabilities.
  */
-public interface IMultiCapability extends IForgeItem {
+public interface IMultiCapabilityItem extends IForgeItem {
     @Nullable
     @Override
     default ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {

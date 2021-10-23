@@ -2,6 +2,7 @@ package com.enderio.base.common.capability.capacitors;
 
 import java.util.Map;
 
+import com.enderio.core.common.capability.INamedNBTSerializable;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -9,7 +10,12 @@ import net.minecraftforge.common.util.INBTSerializable;
 /**
  * interface for storing capacitor data
  */
-public interface ICapacitorData extends INBTSerializable<Tag> {
+public interface ICapacitorData extends INamedNBTSerializable<Tag> {
+    @Override
+    default String getSerializedName() {
+        return "CapacitorData";
+    }
+
     /**
      * Static strings for specialization types.
      */

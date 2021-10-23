@@ -5,7 +5,7 @@ import com.enderio.base.common.capability.EIOCapabilities;
 import com.enderio.base.common.capability.toggled.IToggled;
 import com.enderio.base.common.capability.toggled.Toggled;
 import com.enderio.core.common.capability.MultiCapabilityProvider;
-import com.enderio.core.common.capability.IMultiCapability;
+import com.enderio.core.common.capability.IMultiCapabilityItem;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.CreativeModeTab;
@@ -18,7 +18,7 @@ import net.minecraftforge.energy.EnergyStorage;
 import javax.annotation.Nullable;
 
 // TODO: Behaviours
-public class ElectromagnetItem extends Item implements IEnergyBar, IMultiCapability {
+public class ElectromagnetItem extends Item implements IEnergyBar, IMultiCapabilityItem {
     public ElectromagnetItem(Properties pProperties) {
         super(pProperties);
     }
@@ -43,8 +43,8 @@ public class ElectromagnetItem extends Item implements IEnergyBar, IMultiCapabil
     @Nullable
     @Override
     public MultiCapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt, MultiCapabilityProvider provider) {
-        provider.add(EIOCapabilities.TOGGLED, LazyOptional.of(Toggled::new));
-        provider.add(CapabilityEnergy.ENERGY, LazyOptional.of(() -> new EnergyStorage(1000)));
+        provider.addSerialized(EIOCapabilities.TOGGLED, LazyOptional.of(Toggled::new));
+        provider.addSerialized("Energy", CapabilityEnergy.ENERGY, LazyOptional.of(() -> new EnergyStorage(1000)));
         return provider;
     }
 }

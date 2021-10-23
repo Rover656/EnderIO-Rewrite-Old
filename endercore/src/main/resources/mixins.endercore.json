@@ -4,7 +4,6 @@
   "compatibilityLevel": "JAVA_16",
   "refmap": "endercore.refmap.json",
   "mixins": [
-    "common.MultiCapProviderMixin"
   ],
   "client": [
     "client.ItemRendererMixin"

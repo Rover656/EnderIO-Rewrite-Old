@@ -18,16 +18,26 @@ import java.util.Map;
  */
 public class MultiCapabilityProvider implements ICapabilitySerializable<CompoundTag> {
     // TODO: Allow non-serialized too...
-    private final Map<Capability<?>, LazyOptional<? extends INBTSerializable<Tag>>> capabilities;
+    private final Map<Capability<?>, LazyOptional<?>> capabilities;
+    private final Map<String, LazyOptional<? extends INBTSerializable<Tag>>> serializedCaps;
 
     public MultiCapabilityProvider() {
         capabilities = new HashMap<>();
+        serializedCaps = new HashMap<>();
     }
 
-    @Nonnull
-    public <T> MultiCapabilityProvider add(@Nonnull Capability<T> cap, @Nonnull LazyOptional<? extends INBTSerializable<Tag>> optional) {
+    public <T> void addSimple(@Nonnull Capability<T> cap, @Nonnull LazyOptional<?> optional) {
         capabilities.putIfAbsent(cap, optional);
-        return this;
+    }
+
+    public <T> void addSerialized(@Nonnull Capability<T> cap, @Nonnull LazyOptional<? extends INamedNBTSerializable<Tag>> optional) {
+        capabilities.putIfAbsent(cap, optional);
+        serializedCaps.putIfAbsent("", optional);
+    }
+
+    public <T> void addSerialized(String serializedName, @Nonnull Capability<T> cap, @Nonnull LazyOptional<? extends INBTSerializable<Tag>> optional) {
+        capabilities.putIfAbsent(cap, optional);
+        serializedCaps.putIfAbsent(serializedName, optional);
     }
 
     @Nonnull
@@ -42,13 +52,18 @@ public class MultiCapabilityProvider implements ICapabilitySerializable<Compound
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
 
-        for (var entry : capabilities.entrySet()) {
+        for (var entry : serializedCaps.entrySet()) {
             entry
                 .getValue()
                 .ifPresent(capability -> {
-                    tag.put(entry
-                        .getKey()
-                        .getName(), capability.serializeNBT());
+                    String key = entry.getKey();
+                    if (capability instanceof INamedNBTSerializable<Tag> named) {
+                        key = named.getSerializedName();
+                    }
+
+                    if (!"".equals(key)) {
+                        tag.put(key, capability.serializeNBT());
+                    }
                 });
         }
 
@@ -57,14 +72,16 @@ public class MultiCapabilityProvider implements ICapabilitySerializable<Compound
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        for (var entry : capabilities.entrySet()) {
+        for (var entry : serializedCaps.entrySet()) {
             entry
                 .getValue()
                 .ifPresent(capability -> {
-                    String key = entry
-                        .getKey()
-                        .getName(); // TODO: More robust keys? Moving a package or renaming a class will break this completely.
-                    if (nbt.contains(key)) {
+                    String key = entry.getKey();
+                    if (capability instanceof INamedNBTSerializable<Tag> named) {
+                        key = named.getSerializedName();
+                    }
+
+                    if (!"".equals(key) && nbt.contains(key)) {
                         capability.deserializeNBT(nbt.get(key));
                     }
                 });

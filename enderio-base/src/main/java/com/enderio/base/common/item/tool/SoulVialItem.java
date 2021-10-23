@@ -6,7 +6,7 @@ import com.enderio.base.common.capability.entity.IEntityStorage;
 import com.enderio.base.common.item.EIOCreativeTabs;
 import com.enderio.base.common.item.EIOItems;
 import com.enderio.base.common.util.EntityCaptureUtils;
-import com.enderio.core.common.capability.IMultiCapability;
+import com.enderio.core.common.capability.IMultiCapabilityItem;
 import com.enderio.core.common.capability.MultiCapabilityProvider;
 import com.enderio.core.common.util.EntityUtil;
 import net.minecraft.core.BlockPos;
@@ -39,7 +39,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public class SoulVialItem extends Item implements IMultiCapability {
+public class SoulVialItem extends Item implements IMultiCapabilityItem {
     public SoulVialItem(Properties pProperties) {
         super(pProperties);
     }
@@ -238,7 +238,7 @@ public class SoulVialItem extends Item implements IMultiCapability {
     @Nullable
     @Override
     public MultiCapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt, MultiCapabilityProvider provider) {
-        provider.add(EIOCapabilities.ENTITY_STORAGE, LazyOptional.of(EntityStorage::new));
+        provider.addSerialized(EIOCapabilities.ENTITY_STORAGE, LazyOptional.of(EntityStorage::new));
         return provider;
     }
 
