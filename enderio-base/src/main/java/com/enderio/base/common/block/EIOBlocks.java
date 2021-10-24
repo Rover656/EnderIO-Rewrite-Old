@@ -17,7 +17,10 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.client.model.generators.*;
+import net.minecraftforge.client.model.generators.BlockModelProvider;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.VariantBlockStateBuilder;
 
 import java.util.Objects;
 
@@ -69,6 +72,8 @@ public class EIOBlocks {
             .texture("texture", prov.blockTexture(ctx.get()))))
         .addLayer(() -> RenderType::cutoutMipped)
         .tag(BlockTags.CLIMBABLE)
+        .tag(BlockTags.NEEDS_IRON_TOOL)
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .item()
         .model((ctx, prov) -> prov.generated(ctx, prov.modLoc("block/dark_steel_ladder")))
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
@@ -80,6 +85,8 @@ public class EIOBlocks {
         .properties(props -> props.strength(5.0f, 1000.0f).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion())
         .blockstate(BlockStateUtils::paneBlock)
         .addLayer(() -> RenderType::cutoutMipped)
+        .tag(BlockTags.NEEDS_IRON_TOOL)
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .item()
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
         .model((ctx, prov) -> prov.generated(ctx, prov.modLoc("block/dark_steel_bars")))
@@ -92,6 +99,8 @@ public class EIOBlocks {
         .properties(props -> props.strength(5.0f, 2000.0f).sound(SoundType.METAL).noOcclusion())
         .blockstate((ctx, prov) -> prov.doorBlock(ctx.get(), prov.modLoc("block/dark_steel_door_bottom"), prov.modLoc("block/dark_steel_door_top")))
         .addLayer(() -> RenderType::cutout)
+        .tag(BlockTags.NEEDS_IRON_TOOL)
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .item()
         .model((ctx, prov) -> prov.generated(ctx))
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
@@ -103,6 +112,8 @@ public class EIOBlocks {
         .properties(props -> props.strength(5.0f, 2000.0f).sound(SoundType.METAL).noOcclusion())
         .blockstate((ctx, prov) -> prov.trapdoorBlock(ctx.get(), prov.modLoc("block/dark_steel_trapdoor"), true))
         .addLayer(() -> RenderType::cutout)
+        .tag(BlockTags.NEEDS_IRON_TOOL)
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .item()
         .model((ctx, prov) -> prov.withExistingParent(ctx.getName(), prov.modLoc("block/dark_steel_trapdoor_bottom")))
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
@@ -112,7 +123,10 @@ public class EIOBlocks {
     public static final BlockEntry<IronBarsBlock> END_STEEL_BARS = REGISTRATE
         .block("end_steel_bars", IronBarsBlock::new)
         .blockstate(BlockStateUtils::paneBlock)
+        .properties(props -> props.strength(5.0f, 1000.0f).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion())
         .addLayer(() -> RenderType::cutoutMipped)
+        .tag(BlockTags.NEEDS_IRON_TOOL)
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .item()
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
         .model((ctx, prov) -> prov.generated(ctx, prov.modLoc("block/end_steel_bars")))
@@ -123,6 +137,8 @@ public class EIOBlocks {
         .block("reinforced_obsidian_block", Material.STONE, ReinforcedObsidianBlock::new)
         .properties(props -> props.sound(SoundType.STONE).strength(50, 2000).requiresCorrectToolForDrops().color(MaterialColor.COLOR_BLACK))
         .tag(BlockTags.WITHER_IMMUNE)
+        .tag(BlockTags.NEEDS_DIAMOND_TOOL)
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .item()
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
         .build()
@@ -132,7 +148,6 @@ public class EIOBlocks {
 
     // region Fused Quartz/Glass
 
-    // TODO: Keep the important ones (the ones for recipes in here, maybe just keeping fused and quite clear, move the special ones to decor?)
     public static final GlassBlocks FUSED_QUARTZ = new GlassBlocks(REGISTRATE, "fused_quartz", "Fused Quartz", GlassCollisionPredicate.NONE, false, false,
         true);
     public static final GlassBlocks ENLIGHTENED_FUSED_QUARTZ = new GlassBlocks(REGISTRATE, "fused_quartz_e", "Enlightened Fused Quartz",
@@ -238,6 +253,8 @@ public class EIOBlocks {
     public static final BlockEntry<AmethystBlock> INFINITY_CRYSTAL = REGISTRATE
         .block("infinity_crystal_block", Material.AMETHYST, AmethystBlock::new)
         .properties(props -> props.strength(1.5F).sound(SoundType.AMETHYST).requiresCorrectToolForDrops())
+        .tag(BlockTags.NEEDS_IRON_TOOL)
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .item()
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
         .build()
@@ -246,6 +263,8 @@ public class EIOBlocks {
     public static final BlockEntry<BuddingInfinityCrystalBlock> BUDDING_INFINITY_CRYSTAL = REGISTRATE
         .block("budding_infinity_crystal", Material.AMETHYST, BuddingInfinityCrystalBlock::new)
         .properties(props -> props.strength(1.5F).sound(SoundType.AMETHYST).requiresCorrectToolForDrops().randomTicks())
+        .tag(BlockTags.NEEDS_IRON_TOOL)
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .item()
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
         .build()
@@ -256,6 +275,7 @@ public class EIOBlocks {
         .blockstate((ctx, prov) -> prov.directionalBlock(ctx.get(), prov.models().cross(ctx.getName(), prov.modLoc("block/" + ctx.getName()))))
         .addLayer(() -> RenderType::cutout)
         .properties(props -> props.noOcclusion().randomTicks().sound(SoundType.AMETHYST_CLUSTER).lightLevel((state) -> 5))
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .item()
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
         .build()
@@ -266,6 +286,7 @@ public class EIOBlocks {
         .blockstate((ctx, prov) -> prov.directionalBlock(ctx.get(), prov.models().cross(ctx.getName(), prov.modLoc("block/" + ctx.getName()))))
         .addLayer(() -> RenderType::cutout)
         .properties(props -> props.noOcclusion().randomTicks().sound(SoundType.AMETHYST_CLUSTER).lightLevel((state) -> 4))
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .item()
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS)) // TODO: Take away...
         .build()
@@ -276,6 +297,7 @@ public class EIOBlocks {
         .blockstate((ctx, prov) -> prov.directionalBlock(ctx.get(), prov.models().cross(ctx.getName(), prov.modLoc("block/" + ctx.getName()))))
         .addLayer(() -> RenderType::cutout)
         .properties(props -> props.noOcclusion().randomTicks().sound(SoundType.AMETHYST_CLUSTER).lightLevel((state) -> 2))
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .item()
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS)) // TODO: Take away...
         .build()
@@ -286,6 +308,7 @@ public class EIOBlocks {
         .blockstate((ctx, prov) -> prov.directionalBlock(ctx.get(), prov.models().cross(ctx.getName(), prov.modLoc("block/" + ctx.getName()))))
         .addLayer(() -> RenderType::cutout)
         .properties(props -> props.noOcclusion().randomTicks().sound(SoundType.AMETHYST_CLUSTER).lightLevel((state) -> 1))
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .item()
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS)) // TODO: Take away...
         .build()
@@ -390,7 +413,13 @@ public class EIOBlocks {
     private static BlockBuilder<Block, Registrate> metalBlock(String name) {
         return REGISTRATE
             .block(name, Material.METAL, Block::new)
-            .properties(props -> props.sound(SoundType.METAL).color(MaterialColor.METAL))
+            .properties(props -> props
+                .sound(SoundType.METAL)
+                .color(MaterialColor.METAL)
+                .strength(5, 6)
+                .requiresCorrectToolForDrops())
+            .tag(BlockTags.NEEDS_STONE_TOOL)
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .item()
             .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
             .build();
@@ -400,7 +429,13 @@ public class EIOBlocks {
         return REGISTRATE
             .block(name, Material.METAL, Block::new)
             .addLayer(() -> RenderType::cutout)
-            .properties(props -> props.noOcclusion().sound(SoundType.METAL).color(MaterialColor.METAL))
+            .properties(props -> props
+                .noOcclusion()
+                .sound(SoundType.METAL)
+                .color(MaterialColor.METAL)
+                .strength(5, 6))
+            .tag(BlockTags.NEEDS_STONE_TOOL)
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .item()
             .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
             .build();
@@ -409,7 +444,8 @@ public class EIOBlocks {
     private static BlockEntry<EIOPressurePlateBlock> pressurePlateBlock(String name, ResourceLocation texture, EIOPressurePlateBlock.Detector type,
         boolean silent) {
 
-        BlockBuilder<EIOPressurePlateBlock, Registrate> bb = REGISTRATE.block(name, Material.METAL, (props) -> new EIOPressurePlateBlock(props, type, silent));
+        BlockBuilder<EIOPressurePlateBlock, Registrate> bb = REGISTRATE.block(name, Material.METAL,
+            (props) -> new EIOPressurePlateBlock(props.strength(5, 6), type, silent));
 
         bb.blockstate((ctx, prov) -> {
 
@@ -421,18 +457,21 @@ public class EIOBlocks {
             vb.partialState().with(PressurePlateBlock.POWERED, true).addModels(new ConfiguredModel(dm));
             vb.partialState().with(PressurePlateBlock.POWERED, false).addModels(new ConfiguredModel(um));
         });
-
-        bb = bb.item().group(() -> EIOCreativeTabs.BLOCKS).build();
+        bb.tag(BlockTags.NEEDS_STONE_TOOL)
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .item()
+            .group(() -> EIOCreativeTabs.BLOCKS)
+            .build();
         return bb.register();
     }
 
-    private static BlockEntry<SilentPressurePlateBlock> silentPressurePlateBlock(PressurePlateBlock block) {
-
+    private static BlockEntry<SilentPressurePlateBlock> silentPressurePlateBlock(final PressurePlateBlock block) {
         ResourceLocation upModelLoc = Objects.requireNonNull(block.getRegistryName());
         ResourceLocation downModelLoc = new ResourceLocation(upModelLoc.getNamespace(), upModelLoc.getPath() + "_down");
 
         BlockBuilder<SilentPressurePlateBlock, Registrate> bb = REGISTRATE.block("silent_" + upModelLoc.getPath(),
-            (props) -> new SilentPressurePlateBlock(block));
+            block.getStateDefinition().any().getMaterial(), (props) -> new SilentPressurePlateBlock(block));
+        bb.tag(BlockTags.MINEABLE_WITH_PICKAXE);
 
         bb.blockstate((ctx, prov) -> {
             VariantBlockStateBuilder vb = prov.getVariantBuilder(ctx.get());
@@ -461,6 +500,7 @@ public class EIOBlocks {
             }
             return new ConfiguredModel[] { new ConfiguredModel(prov.models().getExistingFile(downModelLoc)) };
         }));
+        bb.tag(BlockTags.MINEABLE_WITH_PICKAXE);
 
         var itemBuilder = bb.item();
         itemBuilder.model((ctx, prov) -> prov.withExistingParent(ctx.getName(), upModelLoc));
