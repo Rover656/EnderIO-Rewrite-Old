@@ -46,9 +46,7 @@ public class EIOBlocks {
 
     public static final BlockEntry<Block> INDUSTRIAL_MACHINE_CHASSIS = chassisBlock("industrial_machine_chassis").register();
 
-    public static final BlockEntry<Block> END_STEEL_MACHINE_CHASSIS = chassisBlock("end_steel_machine_chassis")
-        .lang("End Steel Chassis")
-        .register();
+    public static final BlockEntry<Block> END_STEEL_MACHINE_CHASSIS = chassisBlock("end_steel_machine_chassis").lang("End Steel Chassis").register();
 
     public static final BlockEntry<Block> SOUL_MACHINE_CHASSIS = chassisBlock("soul_machine_chassis").register();
 
@@ -61,14 +59,15 @@ public class EIOBlocks {
     // region Dark Steel Building Blocks
 
     // TODO: FASTER THAN REGULAR LADDERS TOOLTIP
-    public static final BlockEntry<DarkSteelLadderBlock> DARK_STEEL_LADDER = REGISTRATE.block("dark_steel_ladder", Material.METAL, DarkSteelLadderBlock::new)
+    public static final BlockEntry<DarkSteelLadderBlock> DARK_STEEL_LADDER = REGISTRATE
+        .block("dark_steel_ladder", Material.METAL, DarkSteelLadderBlock::new)
         .properties(props -> props.strength(0.4f).requiresCorrectToolForDrops().sound(SoundType.METAL).noOcclusion())
-        .blockstate((ctx, prov) ->
-            prov.horizontalBlock(ctx.get(),
-                prov.models()
-                    .withExistingParent(ctx.getName(), prov.mcLoc("block/ladder"))
-                    .texture("particle", prov.blockTexture(ctx.get()))
-                    .texture("texture", prov.blockTexture(ctx.get()))))
+        .blockstate((ctx, prov) -> prov.horizontalBlock(ctx.get(), prov
+            .models()
+            .withExistingParent(ctx.getName(), prov.mcLoc("block/ladder"))
+            .texture("particle", prov.blockTexture(ctx.get()))
+            .texture("texture", prov.blockTexture(ctx.get()))))
+        .addLayer(() -> RenderType::cutoutMipped)
         .tag(BlockTags.CLIMBABLE)
         .item()
         .model((ctx, prov) -> prov.generated(ctx, prov.modLoc("block/dark_steel_ladder")))
@@ -88,7 +87,8 @@ public class EIOBlocks {
         .register();
 
     // TODO: Door drops itself in creative????
-    public static final BlockEntry<DoorBlock> DARK_STEEL_DOOR = REGISTRATE.block("dark_steel_door", Material.METAL, DoorBlock::new)
+    public static final BlockEntry<DoorBlock> DARK_STEEL_DOOR = REGISTRATE
+        .block("dark_steel_door", Material.METAL, DoorBlock::new)
         .properties(props -> props.strength(5.0f, 2000.0f).sound(SoundType.METAL).noOcclusion())
         .blockstate((ctx, prov) -> prov.doorBlock(ctx.get(), prov.modLoc("block/dark_steel_door_bottom"), prov.modLoc("block/dark_steel_door_top")))
         .addLayer(() -> RenderType::cutout)
@@ -98,7 +98,8 @@ public class EIOBlocks {
         .build()
         .register();
 
-    public static final BlockEntry<TrapDoorBlock> DARK_STEEL_TRAPDOOR = REGISTRATE.block("dark_steel_trapdoor", Material.METAL, TrapDoorBlock::new)
+    public static final BlockEntry<TrapDoorBlock> DARK_STEEL_TRAPDOOR = REGISTRATE
+        .block("dark_steel_trapdoor", Material.METAL, TrapDoorBlock::new)
         .properties(props -> props.strength(5.0f, 2000.0f).sound(SoundType.METAL).noOcclusion())
         .blockstate((ctx, prov) -> prov.trapdoorBlock(ctx.get(), prov.modLoc("block/dark_steel_trapdoor"), true))
         .addLayer(() -> RenderType::cutout)
@@ -118,10 +119,20 @@ public class EIOBlocks {
         .build()
         .register();
 
+    public static final BlockEntry<ReinforcedObsidianBlock> REINFORCED_OBSIDIAN = REGISTRATE
+        .block("reinforced_obsidian_block", Material.STONE, ReinforcedObsidianBlock::new)
+        .properties(props -> props.sound(SoundType.STONE).strength(50, 2000).requiresCorrectToolForDrops().color(MaterialColor.COLOR_BLACK))
+        .tag(BlockTags.WITHER_IMMUNE)
+        .item()
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
+        .build()
+        .register();
+
     // endregion
 
     // region Fused Quartz/Glass
 
+    // TODO: Keep the important ones (the ones for recipes in here, maybe just keeping fused and quite clear, move the special ones to decor?)
     public static final GlassBlocks FUSED_QUARTZ = new GlassBlocks(REGISTRATE, "fused_quartz", "Fused Quartz", GlassCollisionPredicate.NONE, false, false,
         true);
     public static final GlassBlocks ENLIGHTENED_FUSED_QUARTZ = new GlassBlocks(REGISTRATE, "fused_quartz_e", "Enlightened Fused Quartz",
@@ -222,36 +233,93 @@ public class EIOBlocks {
 
     // endregion
 
-    //misc Region
+    // region Crystals
 
-    public static final BlockEntry<GraveBlock> GRAVE = REGISTRATE.block("grave", Material.STONE, GraveBlock::new)
-            .properties(props -> props
-                    .strength(-1.0F, 3600000.0F)
-                    .noDrops()
-                    .noOcclusion())
-            .blockstate((con, prov) -> prov
-                    .simpleBlock(con.get(), prov.models().getExistingFile(new ResourceLocation(EnderIO.DOMAIN, "block/grave"))))
-            .addLayer(() -> RenderType::cutout)
-            .item()
-            .group(() ->EIOCreativeTabs.BLOCKS)
-            .build()
-            .register();
+    public static final BlockEntry<AmethystBlock> INFINITY_CRYSTAL = REGISTRATE
+        .block("infinity_crystal_block", Material.AMETHYST, AmethystBlock::new)
+        .properties(props -> props.strength(1.5F).sound(SoundType.AMETHYST).requiresCorrectToolForDrops())
+        .item()
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
+        .build()
+        .register();
+
+    public static final BlockEntry<BuddingInfinityCrystalBlock> BUDDING_INFINITY_CRYSTAL = REGISTRATE
+        .block("budding_infinity_crystal", Material.AMETHYST, BuddingInfinityCrystalBlock::new)
+        .properties(props -> props.strength(1.5F).sound(SoundType.AMETHYST).requiresCorrectToolForDrops().randomTicks())
+        .item()
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
+        .build()
+        .register();
+
+    public static final BlockEntry<AmethystClusterBlock> INFINITY_CRYSTAL_CLUSTER = REGISTRATE
+        .block("infinity_crystal_cluster", Material.AMETHYST, props -> new AmethystClusterBlock(7, 3, props))
+        .blockstate((ctx, prov) -> prov.directionalBlock(ctx.get(), prov.models().cross(ctx.getName(), prov.modLoc("block/" + ctx.getName()))))
+        .addLayer(() -> RenderType::cutout)
+        .properties(props -> props.noOcclusion().randomTicks().sound(SoundType.AMETHYST_CLUSTER).lightLevel((state) -> 5))
+        .item()
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
+        .build()
+        .register();
+
+    public static final BlockEntry<AmethystClusterBlock> LARGE_INFINITY_BUD = REGISTRATE
+        .block("large_infinity_bud", Material.AMETHYST, props -> new AmethystClusterBlock(5, 3, props))
+        .blockstate((ctx, prov) -> prov.directionalBlock(ctx.get(), prov.models().cross(ctx.getName(), prov.modLoc("block/" + ctx.getName()))))
+        .addLayer(() -> RenderType::cutout)
+        .properties(props -> props.noOcclusion().randomTicks().sound(SoundType.AMETHYST_CLUSTER).lightLevel((state) -> 4))
+        .item()
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS)) // TODO: Take away...
+        .build()
+        .register();
+
+    public static final BlockEntry<AmethystClusterBlock> MEDIUM_INFINITY_BUD = REGISTRATE
+        .block("medium_infinity_bud", Material.AMETHYST, props -> new AmethystClusterBlock(4, 3, props))
+        .blockstate((ctx, prov) -> prov.directionalBlock(ctx.get(), prov.models().cross(ctx.getName(), prov.modLoc("block/" + ctx.getName()))))
+        .addLayer(() -> RenderType::cutout)
+        .properties(props -> props.noOcclusion().randomTicks().sound(SoundType.AMETHYST_CLUSTER).lightLevel((state) -> 2))
+        .item()
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS)) // TODO: Take away...
+        .build()
+        .register();
+
+    public static final BlockEntry<AmethystClusterBlock> SMALL_INFINITY_BUD = REGISTRATE
+        .block("small_infinity_bud", Material.AMETHYST, props -> new AmethystClusterBlock(3, 3, props))
+        .blockstate((ctx, prov) -> prov.directionalBlock(ctx.get(), prov.models().cross(ctx.getName(), prov.modLoc("block/" + ctx.getName()))))
+        .addLayer(() -> RenderType::cutout)
+        .properties(props -> props.noOcclusion().randomTicks().sound(SoundType.AMETHYST_CLUSTER).lightLevel((state) -> 1))
+        .item()
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS)) // TODO: Take away...
+        .build()
+        .register();
+
+    // endregion
+
+    // region Misc
+
+    public static final BlockEntry<GraveBlock> GRAVE = REGISTRATE
+        .block("grave", Material.STONE, GraveBlock::new)
+        .properties(props -> props.strength(-1.0F, 3600000.0F).noDrops().noOcclusion())
+        .blockstate((con, prov) -> prov.simpleBlock(con.get(), prov.models().getExistingFile(EnderIO.loc("block/grave"))))
+        .addLayer(() -> RenderType::cutout)
+        .item()
+        .group(() -> EIOCreativeTabs.BLOCKS)
+        .build()
+        .register();
 
     // endregion
 
     // region Pressure Plates
 
     public static final BlockEntry<EIOPressurePlateBlock> DARK_STEEL_PRESSURE_PLATE = pressurePlateBlock("dark_steel_pressure_plate",
-        new ResourceLocation("enderio", "block/block_dark_steel_pressure_plate"), EIOPressurePlateBlock.PLAYER, false);
+        EnderIO.loc("block/block_dark_steel_pressure_plate"), EIOPressurePlateBlock.PLAYER, false);
 
     public static final BlockEntry<EIOPressurePlateBlock> SILENT_DARK_STEEL_PRESSURE_PLATE = pressurePlateBlock("silent_dark_steel_pressure_plate",
-        new ResourceLocation("enderio", "block/block_dark_steel_pressure_plate"), EIOPressurePlateBlock.PLAYER, true);
+        EnderIO.loc("block/block_dark_steel_pressure_plate"), EIOPressurePlateBlock.PLAYER, true);
 
     public static final BlockEntry<EIOPressurePlateBlock> SOULARIUM_PRESSURE_PLATE = pressurePlateBlock("soularium_pressure_plate",
-        new ResourceLocation("enderio", "block/block_soularium_pressure_plate"), EIOPressurePlateBlock.HOSTILE_MOB, false);
+        EnderIO.loc("block/block_soularium_pressure_plate"), EIOPressurePlateBlock.HOSTILE_MOB, false);
 
     public static final BlockEntry<EIOPressurePlateBlock> SILENT_SOULARIUM_PRESSURE_PLATE = pressurePlateBlock("silent_soularium_pressure_plate",
-        new ResourceLocation("enderio", "block/block_soularium_pressure_plate"), EIOPressurePlateBlock.HOSTILE_MOB, true);
+        EnderIO.loc("block/block_soularium_pressure_plate"), EIOPressurePlateBlock.HOSTILE_MOB, true);
 
     public static final BlockEntry<SilentPressurePlateBlock> SILENT_OAK_PRESSURE_PLATE = silentPressurePlateBlock(
         (PressurePlateBlock) Blocks.OAK_PRESSURE_PLATE);
@@ -293,38 +361,36 @@ public class EIOBlocks {
 
     // region resetting levers
 
-    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_FIVE = resettingLeverBlock("resetting_lever_five",5, false);
+    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_FIVE = resettingLeverBlock("resetting_lever_five", 5, false);
 
-    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_FIVE_INV = resettingLeverBlock("resetting_lever_five_inv",5, true);
+    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_FIVE_INV = resettingLeverBlock("resetting_lever_five_inv", 5, true);
 
-    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_TEN = resettingLeverBlock("resetting_lever_ten",10, false);
+    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_TEN = resettingLeverBlock("resetting_lever_ten", 10, false);
 
-    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_TEN_INV = resettingLeverBlock("resetting_lever_ten_inv",10, true);
+    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_TEN_INV = resettingLeverBlock("resetting_lever_ten_inv", 10, true);
 
-    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_THIRTY = resettingLeverBlock("resetting_lever_thirty",30, false);
+    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_THIRTY = resettingLeverBlock("resetting_lever_thirty", 30, false);
 
-    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_THIRTY_INV = resettingLeverBlock("resetting_lever_thirty_inv",30, true);
+    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_THIRTY_INV = resettingLeverBlock("resetting_lever_thirty_inv", 30, true);
 
-    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_SIXTY = resettingLeverBlock("resetting_lever_sixty",60, false);
+    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_SIXTY = resettingLeverBlock("resetting_lever_sixty", 60, false);
 
-    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_SIXTY_INV = resettingLeverBlock("resetting_lever_sixty_inv",60, true);
+    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_SIXTY_INV = resettingLeverBlock("resetting_lever_sixty_inv", 60, true);
 
-    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_THREE_HUNDRED = resettingLeverBlock("resetting_lever_three_hundred",300, false);
+    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_THREE_HUNDRED = resettingLeverBlock("resetting_lever_three_hundred", 300, false);
 
-    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_THREE_HUNDRED_INV = resettingLeverBlock("resetting_lever_three_hundred_inv",300, true);
+    public static final BlockEntry<ResettingLeverBlock> RESETTING_LEVER_THREE_HUNDRED_INV = resettingLeverBlock("resetting_lever_three_hundred_inv", 300, true);
 
     // endregion
 
     public static <T extends Block> BlockBuilder<T, Registrate> simpleBlockBuilder(String name, T block) {
-        return REGISTRATE.block(name,(p) -> block).item().group(() ->EIOCreativeTabs.BLOCKS).build();
+        return REGISTRATE.block(name, (p) -> block).item().group(() -> EIOCreativeTabs.BLOCKS).build();
     }
 
     private static BlockBuilder<Block, Registrate> metalBlock(String name) {
         return REGISTRATE
             .block(name, Material.METAL, Block::new)
-            .properties(props -> props
-                .sound(SoundType.METAL)
-                .color(MaterialColor.METAL))
+            .properties(props -> props.sound(SoundType.METAL).color(MaterialColor.METAL))
             .item()
             .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
             .build();
@@ -334,38 +400,26 @@ public class EIOBlocks {
         return REGISTRATE
             .block(name, Material.METAL, Block::new)
             .addLayer(() -> RenderType::cutout)
-            .properties(props -> props
-                .noOcclusion()
-                .sound(SoundType.METAL)
-                .color(MaterialColor.METAL))
+            .properties(props -> props.noOcclusion().sound(SoundType.METAL).color(MaterialColor.METAL))
             .item()
             .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
             .build();
     }
 
-    private static BlockEntry<EIOPressurePlateBlock> pressurePlateBlock(String name, ResourceLocation texture, EIOPressurePlateBlock.Detector type, boolean silent) {
+    private static BlockEntry<EIOPressurePlateBlock> pressurePlateBlock(String name, ResourceLocation texture, EIOPressurePlateBlock.Detector type,
+        boolean silent) {
 
         BlockBuilder<EIOPressurePlateBlock, Registrate> bb = REGISTRATE.block(name, Material.METAL, (props) -> new EIOPressurePlateBlock(props, type, silent));
 
         bb.blockstate((ctx, prov) -> {
 
             BlockModelProvider modProv = prov.models();
-            ModelFile dm = modProv
-                .withExistingParent(ctx.getName() + "_down", prov.mcLoc("block/pressure_plate_down"))
-                .texture("texture", texture);
-            ModelFile um = modProv
-                .withExistingParent(ctx.getName() , prov.mcLoc("block/pressure_plate_up"))
-                .texture("texture", texture);
+            ModelFile dm = modProv.withExistingParent(ctx.getName() + "_down", prov.mcLoc("block/pressure_plate_down")).texture("texture", texture);
+            ModelFile um = modProv.withExistingParent(ctx.getName(), prov.mcLoc("block/pressure_plate_up")).texture("texture", texture);
 
             VariantBlockStateBuilder vb = prov.getVariantBuilder(ctx.get());
-            vb
-                .partialState()
-                .with(PressurePlateBlock.POWERED, true)
-                .addModels(new ConfiguredModel(dm));
-            vb
-                .partialState()
-                .with(PressurePlateBlock.POWERED, false)
-                .addModels(new ConfiguredModel(um));
+            vb.partialState().with(PressurePlateBlock.POWERED, true).addModels(new ConfiguredModel(dm));
+            vb.partialState().with(PressurePlateBlock.POWERED, false).addModels(new ConfiguredModel(um));
         });
 
         bb = bb.item().group(() -> EIOCreativeTabs.BLOCKS).build();
@@ -382,14 +436,8 @@ public class EIOBlocks {
 
         bb.blockstate((ctx, prov) -> {
             VariantBlockStateBuilder vb = prov.getVariantBuilder(ctx.get());
-            vb
-                .partialState()
-                .with(PressurePlateBlock.POWERED, true)
-                .addModels(new ConfiguredModel(prov.models().getExistingFile(downModelLoc)));
-            vb
-                .partialState()
-                .with(PressurePlateBlock.POWERED, false)
-                .addModels(new ConfiguredModel(prov.models().getExistingFile(upModelLoc)));
+            vb.partialState().with(PressurePlateBlock.POWERED, true).addModels(new ConfiguredModel(prov.models().getExistingFile(downModelLoc)));
+            vb.partialState().with(PressurePlateBlock.POWERED, false).addModels(new ConfiguredModel(prov.models().getExistingFile(upModelLoc)));
         });
 
         var itemBuilder = bb.item();
@@ -399,6 +447,7 @@ public class EIOBlocks {
 
         return bb.register();
     }
+
     private static BlockEntry<SilentWeightedPressurePlateBlock> silentWeightedPressurePlateBlock(WeightedPressurePlateBlock block) {
         ResourceLocation upModelLoc = Objects.requireNonNull(block.getRegistryName());
         ResourceLocation downModelLoc = new ResourceLocation(upModelLoc.getNamespace(), upModelLoc.getPath() + "_down");
@@ -407,10 +456,10 @@ public class EIOBlocks {
             (props) -> new SilentWeightedPressurePlateBlock(block));
 
         bb.blockstate((ctx, prov) -> prov.getVariantBuilder(ctx.get()).forAllStates(blockState -> {
-            if(blockState.getValue(WeightedPressurePlateBlock.POWER) == 0) {
-                return new ConfiguredModel[] {new ConfiguredModel(prov.models().getExistingFile(upModelLoc))};
+            if (blockState.getValue(WeightedPressurePlateBlock.POWER) == 0) {
+                return new ConfiguredModel[] { new ConfiguredModel(prov.models().getExistingFile(upModelLoc)) };
             }
-            return new ConfiguredModel[] {new ConfiguredModel(prov.models().getExistingFile(downModelLoc))};
+            return new ConfiguredModel[] { new ConfiguredModel(prov.models().getExistingFile(downModelLoc)) };
         }));
 
         var itemBuilder = bb.item();
@@ -425,7 +474,7 @@ public class EIOBlocks {
 
         BlockBuilder<ResettingLeverBlock, Registrate> bb = REGISTRATE.block(name, (props) -> new ResettingLeverBlock(duration, inverted));
         String durLab = "(" + (duration >= 60 ? duration / 60 : duration) + " " + (duration == 60 ? "minute" : duration > 60 ? "minutes" : "seconds") + ")";
-        bb.lang("Resetting Lever " + (inverted ? "Inverted " : "") +  durLab);
+        bb.lang("Resetting Lever " + (inverted ? "Inverted " : "") + durLab);
 
         bb.blockstate((ctx, prov) -> {
 
@@ -437,13 +486,14 @@ public class EIOBlocks {
 
             vb.forAllStates(blockState -> {
                 ModelFile.ExistingModelFile model = blockState.getValue(ResettingLeverBlock.POWERED) ? onModel : baseModel;
-                int rotationX = blockState.getValue(LeverBlock.FACE) == AttachFace.CEILING ? 180 : blockState.getValue(LeverBlock.FACE) == AttachFace.WALL ? 90 : 0;
+                int rotationX =
+                    blockState.getValue(LeverBlock.FACE) == AttachFace.CEILING ? 180 : blockState.getValue(LeverBlock.FACE) == AttachFace.WALL ? 90 : 0;
                 Direction f = blockState.getValue(LeverBlock.FACING);
                 int rotationY = f.get2DDataValue() * 90;
-                if(blockState.getValue(LeverBlock.FACE) != AttachFace.CEILING) {
+                if (blockState.getValue(LeverBlock.FACE) != AttachFace.CEILING) {
                     rotationY = (rotationY + 180) % 360;
                 }
-                return new ConfiguredModel[] {new ConfiguredModel(model, rotationX, rotationY, false)};
+                return new ConfiguredModel[] { new ConfiguredModel(model, rotationX, rotationY, false) };
             });
         });
 
@@ -452,7 +502,6 @@ public class EIOBlocks {
         bb = ib.build();
         return bb.register();
     }
-
 
     public static void register() {}
 
