@@ -1,4 +1,4 @@
-package com.enderio.base.common.network.packets;
+package com.enderio.base.common.network.packet;
 
 import com.enderio.base.common.menu.CoordinateMenu;
 import com.enderio.base.common.network.ClientToServerMenuPacket;

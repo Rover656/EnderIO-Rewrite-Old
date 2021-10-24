@@ -2,10 +2,9 @@ package com.enderio.base;
 
 import javax.annotation.Nonnull;
 
-import com.enderio.base.client.renderer.GraveRenderer;
 import com.enderio.base.common.block.EIOBlocks;
 import com.enderio.base.common.blockentity.EIOBlockEntities;
-import com.enderio.base.common.enchantments.EIOEnchantments;
+import com.enderio.base.common.enchantment.EIOEnchantments;
 import com.enderio.base.common.item.EIOItems;
 import com.enderio.base.common.menu.EIOMenus;
 import com.enderio.base.common.network.EIOPackets;
@@ -16,9 +15,6 @@ import com.tterrag.registrate.util.NonNullLazyValue;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;

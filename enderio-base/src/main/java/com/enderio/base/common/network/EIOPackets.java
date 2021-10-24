@@ -1,7 +1,7 @@
 package com.enderio.base.common.network;
 
 import com.enderio.base.EnderIO;
-import com.enderio.base.common.network.packets.UpdateCoordinateSelectionNameMenuPacket;
+import com.enderio.base.common.network.packet.UpdateCoordinateSelectionNameMenuPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fmllegacy.network.NetworkRegistry;
 import net.minecraftforge.fmllegacy.network.simple.SimpleChannel;

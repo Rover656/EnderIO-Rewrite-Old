@@ -3,7 +3,7 @@ package com.enderio.base.client.screen;
 import com.enderio.base.EnderIO;
 import com.enderio.base.common.menu.CoordinateMenu;
 import com.enderio.base.common.network.EIOPackets;
-import com.enderio.base.common.network.packets.UpdateCoordinateSelectionNameMenuPacket;
+import com.enderio.base.common.network.packet.UpdateCoordinateSelectionNameMenuPacket;
 import com.enderio.base.common.util.CoordinateSelection;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -21,7 +21,7 @@ public class CoordinateMenuScreen extends AbstractContainerScreen<CoordinateMenu
 
     private EditBox name;
 
-    private static final ResourceLocation BG_TEXTURE = new ResourceLocation(EnderIO.DOMAIN, "textures/gui/coordinate.png"); //TODO move to Enderio.resourceLocation call
+    private static final ResourceLocation BG_TEXTURE = new ResourceLocation(EnderIO.DOMAIN, "textures/gui/40/location_printout.png");
 
     public CoordinateMenuScreen(CoordinateMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
