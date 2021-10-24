@@ -17,7 +17,6 @@ import java.util.Map;
  * Automatically combines multiple capabilities together; handling serialization too.
  */
 public class MultiCapabilityProvider implements ICapabilitySerializable<CompoundTag> {
-    // TODO: Allow non-serialized too...
     private final Map<Capability<?>, LazyOptional<?>> capabilities;
     private final Map<String, LazyOptional<? extends INBTSerializable<Tag>>> serializedCaps;
 

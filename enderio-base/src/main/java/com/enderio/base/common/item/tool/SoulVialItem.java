@@ -72,7 +72,7 @@ public class SoulVialItem extends Item implements IMultiCapabilityItem {
     @Override
     public InteractionResult interactLivingEntity(@Nonnull ItemStack pStack, @Nonnull Player pPlayer, @Nonnull LivingEntity pInteractionTarget,
         @Nonnull InteractionHand pUsedHand) {
-        // TODO: Can't pickup donkey?
+        // TODO: Can't pickup donkey - it handles interaction differently, see AbstractChestedHorse
 
         if (pPlayer.level.isClientSide) {
             return InteractionResult.FAIL;

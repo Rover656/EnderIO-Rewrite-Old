@@ -152,11 +152,11 @@ public class EIOItems {
     public static final ItemEntry<MaterialItem> IRON_POWDER = materialItem("iron_powder").register();
     public static final ItemEntry<MaterialItem> GOLD_POWDER = materialItem("gold_powder").register();
     public static final ItemEntry<MaterialItem> COPPER_POWDER = materialItem("copper_powder").register();
-    public static final ItemEntry<MaterialItem> TIN_POWDER = materialItem("tin_powder").register(); // TODO: tin ingot tag depend
+    public static final ItemEntry<MaterialItem> TIN_POWDER = materialItem("tin_powder").register(); // TODO: hide if tin isn't present
     public static final ItemEntry<MaterialItem> ENDER_PEARL_POWDER = materialItem("ender_pearl_powder").register();
     public static final ItemEntry<MaterialItem> OBSIDIAN_POWDER = materialItem("obsidian_powder").register();
-    public static final ItemEntry<MaterialItem> ARDITE_POWDER = materialItem("ardite_powder").register(); // TODO: ardite ore tag depend
-    public static final ItemEntry<MaterialItem> COBALT_POWDER = materialItem("cobalt_powder").register(); // TODO: cobalt ore tag depend
+    public static final ItemEntry<MaterialItem> ARDITE_POWDER = materialItem("ardite_powder").register(); // TODO: hide if ardite isnt present
+    public static final ItemEntry<MaterialItem> COBALT_POWDER = materialItem("cobalt_powder").register(); // TODO: hide if cobalt isnt present
     public static final ItemEntry<MaterialItem> LAPIS_LAZULI_POWDER = materialItem("lapis_lazuli_powder").register();
     public static final ItemEntry<MaterialItem> QUARTZ_POWDER = materialItem("quartz_powder").register();
 
