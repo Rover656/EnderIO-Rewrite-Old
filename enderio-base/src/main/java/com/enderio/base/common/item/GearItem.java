@@ -2,7 +2,7 @@ package com.enderio.base.common.item;
 
 import java.util.function.Consumer;
 
-import com.enderio.base.client.renderers.GearBEWLR;
+import com.enderio.base.client.renderer.GearBEWLR;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraftforge.client.IItemRenderProperties;

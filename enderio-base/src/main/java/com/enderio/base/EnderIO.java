@@ -2,11 +2,13 @@ package com.enderio.base;
 
 import javax.annotation.Nonnull;
 
-import com.enderio.base.client.renderers.GraveRenderer;
+import com.enderio.base.client.renderer.GraveRenderer;
 import com.enderio.base.common.block.EIOBlocks;
 import com.enderio.base.common.blockentity.EIOBlockEntities;
 import com.enderio.base.common.enchantments.EIOEnchantments;
 import com.enderio.base.common.item.EIOItems;
+import com.enderio.base.common.menu.EIOMenus;
+import com.enderio.base.common.network.EIOPackets;
 import com.enderio.base.common.tag.EIOTags;
 import com.enderio.base.data.recipe.standard.StandardRecipes;
 import com.tterrag.registrate.Registrate;
@@ -36,7 +38,9 @@ public class EnderIO {
         EIOBlockEntities.register();
         EIOEnchantments.register();
         EIOTags.init();
-        
+        EIOMenus.register();
+        EIOPackets.register();
+
 
         IEventBus modEventBus = FMLJavaModLoadingContext
             .get()

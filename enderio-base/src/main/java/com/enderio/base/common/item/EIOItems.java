@@ -299,6 +299,18 @@ public class EIOItems {
         .tag(EIOTags.Items.WRENCH)
         .register();
 
+    public static ItemEntry<LocationPrintoutItem> LOCATION_PRINTOUT = REGISTRATE
+        .item("location_printout", LocationPrintoutItem::new)
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
+        .properties(props -> props.stacksTo(1))
+        .register();
+
+    public static ItemEntry<CoordinateSelectorItem> COORDINATE_SELECTOR = REGISTRATE
+        .item("coordinate_selector", CoordinateSelectorItem::new)
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
+        .properties(props -> props.stacksTo(1))
+        .register();
+
     // region Creative Tab Icons
 
     public static ItemEntry<EnderfaceItem> CREATIVE_ICON_NONE = dumbItem("enderface_none", EnderfaceItem::new);
@@ -308,6 +320,7 @@ public class EIOItems {
     public static ItemEntry<EnderfaceItem> CREATIVE_ICON_CONDUITS = dumbItem("enderface_conduits", EnderfaceItem::new);
     public static ItemEntry<EnderfaceItem> CREATIVE_ICON_MOBS = dumbItem("enderface_mobs", EnderfaceItem::new);
     public static ItemEntry<EnderfaceItem> CREATIVE_ICON_INVPANEL = dumbItem("enderface_invpanel", EnderfaceItem::new);
+
 
     // endregion
 
