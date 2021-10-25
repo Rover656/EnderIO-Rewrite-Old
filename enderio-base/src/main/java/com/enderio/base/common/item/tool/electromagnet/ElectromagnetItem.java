@@ -6,6 +6,7 @@ import com.enderio.base.common.capability.toggled.IToggled;
 import com.enderio.base.common.capability.toggled.Toggled;
 import com.enderio.core.common.capability.MultiCapabilityProvider;
 import com.enderio.core.common.capability.IMultiCapabilityItem;
+import com.enderio.core.common.util.EnergyUtil;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.CreativeModeTab;
@@ -35,8 +36,7 @@ public class ElectromagnetItem extends Item implements IEnergyBar, IMultiCapabil
             ItemStack is = new ItemStack(this);
             pItems.add(is.copy());
 
-            // TODO: EnergyUtils for this, its a mess...
-            is.getCapability(CapabilityEnergy.ENERGY).ifPresent(energyStorage -> energyStorage.receiveEnergy(energyStorage.getMaxEnergyStored(), false));
+            EnergyUtil.setFull(is);
             pItems.add(is);
         }
     }
