@@ -1,5 +1,7 @@
 package com.enderio.core.common.capability;
 
+import com.enderio.core.EnderCore;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -19,6 +21,7 @@ import java.util.Map;
 public class MultiCapabilityProvider implements ICapabilitySerializable<CompoundTag> {
     private final Map<Capability<?>, LazyOptional<?>> capabilities;
     private final Map<String, LazyOptional<? extends INBTSerializable<Tag>>> serializedCaps;
+    private int serializedNameCounter = 0;
 
     public MultiCapabilityProvider() {
         capabilities = new HashMap<>();
@@ -31,7 +34,7 @@ public class MultiCapabilityProvider implements ICapabilitySerializable<Compound
 
     public <T> void addSerialized(@Nonnull Capability<T> cap, @Nonnull LazyOptional<? extends INamedNBTSerializable<Tag>> optional) {
         capabilities.putIfAbsent(cap, optional);
-        serializedCaps.putIfAbsent("", optional);
+        serializedCaps.putIfAbsent("pend_" + serializedNameCounter++, optional);
     }
 
     public <T> void addSerialized(String serializedName, @Nonnull Capability<T> cap, @Nonnull LazyOptional<? extends INBTSerializable<Tag>> optional) {
@@ -55,14 +58,7 @@ public class MultiCapabilityProvider implements ICapabilitySerializable<Compound
             entry
                 .getValue()
                 .ifPresent(capability -> {
-                    String key = entry.getKey();
-                    if (capability instanceof INamedNBTSerializable<Tag> named) {
-                        key = named.getSerializedName();
-                    }
-
-                    if (!"".equals(key)) {
-                        tag.put(key, capability.serializeNBT());
-                    }
+                    tag.put(getSerializedName(entry.getKey(), capability), capability.serializeNBT());
                 });
         }
 
@@ -75,15 +71,24 @@ public class MultiCapabilityProvider implements ICapabilitySerializable<Compound
             entry
                 .getValue()
                 .ifPresent(capability -> {
-                    String key = entry.getKey();
-                    if (capability instanceof INamedNBTSerializable<Tag> named) {
-                        key = named.getSerializedName();
-                    }
+                    String key = getSerializedName(entry.getKey(), capability);
 
-                    if (!"".equals(key) && nbt.contains(key)) {
+                    if (nbt.contains(key)) {
                         capability.deserializeNBT(nbt.get(key));
                     }
                 });
         }
+    }
+
+    private String getSerializedName(String key, INBTSerializable<Tag> capability) {
+        if (capability instanceof INamedNBTSerializable<Tag> named) {
+            key = named.getSerializedName();
+        }
+
+        if (key.startsWith("pend_")) {
+            EnderCore.LOGGER.warning("A INamedNBTSerializable didn't return a valid name, a pending name has been mapped instead!");
+        }
+
+        return key;
     }
 }
