@@ -4,19 +4,30 @@ import com.enderio.base.EnderIO;
 import com.enderio.base.common.block.glass.GlassBlocks;
 import com.enderio.base.common.block.glass.GlassCollisionPredicate;
 import com.enderio.base.common.item.EIOCreativeTabs;
+import com.enderio.base.common.item.EIOItems;
 import com.enderio.base.data.model.block.BlockStateUtils;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockBuilder;
+import com.tterrag.registrate.providers.loot.RegistrateBlockLootTables;
 import com.tterrag.registrate.util.NonNullLazyValue;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.predicates.MatchTool;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.client.model.generators.BlockModelProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -262,9 +273,7 @@ public class EIOBlocks {
 
     public static final BlockEntry<BuddingInfinityCrystalBlock> BUDDING_INFINITY_CRYSTAL = REGISTRATE
         .block("budding_infinity_crystal", Material.AMETHYST, BuddingInfinityCrystalBlock::new)
-        .properties(props -> props.strength(1.5F).sound(SoundType.AMETHYST).requiresCorrectToolForDrops().randomTicks())
-        .tag(BlockTags.NEEDS_IRON_TOOL)
-        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+        .properties(props -> props.noDrops().strength(1.5F).sound(SoundType.AMETHYST).requiresCorrectToolForDrops().randomTicks())
         .item()
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
         .build()
@@ -274,19 +283,31 @@ public class EIOBlocks {
         .block("infinity_crystal_cluster", Material.AMETHYST, props -> new AmethystClusterBlock(7, 3, props))
         .blockstate((ctx, prov) -> prov.directionalBlock(ctx.get(), prov.models().cross(ctx.getName(), prov.modLoc("block/" + ctx.getName()))))
         .addLayer(() -> RenderType::cutout)
-        .properties(props -> props.noOcclusion().randomTicks().sound(SoundType.AMETHYST_CLUSTER).lightLevel((state) -> 5))
+        .properties(props -> props.noOcclusion().randomTicks().sound(SoundType.AMETHYST_CLUSTER).strength(1.5f).lightLevel((state) -> 5))
+        .loot(EIOBlocks::createInfinityCrystalDrops)
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .item()
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
         .build()
         .register();
 
+    private static void createInfinityCrystalDrops(RegistrateBlockLootTables lootTables, AmethystClusterBlock block) {
+        LootTable.Builder t = RegistrateBlockLootTables.createSilkTouchDispatchTable(block, LootItem
+            .lootTableItem(EIOItems.INFINITY_CRYSTAL.get())
+            .apply(SetItemCountFunction.setCount(ConstantValue.exactly(4.0F)))
+            .apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))
+            .when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(ItemTags.CLUSTER_MAX_HARVESTABLES)))
+            .otherwise(RegistrateBlockLootTables.applyExplosionDecay(block,
+                LootItem.lootTableItem(EIOItems.INFINITY_CRYSTAL.get()).apply(SetItemCountFunction.setCount(ConstantValue.exactly(2.0F))))));
+        lootTables.add(block, t);
+    }
+
     public static final BlockEntry<AmethystClusterBlock> LARGE_INFINITY_BUD = REGISTRATE
         .block("large_infinity_bud", Material.AMETHYST, props -> new AmethystClusterBlock(5, 3, props))
         .blockstate((ctx, prov) -> prov.directionalBlock(ctx.get(), prov.models().cross(ctx.getName(), prov.modLoc("block/" + ctx.getName()))))
         .addLayer(() -> RenderType::cutout)
         .properties(props -> props.noOcclusion().randomTicks().sound(SoundType.AMETHYST_CLUSTER).lightLevel((state) -> 4))
-        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+        .loot(RegistrateBlockLootTables::dropWhenSilkTouch)
         .item()
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS)) // TODO: Take away...
         .build()
@@ -297,7 +318,7 @@ public class EIOBlocks {
         .blockstate((ctx, prov) -> prov.directionalBlock(ctx.get(), prov.models().cross(ctx.getName(), prov.modLoc("block/" + ctx.getName()))))
         .addLayer(() -> RenderType::cutout)
         .properties(props -> props.noOcclusion().randomTicks().sound(SoundType.AMETHYST_CLUSTER).lightLevel((state) -> 2))
-        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+        .loot(RegistrateBlockLootTables::dropWhenSilkTouch)
         .item()
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS)) // TODO: Take away...
         .build()
@@ -308,7 +329,7 @@ public class EIOBlocks {
         .blockstate((ctx, prov) -> prov.directionalBlock(ctx.get(), prov.models().cross(ctx.getName(), prov.modLoc("block/" + ctx.getName()))))
         .addLayer(() -> RenderType::cutout)
         .properties(props -> props.noOcclusion().randomTicks().sound(SoundType.AMETHYST_CLUSTER).lightLevel((state) -> 1))
-        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+        .loot(RegistrateBlockLootTables::dropWhenSilkTouch)
         .item()
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS)) // TODO: Take away...
         .build()

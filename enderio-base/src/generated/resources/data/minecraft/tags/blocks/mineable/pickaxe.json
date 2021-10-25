@@ -24,18 +24,22 @@
     "enderio:end_steel_bars",
     "enderio:reinforced_obsidian_block",
     "enderio:infinity_crystal_block",
-    "enderio:budding_infinity_crystal",
     "enderio:infinity_crystal_cluster",
-    "enderio:large_infinity_bud",
-    "enderio:medium_infinity_bud",
-    "enderio:small_infinity_bud",
     "enderio:dark_steel_pressure_plate",
     "enderio:silent_dark_steel_pressure_plate",
     "enderio:soularium_pressure_plate",
     "enderio:silent_soularium_pressure_plate",
+    "enderio:silent_oak_pressure_plate",
+    "enderio:silent_acacia_pressure_plate",
+    "enderio:silent_dark_oak_pressure_plate",
+    "enderio:silent_spruce_pressure_plate",
+    "enderio:silent_birch_pressure_plate",
+    "enderio:silent_jungle_pressure_plate",
     "enderio:silent_crimson_pressure_plate",
     "enderio:silent_warped_pressure_plate",
     "enderio:silent_stone_pressure_plate",
-    "enderio:silent_polished_blackstone_pressure_plate"
+    "enderio:silent_polished_blackstone_pressure_plate",
+    "enderio:silent_heavy_weighted_pressure_plate",
+    "enderio:silent_light_weighted_pressure_plate"
   ]
 }
