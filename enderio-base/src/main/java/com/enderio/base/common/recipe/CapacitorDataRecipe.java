@@ -71,7 +71,7 @@ public class CapacitorDataRecipe implements Recipe<Container> {
 
     @Nonnull
     @Override
-    public CapacitorDataGenSerializer<CapacitorDataRecipe, Container> getSerializer() {
+    public DataGenSerializer<CapacitorDataRecipe, Container> getSerializer() {
         return EIORecipes.Serializer.CAPACITOR_DATA.get();
     }
 
@@ -81,7 +81,7 @@ public class CapacitorDataRecipe implements Recipe<Container> {
         return EIORecipes.Types.CAPACITOR_DATA;
     }
 
-    public static class Serializer extends CapacitorDataGenSerializer<CapacitorDataRecipe, Container> {
+    public static class Serializer extends DataGenSerializer<CapacitorDataRecipe, Container> {
 
         @Nonnull
         @Override
