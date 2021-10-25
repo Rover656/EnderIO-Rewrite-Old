@@ -19,6 +19,7 @@ public class EntityStorage implements IEntityStorage {
         return Optional.empty();
     }
 
+    @Nonnull
     @Override
     public Optional<CompoundTag> getEntityNBT() {
         if (tag != null)

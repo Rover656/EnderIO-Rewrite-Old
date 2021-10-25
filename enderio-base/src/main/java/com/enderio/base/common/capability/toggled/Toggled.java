@@ -17,6 +17,11 @@ public class Toggled implements IToggled {
     }
 
     @Override
+    public void setEnabled(boolean isEnabled) {
+        enabled = isEnabled;
+    }
+
+    @Override
     public Tag serializeNBT() {
         return ByteTag.valueOf(enabled);
     }

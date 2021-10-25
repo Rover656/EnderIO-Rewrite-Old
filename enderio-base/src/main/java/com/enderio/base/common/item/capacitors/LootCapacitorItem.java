@@ -3,6 +3,7 @@ package com.enderio.base.common.item.capacitors;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.enderio.base.common.capability.EIOCapabilities;
@@ -21,35 +22,21 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.util.LazyOptional;
 
 public class LootCapacitorItem extends Item implements IMultiCapabilityItem {
-    private CapacitorData data = new CapacitorData();
-    
+
     public LootCapacitorItem(Properties pProperties) {
         super(pProperties);
     }
-    
-    public LootCapacitorItem(Properties pProperties, float base, Map<String, Float> specialization) {
-        super(pProperties);
-        this.data.setBase(base);
-        this.data.addAllSpecialization(specialization);
-    }
-    
+
     @Override
-    public void appendHoverText(ItemStack pStack, Level pLevel, List<Component> pTooltipComponents,
-            TooltipFlag pIsAdvanced) {
+    public void appendHoverText(@Nonnull ItemStack pStack, Level pLevel, @Nonnull List<Component> pTooltipComponents, @Nonnull TooltipFlag pIsAdvanced) {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-        if (pStack.is(EIOItems.LOOT_CAPACITOR.get())) { // only apply tooltip to loot capacitors
-            CapacitorUtil.getTooltip(pStack, pTooltipComponents);
-        }
+        CapacitorUtil.getTooltip(pStack, pTooltipComponents);
     }
 
     @Nullable
     @Override
     public MultiCapabilityProvider initCapabilities(ItemStack stack, CompoundTag nbt, MultiCapabilityProvider provider) {
-        if (stack.is(EIOItems.LOOT_CAPACITOR.get())) { // each stack loot capacitors needs it own capability
-            provider.addSerialized(EIOCapabilities.CAPACITOR, LazyOptional.of(CapacitorData::new));
-        }else {// other capacitors share (each will always be the same as another stack).
-            provider.addSerialized(EIOCapabilities.CAPACITOR, LazyOptional.of(() -> data));
-        }
+        provider.addSerialized(EIOCapabilities.CAPACITOR, LazyOptional.of(CapacitorData::new));
         return provider;
     }
 

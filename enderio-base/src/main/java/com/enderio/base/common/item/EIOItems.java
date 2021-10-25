@@ -102,6 +102,8 @@ public class EIOItems {
     // endregion
     
     // region capacitor text
+
+    // TODO: Move language related things to a dedicated location, like EIOLang
     
     public static final TranslatableComponent ALL_ENERGY_CONSUMPSTION = capacitorDescriptionBuilder("type", ICapacitorData.ALL_ENERGY_CONSUMPSTION, "Leaky");
     public static final TranslatableComponent ALL_PRODUCTION_SPEED = capacitorDescriptionBuilder("type", ICapacitorData.ALL_PRODUCTION_SPEED, "Fast");
