@@ -23,7 +23,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = EnderIO.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class CapacitorLootModifier extends LootModifier{
+public class CapacitorLootModifier extends LootModifier {
     /**
      * The minimum base value
      */
@@ -57,14 +57,13 @@ public class CapacitorLootModifier extends LootModifier{
         generatedLoot.add(capacitor);
         return generatedLoot;
     }
-    
+
     public static class Serializer extends GlobalLootModifierSerializer<CapacitorLootModifier> {
 
         @Override
-        public CapacitorLootModifier read(ResourceLocation location, JsonObject object,
-                LootItemCondition[] ailootcondition) {
-            float min = GsonHelper.getAsFloat(object,"min");
-            float max = GsonHelper.getAsFloat(object,"max");
+        public CapacitorLootModifier read(ResourceLocation location, JsonObject object, LootItemCondition[] ailootcondition) {
+            float min = GsonHelper.getAsFloat(object, "min");
+            float max = GsonHelper.getAsFloat(object, "max");
             return new CapacitorLootModifier(ailootcondition, min, max);
         }
 
@@ -75,9 +74,9 @@ public class CapacitorLootModifier extends LootModifier{
             obj.addProperty("max", instance.max);
             return obj;
         }
-        
+
     }
-    
+
     @SubscribeEvent
     public static void register(@Nonnull RegistryEvent.Register<GlobalLootModifierSerializer<?>> event) {
         event.getRegistry().register(new Serializer().setRegistryName(new ResourceLocation(EnderIO.DOMAIN, "capacitor_loot")));

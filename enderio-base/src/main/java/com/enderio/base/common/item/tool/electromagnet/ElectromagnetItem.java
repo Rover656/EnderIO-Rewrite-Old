@@ -15,6 +15,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 // TODO: Behaviours
@@ -29,7 +30,7 @@ public class ElectromagnetItem extends Item implements IEnergyBar, IMultiCapabil
     }
 
     @Override
-    public void fillItemCategory(CreativeModeTab pCategory, NonNullList<ItemStack> pItems) {
+    public void fillItemCategory(@Nonnull CreativeModeTab pCategory, @Nonnull NonNullList<ItemStack> pItems) {
         if (allowdedIn(pCategory)) {
             ItemStack is = new ItemStack(this);
             pItems.add(is.copy());

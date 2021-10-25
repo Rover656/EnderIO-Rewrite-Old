@@ -7,6 +7,7 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class CapacitorDataRecipeResult implements FinishedRecipe {
@@ -17,20 +18,24 @@ public class CapacitorDataRecipeResult implements FinishedRecipe {
     public CapacitorDataRecipeResult(CapacitorDataRecipe recipe, String name) {
         this(recipe, new ResourceLocation(EnderIO.DOMAIN, "capacitor_data/" + name));
     }
+
     public CapacitorDataRecipeResult(CapacitorDataRecipe recipe, ResourceLocation id) {
         this.recipe = recipe;
         this.id = id;
     }
+
     @Override
-    public void serializeRecipeData(JsonObject json) {
+    public void serializeRecipeData(@Nonnull JsonObject json) {
         recipe.getSerializer().toJson(recipe, json);
     }
 
+    @Nonnull
     @Override
     public ResourceLocation getId() {
         return id;
     }
 
+    @Nonnull
     @Override
     public RecipeSerializer<?> getType() {
         return recipe.getSerializer();

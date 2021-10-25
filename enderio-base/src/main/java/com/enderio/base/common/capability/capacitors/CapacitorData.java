@@ -9,13 +9,13 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraftforge.common.util.Constants;
 
-public class CapacitorData implements ICapacitorData{
+public class CapacitorData implements ICapacitorData {
     private float base = 0;
     private Map<String, Float> specializations = new HashMap<>();
     private int flavor = -1;
-    
+
     public CapacitorData() {
-        
+
     }
 
     public CapacitorData(float base, Map<String, Float> specializations) {
@@ -28,7 +28,7 @@ public class CapacitorData implements ICapacitorData{
         CompoundTag nbt = new CompoundTag();
         nbt.putFloat("base", this.base);
         ListTag list = new ListTag();
-        this.specializations.forEach((s,f) -> {
+        this.specializations.forEach((s, f) -> {
             CompoundTag entry = new CompoundTag();
             entry.putString("type", s);
             entry.putFloat("value", f);
@@ -65,7 +65,7 @@ public class CapacitorData implements ICapacitorData{
     public void addSpecialization(String type, float modifier) {
         this.specializations.put(type, modifier);
     }
-    
+
     @Override
     public void addNewSpecialization(String type, float modifier) {
         this.specializations.clear();

@@ -32,14 +32,11 @@ public class LevitationStaffItem extends Item implements IEnergyBar, IMultiCapab
 
     @Override
     public boolean isFoil(ItemStack pStack) {
-        return pStack
-            .getCapability(EIOCapabilities.TOGGLED)
-            .map(IToggled::isEnabled)
-            .orElse(false);
+        return pStack.getCapability(EIOCapabilities.TOGGLED).map(IToggled::isEnabled).orElse(false);
     }
 
     @Override
-    public void fillItemCategory(CreativeModeTab pCategory, NonNullList<ItemStack> pItems) {
+    public void fillItemCategory(@Nonnull CreativeModeTab pCategory, @Nonnull NonNullList<ItemStack> pItems) {
         if (allowdedIn(pCategory)) {
             ItemStack is = new ItemStack(this);
             pItems.add(is.copy());
@@ -64,32 +61,25 @@ public class LevitationStaffItem extends Item implements IEnergyBar, IMultiCapab
     @Override
     public void inventoryTick(@Nonnull ItemStack pStack, @Nonnull Level pLevel, @Nonnull Entity pEntity, int pSlotId, boolean pIsSelected) {
         if (pEntity instanceof Player player) {
-            pStack
-                .getCapability(CapabilityEnergy.ENERGY)
-                .ifPresent(energyStorage -> {
-                    if (isEnabled(pStack)) {
-                        if (energyStorage.extractEnergy(1, true) > 0) {
-                            energyStorage.extractEnergy(1, false);
-                            player.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 1)); // TODO: An upgrade to make it faster?
-                        } else {
-                            toggleEnabled(pStack);
-                        }
+            pStack.getCapability(CapabilityEnergy.ENERGY).ifPresent(energyStorage -> {
+                if (isEnabled(pStack)) {
+                    if (energyStorage.extractEnergy(1, true) > 0) {
+                        energyStorage.extractEnergy(1, false);
+                        player.addEffect(new MobEffectInstance(MobEffects.LEVITATION, 1)); // TODO: An upgrade to make it faster?
+                    } else {
+                        toggleEnabled(pStack);
                     }
-                });
+                }
+            });
         }
     }
 
     private boolean isEnabled(@Nonnull ItemStack itemStack) {
-        return itemStack
-            .getCapability(EIOCapabilities.TOGGLED)
-            .map(IToggled::isEnabled)
-            .orElse(false);
+        return itemStack.getCapability(EIOCapabilities.TOGGLED).map(IToggled::isEnabled).orElse(false);
     }
 
     private void toggleEnabled(ItemStack itemStack) {
-        itemStack
-            .getCapability(EIOCapabilities.TOGGLED)
-            .ifPresent(IToggled::toggle);
+        itemStack.getCapability(EIOCapabilities.TOGGLED).ifPresent(IToggled::toggle);
     }
 
     @Nullable

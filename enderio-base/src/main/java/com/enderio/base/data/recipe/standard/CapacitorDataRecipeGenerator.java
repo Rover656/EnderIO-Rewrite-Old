@@ -1,21 +1,14 @@
 package com.enderio.base.data.recipe.standard;
 
-import com.enderio.base.common.block.EIOBlocks;
 import com.enderio.base.common.capability.capacitors.CapacitorData;
 import com.enderio.base.common.capability.capacitors.ICapacitorData;
 import com.enderio.base.common.item.EIOItems;
 import com.enderio.base.common.recipe.CapacitorDataRecipe;
-import com.enderio.base.common.util.CapacitorUtil;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -33,6 +26,7 @@ public class CapacitorDataRecipeGenerator extends RecipeProvider {
         build(2.0f, EIOItems.DOUBLE_LAYER_CAPACITOR.get(), recipeConsumer);
         build(4.0f, EIOItems.OCTADIC_CAPACITOR.get(), recipeConsumer);
     }
+
     protected void build(float allUpgrades, Item item, Consumer<FinishedRecipe> recipeConsumer) {
         Map<String, Float> specialisations = new HashMap<>();
         specialisations.put(ICapacitorData.ALL_ENERGY_CONSUMPSTION, allUpgrades);

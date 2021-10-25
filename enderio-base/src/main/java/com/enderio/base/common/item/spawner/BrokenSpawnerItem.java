@@ -66,18 +66,11 @@ public class BrokenSpawnerItem extends Item implements IMultiCapabilityItem {
     // region Entity Storage
 
     public static Optional<ResourceLocation> getEntityType(ItemStack stack) {
-        return stack
-            .getCapability(EIOCapabilities.ENTITY_STORAGE)
-            .map(IEntityStorage::getEntityType)
-            .orElse(Optional.empty());
+        return stack.getCapability(EIOCapabilities.ENTITY_STORAGE).map(IEntityStorage::getEntityType).orElse(Optional.empty());
     }
 
     private static void setEntityType(ItemStack stack, ResourceLocation entityType) {
-        stack
-            .getCapability(EIOCapabilities.ENTITY_STORAGE)
-            .ifPresent(storage -> {
-                storage.setEntityType(entityType);
-            });
+        stack.getCapability(EIOCapabilities.ENTITY_STORAGE).ifPresent(storage -> storage.setEntityType(entityType));
     }
 
     @Nullable

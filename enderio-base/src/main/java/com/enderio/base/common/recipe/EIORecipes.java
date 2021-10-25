@@ -19,11 +19,12 @@ public class EIORecipes {
 
     public static class Serializer {
         private Serializer() {}
-        public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZER_REGISTRY = DeferredRegister.create(
-            ForgeRegistries.RECIPE_SERIALIZERS, EnderIO.DOMAIN);
 
-        public static final RegistryObject<CapacitorDataRecipe.Serializer> CAPACITOR_DATA =
-            RECIPE_SERIALIZER_REGISTRY.register("capacitor_data", CapacitorDataRecipe.Serializer::new);
+        public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZER_REGISTRY = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS,
+            EnderIO.DOMAIN);
+
+        public static final RegistryObject<CapacitorDataRecipe.Serializer> CAPACITOR_DATA = RECIPE_SERIALIZER_REGISTRY.register("capacitor_data",
+            CapacitorDataRecipe.Serializer::new);
 
         public static void register(IEventBus bus) {
             RECIPE_SERIALIZER_REGISTRY.register(bus);
@@ -34,7 +35,6 @@ public class EIORecipes {
         private Types() {}
 
         public static RecipeType<CapacitorDataRecipe> CAPACITOR_DATA = RecipeType.register(EnderIO.DOMAIN + ":capacitor_data");
-
 
         public static void register() {}
     }
