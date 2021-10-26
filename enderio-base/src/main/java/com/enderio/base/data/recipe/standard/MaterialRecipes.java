@@ -116,7 +116,7 @@ public class MaterialRecipes extends RecipeProvider {
             .pattern("PPP")
             .define('P', EIOItems.PULSATING_IRON_NUGGET.get())
             .define('D', Tags.Items.GEMS_DIAMOND)
-            .unlockedBy("has_ingredien", InventoryChangeTrigger.TriggerInstance.hasItems(EIOItems.PULSATING_IRON_NUGGET.get()))
+            .unlockedBy("has_ingredient", InventoryChangeTrigger.TriggerInstance.hasItems(EIOItems.PULSATING_IRON_NUGGET.get()))
             .save(recipeConsumer);
         
         ShapedRecipeBuilder.shaped(EIOItems.VIBRANT_CRYSTAL.get())
@@ -212,7 +212,6 @@ public class MaterialRecipes extends RecipeProvider {
             .unlockedBy("has_ingredient", InventoryChangeTrigger.TriggerInstance.hasItems(EIOItems.PULSATING_CRYSTAL.get()))
             .save(recipeConsumer);
         
-        // TODO Own crafting type return bucket?
         ShapelessRecipeBuilder.shapeless(EIOItems.ENDERIOS.get())
             .requires(Items.BOWL)
             .requires(Items.MILK_BUCKET)
