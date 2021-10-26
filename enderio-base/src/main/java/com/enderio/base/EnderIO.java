@@ -30,7 +30,6 @@ public class EnderIO {
     private static final NonNullLazyValue<Registrate> REGISTRATE = new NonNullLazyValue<>(() -> Registrate.create(DOMAIN));
 
     public EnderIO() {
-        EIOBlocks.register();
         EIOItems.register();
         EIOBlocks.register();
         EIOBlockEntities.register();
