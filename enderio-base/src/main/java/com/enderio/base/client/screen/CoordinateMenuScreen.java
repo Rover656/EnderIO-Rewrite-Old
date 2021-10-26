@@ -67,6 +67,7 @@ public class CoordinateMenuScreen extends AbstractContainerScreen<CoordinateMenu
         Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(false);
     }
 
+    @Override
     public boolean keyPressed(int pKeyCode, int pScanCode, int pModifiers) {
         if (pKeyCode == 256) { //ESC has priority
             Minecraft.getInstance().player.closeContainer();
@@ -99,7 +100,9 @@ public class CoordinateMenuScreen extends AbstractContainerScreen<CoordinateMenu
     }
 
     @Override
-    protected void renderLabels(PoseStack pPoseStack, int pMouseX, int pMouseY) {}
+    protected void renderLabels(PoseStack pPoseStack, int pMouseX, int pMouseY) {
+        //empty, to hide "Inventory"-label
+    }
 
     private void onNameChanged(String name) {
         EIOPackets.INSTANCE.sendToServer(new UpdateCoordinateSelectionNameMenuPacket(getMenu().containerId, name));
