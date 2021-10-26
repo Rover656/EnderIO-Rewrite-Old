@@ -9,6 +9,7 @@ import com.enderio.base.common.item.EIOItems;
 import com.enderio.base.common.menu.EIOMenus;
 import com.enderio.base.common.network.EIOPackets;
 import com.enderio.base.common.tag.EIOTags;
+import com.enderio.base.common.recipe.EIORecipes;
 import com.enderio.base.data.recipe.standard.StandardRecipes;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.NonNullLazyValue;
@@ -39,6 +40,9 @@ public class EnderIO {
         EIOPackets.register();
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        EIORecipes.register(modEventBus);
+
 
         // Run datagen after registrate is finished.
         modEventBus.addListener(EventPriority.LOWEST, this::gatherData);

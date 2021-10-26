@@ -13,6 +13,7 @@ public class StandardRecipes {
         dataGenerator.addProvider(new MaterialRecipes(dataGenerator));
         dataGenerator.addProvider(new BlockRecipes(dataGenerator));
         dataGenerator.addProvider(new ItemRecipes(dataGenerator));
+        dataGenerator.addProvider(new CapacitorDataRecipeGenerator(dataGenerator));
     }
 
     public static void saveRecipe(RecipeBuilder recipe, String variant, Consumer<FinishedRecipe> recipeConsumer) {
