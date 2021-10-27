@@ -3,6 +3,7 @@ package com.enderio.base.common.capability;
 import com.enderio.base.EnderIO;
 import com.enderio.base.common.capability.capacitors.ICapacitorData;
 import com.enderio.base.common.capability.entity.IEntityStorage;
+import com.enderio.base.common.capability.location.ICoordinateSelection;
 import com.enderio.base.common.capability.owner.IOwner;
 import com.enderio.base.common.capability.toggled.IToggled;
 
@@ -20,11 +21,14 @@ public class EIOCapabilities {
 
     public static Capability<ICapacitorData> CAPACITOR = CapabilityManager.get(new CapabilityToken<>() {});
 
+    public static Capability<ICoordinateSelection> COORDINATE_SELECTION = CapabilityManager.get(new CapabilityToken<>() {});
+
     @SubscribeEvent
     public static void register(RegisterCapabilitiesEvent event) {
         event.register(IEntityStorage.class);
         event.register(IToggled.class);
         event.register(IOwner.class);
         event.register(ICapacitorData.class);
+        event.register(ICoordinateSelection.class);
     }
 }

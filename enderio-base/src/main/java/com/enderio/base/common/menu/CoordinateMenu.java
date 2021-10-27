@@ -1,8 +1,9 @@
 package com.enderio.base.common.menu;
 
+import com.enderio.base.common.capability.location.ICoordinateSelection;
 import com.enderio.base.common.item.EIOItems;
 import com.enderio.base.common.item.LocationPrintoutItem;
-import com.enderio.base.common.util.CoordinateSelection;
+import com.enderio.base.common.capability.location.CoordinateSelection;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -24,16 +25,16 @@ import java.util.Optional;
 
 public class CoordinateMenu extends AbstractContainerMenu {
 
-    private final BlockPos pos;
-    private final ResourceLocation dimension;
+    private final ICoordinateSelection selection;
 
     private final boolean isPrintout;
     private String name;
 
     public CoordinateMenu(@Nullable MenuType<CoordinateMenu> pMenuType, int pContainerId, Inventory inventory, FriendlyByteBuf buf) {
         super(pMenuType, pContainerId);
-        pos = buf.readBlockPos();
-        dimension = buf.readResourceLocation();
+        selection = new CoordinateSelection();
+        selection.setPos(buf.readBlockPos());
+        selection.setLevel(buf.readResourceLocation());
         isPrintout = buf.readBoolean();
         name = buf.readUtf(50);
     }
@@ -41,19 +42,21 @@ public class CoordinateMenu extends AbstractContainerMenu {
     /**
      * @param name is null when you used the coordinate selector, if it's the printout use the ItemStack name
      */
-    public CoordinateMenu(int containerID, BlockPos pos, ResourceLocation dimension, @Nullable String name) {
+    public CoordinateMenu(int containerID, ICoordinateSelection selection, @Nullable String name) {
         super(EIOMenus.COORDINATE.get(), containerID);
-        this.pos = pos;
-        this.dimension = dimension;
+        this.selection = selection;
         this.isPrintout = name != null;
         this.name = name != null ? name : "";
     }
 
-    public FriendlyByteBuf writeAdditionalData(FriendlyByteBuf buf) {
-        buf.writeBlockPos(pos);
-        buf.writeResourceLocation(dimension);
-        buf.writeBoolean(isPrintout);
-        buf.writeUtf(name, 50);
+    /**
+     * @param name is null when you used the coordinate selector, if it's the printout use the ItemStack name
+     */
+    public static FriendlyByteBuf writeAdditionalData(FriendlyByteBuf buf, ICoordinateSelection selection, @Nullable String name) {
+        buf.writeBlockPos(selection.getPos());
+        buf.writeResourceLocation(selection.getLevel());
+        buf.writeBoolean(name == null);
+        buf.writeUtf(name == null ? "" : name, 50);
         return buf;
     }
 
@@ -75,7 +78,7 @@ public class CoordinateMenu extends AbstractContainerMenu {
         if (paper.isPresent() && !isPrintout && pPlayer instanceof ServerPlayer severPlayer) {
             paper.get().shrink(1);
             ItemStack itemstack = EIOItems.LOCATION_PRINTOUT.get().getDefaultInstance();
-            LocationPrintoutItem.setSelection(itemstack, CoordinateSelection.of(pos, dimension));
+            LocationPrintoutItem.setSelection(itemstack, selection);
             if (!StringUtils.isBlank(name))
                 itemstack.setHoverName(new TextComponent(name).withStyle(ChatFormatting.AQUA));
 
@@ -128,11 +131,7 @@ public class CoordinateMenu extends AbstractContainerMenu {
         this.name = name;
     }
 
-    public BlockPos getPos() {
-        return pos;
-    }
-
-    public ResourceLocation getDimension() {
-        return dimension;
+    public ICoordinateSelection getSelection() {
+        return selection;
     }
 }

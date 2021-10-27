@@ -1,5 +1,7 @@
 package com.enderio.base.common.item;
 
+import com.enderio.base.common.capability.location.CoordinateSelection;
+import com.enderio.base.common.capability.location.ICoordinateSelection;
 import com.enderio.base.common.menu.CoordinateMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -62,7 +64,7 @@ public class CoordinateSelectorItem extends Item {
     }
 
     public static void openMenu(ServerPlayer player, BlockPos pos, ResourceLocation dimension) {
-        CoordinateMenu copyFrom = new CoordinateMenu(0, pos, dimension, null);
+        ICoordinateSelection selection = CoordinateSelection.of(pos, dimension);
 
         NetworkHooks.openGui(player,new MenuProvider() {
             @Override
@@ -73,9 +75,9 @@ public class CoordinateSelectorItem extends Item {
             @Nullable
             @Override
             public AbstractContainerMenu createMenu(int pContainerId, Inventory pInventory, Player pPlayer) {
-                return new CoordinateMenu(pContainerId, copyFrom.getPos(), copyFrom.getDimension(), null);
+                return new CoordinateMenu(pContainerId, selection, null);
             }
-        }, copyFrom::writeAdditionalData);
+        }, buf ->CoordinateMenu.writeAdditionalData(buf, selection, ""));
     }
 
     private boolean checkPaper(Player player) {

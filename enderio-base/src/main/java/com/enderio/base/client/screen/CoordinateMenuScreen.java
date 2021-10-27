@@ -1,10 +1,11 @@
 package com.enderio.base.client.screen;
 
 import com.enderio.base.EnderIO;
+import com.enderio.base.common.capability.location.ICoordinateSelection;
 import com.enderio.base.common.menu.CoordinateMenu;
 import com.enderio.base.common.network.EIOPackets;
 import com.enderio.base.common.network.packet.UpdateCoordinateSelectionNameMenuPacket;
-import com.enderio.base.common.util.CoordinateSelection;
+import com.enderio.base.common.capability.location.CoordinateSelection;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -88,12 +89,12 @@ public class CoordinateMenuScreen extends AbstractContainerScreen<CoordinateMenu
 
         int midX = this.width / 2;
         int y = topPos + 48;
-        String txt = getMenu().getPos().toShortString();
+        String txt = getMenu().getSelection().getPos().toShortString();
         int x = midX - font.width(txt) / 2;
 
         font.drawShadow(pPoseStack, txt, x, y, 0xFFFFFF);
 
-        txt = CoordinateSelection.getLevelName(getMenu().getDimension());
+        txt = ICoordinateSelection.getLevelName(getMenu().getSelection().getLevel());
         y += font.lineHeight + 4;
         x = midX - font.width(txt) / 2;
         font.drawShadow(pPoseStack, txt, x, y, 0xFFFFFF);
