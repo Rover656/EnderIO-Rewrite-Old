@@ -8,6 +8,8 @@ import com.enderio.base.common.item.misc.EnderfaceItem;
 import com.enderio.base.common.item.misc.GearItem;
 import com.enderio.base.common.item.misc.MaterialItem;
 import com.enderio.base.common.item.spawner.BrokenSpawnerItem;
+import com.enderio.base.common.item.tool.CoordinateSelectorItem;
+import com.enderio.base.common.item.tool.YetaWrenchItem;
 import com.enderio.base.common.tag.EIOTags;
 import com.enderio.base.common.item.tool.LevitationStaffItem;
 import com.enderio.base.common.item.tool.SoulVialItem;

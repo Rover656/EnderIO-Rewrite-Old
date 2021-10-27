@@ -1,4 +1,4 @@
-package com.enderio.base.common.item;
+package com.enderio.base.common.item.tool;
 
 import com.mojang.datafixers.util.Either;
 import net.minecraft.core.Direction;

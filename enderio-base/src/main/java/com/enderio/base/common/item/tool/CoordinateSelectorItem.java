@@ -1,4 +1,4 @@
-package com.enderio.base.common.item;
+package com.enderio.base.common.item.tool;
 
 import com.enderio.base.common.capability.location.CoordinateSelection;
 import com.enderio.base.common.capability.location.ICoordinateSelection;
