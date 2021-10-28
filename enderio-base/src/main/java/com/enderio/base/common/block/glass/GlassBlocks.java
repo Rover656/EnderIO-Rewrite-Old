@@ -2,9 +2,11 @@ package com.enderio.base.common.block.glass;
 
 import com.enderio.base.EnderIO;
 import com.enderio.base.common.item.EIOCreativeTabs;
+import com.enderio.base.common.tag.EIOTags;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.NonNullLazyValue;
 import com.tterrag.registrate.util.entry.BlockEntry;
+
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
@@ -73,6 +75,7 @@ public class GlassBlocks {
     private BlockEntry<FusedQuartzBlock> register(Registrate registrate, String name, String english) {
         return registrate
             .block(name, props -> new FusedQuartzBlock(props, collisionPredicate, emitsLight, blocksLight, explosionResistant))
+            .tag(name.contains("clear_glass")? EIOTags.Blocks.CLEAR_GLASS : EIOTags.Blocks.FUSED_QUARTZ)
             .lang(english)
             .blockstate((con, prov) -> prov.simpleBlock(con.get(), prov.models().getExistingFile(getModelFile(name))))
             .addLayer(() -> RenderType::cutout)
