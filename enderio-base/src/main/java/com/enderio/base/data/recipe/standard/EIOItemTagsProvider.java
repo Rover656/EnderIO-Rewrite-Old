@@ -19,5 +19,6 @@ public class EIOItemTagsProvider extends ItemTagsProvider{
     @Override
     protected void addTags() {
         tag(Tags.Items.DUSTS).addTag(EIOTags.Items.DUSTS_COAL).addTag(EIOTags.Items.DUSTS_LAPIS).addTag(EIOTags.Items.DUSTS_QUARTZ);
+        tag(EIOTags.Items.GEARS).addTag(EIOTags.Items.GEARS_WOOD).addTag(EIOTags.Items.GEARS_STONE).addTag(EIOTags.Items.GEARS_IRON).addTag(EIOTags.Items.GEARS_VIBRANT).addTag(EIOTags.Items.GEARS_ENERGIZED).addTag(EIOTags.Items.GEARS_DARK_STEEL);
     }
 }

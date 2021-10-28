@@ -11,6 +11,7 @@ import com.enderio.base.common.item.spawner.BrokenSpawnerItem;
 import com.enderio.base.common.item.tool.LevitationStaffItem;
 import com.enderio.base.common.item.tool.SoulVialItem;
 import com.enderio.base.common.item.tool.electromagnet.ElectromagnetItem;
+import com.enderio.base.common.tag.EIOTags;
 import com.enderio.base.data.model.item.ItemModelUtils;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.ItemBuilder;
@@ -201,17 +202,17 @@ public class EIOItems {
 
     // region Gears
 
-    public static final ItemEntry<GearItem> GEAR_WOOD = gearItem("wood_gear").lang("Wooden Gear").register();
+    public static final ItemEntry<GearItem> GEAR_WOOD = gearItem("wood_gear").lang("Wooden Gear").tag(EIOTags.Items.GEARS_WOOD).register();
 
-    public static final ItemEntry<GearItem> GEAR_STONE = gearItem("stone_gear").lang("Stone Compound Gear").register();
+    public static final ItemEntry<GearItem> GEAR_STONE = gearItem("stone_gear").lang("Stone Compound Gear").tag(EIOTags.Items.GEARS_STONE).register();
 
-    public static final ItemEntry<GearItem> GEAR_IRON = gearItem("iron_gear").lang("Infinity Bimetal Gear").register();
+    public static final ItemEntry<GearItem> GEAR_IRON = gearItem("iron_gear").lang("Infinity Bimetal Gear").tag(EIOTags.Items.GEARS_IRON).register();
 
-    public static final ItemEntry<GearItem> GEAR_ENERGIZED = gearItem("energized_gear").lang("Energized Bimetal Gear").register();
+    public static final ItemEntry<GearItem> GEAR_ENERGIZED = gearItem("energized_gear").lang("Energized Bimetal Gear").tag(EIOTags.Items.GEARS_ENERGIZED).register();
 
-    public static final ItemEntry<GearItem> GEAR_VIBRANT = gearItem("vibrant_gear").lang("Vibrant Bimetal Gear").register();
+    public static final ItemEntry<GearItem> GEAR_VIBRANT = gearItem("vibrant_gear").lang("Vibrant Bimetal Gear").tag(EIOTags.Items.GEARS_VIBRANT).register();
 
-    public static final ItemEntry<GearItem> GEAR_DARK_STEEL = gearItem("dark_bimetal_gear").lang("Dark Bimetal Gear").register();
+    public static final ItemEntry<GearItem> GEAR_DARK_STEEL = gearItem("dark_bimetal_gear").lang("Dark Bimetal Gear").tag(EIOTags.Items.GEARS_DARK_STEEL).register();
 
     // endregion
 
