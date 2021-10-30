@@ -51,7 +51,7 @@ public class CoordinateSelectorItem extends Item {
         );
         if (hitResult.getType() == HitResult.Type.MISS) {
             if (pPlayer instanceof LocalPlayer)
-                pPlayer.sendMessage(EIOLang.COORDINATE_SELECTOR_NO_BLOCK, Util.NIL_UUID);
+                pPlayer.displayClientMessage(EIOLang.COORDINATE_SELECTOR_NO_BLOCK, true);
             return super.use(pLevel, pPlayer, pHand);
         }
         if (pPlayer instanceof ServerPlayer serverPlayer)
@@ -90,7 +90,7 @@ public class CoordinateSelectorItem extends Item {
         if (player.getInventory().contains(Items.PAPER.getDefaultInstance()))
             return true;
         if (player instanceof LocalPlayer)
-            player.sendMessage(EIOLang.COORDINATE_SELECTOR_NO_PAPER, Util.NIL_UUID);
+            player.displayClientMessage(EIOLang.COORDINATE_SELECTOR_NO_PAPER, true);
         return false;
     }
 }
