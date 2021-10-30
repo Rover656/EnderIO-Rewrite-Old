@@ -6,6 +6,7 @@ import com.enderio.base.common.block.EIOBlocks;
 import com.enderio.base.common.blockentity.EIOBlockEntities;
 import com.enderio.base.common.enchantment.EIOEnchantments;
 import com.enderio.base.common.item.EIOItems;
+import com.enderio.base.common.lang.EIOLang;
 import com.enderio.base.common.menu.EIOMenus;
 import com.enderio.base.common.network.EIOPackets;
 import com.enderio.base.common.tag.EIOTags;
@@ -37,6 +38,7 @@ public class EnderIO {
         EIOTags.init();
         EIOMenus.register();
         EIOPackets.register();
+        EIOLang.register();
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 

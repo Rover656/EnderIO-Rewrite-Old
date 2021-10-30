@@ -795,6 +795,8 @@
   "enchantment.enderio.wither_arrow": "Wither Arrows",
   "enchantment.enderio.wither_weapon": "Wither Weapon",
   "enchantment.enderio.xp_boost": "XP Boost",
+  "info.enderio.coordinate_selector.no_block": "No Block in Range",
+  "info.enderio.coordinate_selector.no_paper": "No Paper in Inventory",
   "item.enderio.animal_token": "Animal Token",
   "item.enderio.ardite_powder": "Ardite Powder",
   "item.enderio.basic_capacitor": "Basic Capacitor",

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public abstract class ClientToServerMenuPacket<Menu extends AbstractContainerMenu> implements Packet {
 
-    private int containerID;
+    private final int containerID;
     private final Class<Menu> menuClass;
 
     protected ClientToServerMenuPacket(Class<Menu> menuClass, int containerID) {
