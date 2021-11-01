@@ -1,6 +1,5 @@
-package com.enderio.base.common.item.tool.electromagnet;
+package com.enderio.base.common.item.tool;
 
-import com.enderio.base.common.item.tool.PoweredToggledItem;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.item.ItemEntity;
