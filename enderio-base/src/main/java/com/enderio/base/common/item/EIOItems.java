@@ -171,14 +171,14 @@ public class EIOItems {
     public static final ItemEntry<MaterialItem> FLOUR = materialItem("flour").register();
     public static final ItemEntry<MaterialItem> CONDUIT_BINDER_COMPOSITE = materialItem("conduit_binder_composite").register();
     public static final ItemEntry<MaterialItem> COAL_POWDER = materialItem("coal_powder").tag(EIOTags.Items.DUSTS_COAL).register();
-    public static final ItemEntry<MaterialItem> IRON_POWDER = materialItem("iron_powder").register();
-    public static final ItemEntry<MaterialItem> GOLD_POWDER = materialItem("gold_powder").register();
-    public static final ItemEntry<MaterialItem> COPPER_POWDER = materialItem("copper_powder").register();
-    public static final ItemEntry<MaterialItem> TIN_POWDER = materialItem("tin_powder").register(); // TODO: hide if tin isn't present
-    public static final ItemEntry<MaterialItem> ENDER_PEARL_POWDER = materialItem("ender_pearl_powder").register();
-    public static final ItemEntry<MaterialItem> OBSIDIAN_POWDER = materialItem("obsidian_powder").register();
-    public static final ItemEntry<MaterialItem> ARDITE_POWDER = materialItem("ardite_powder").register(); // TODO: hide if ardite isnt present
-    public static final ItemEntry<MaterialItem> COBALT_POWDER = materialItem("cobalt_powder").register(); // TODO: hide if cobalt isnt present
+    public static final ItemEntry<MaterialItem> IRON_POWDER = materialItem("iron_powder").tag(EIOTags.Items.DUSTS_IRON).register();
+    public static final ItemEntry<MaterialItem> GOLD_POWDER = materialItem("gold_powder").tag(EIOTags.Items.DUSTS_GOLD).register();
+    public static final ItemEntry<MaterialItem> COPPER_POWDER = materialItem("copper_powder").tag(EIOTags.Items.DUSTS_COPPER).register();
+    public static final ItemEntry<MaterialItem> TIN_POWDER = materialItem("tin_powder").tag(EIOTags.Items.DUSTS_TIN).register(); // TODO: hide if tin isn't present
+    public static final ItemEntry<MaterialItem> ENDER_PEARL_POWDER = materialItem("ender_pearl_powder").tag(EIOTags.Items.DUSTS_ENDER).register();
+    public static final ItemEntry<MaterialItem> OBSIDIAN_POWDER = materialItem("obsidian_powder").tag(EIOTags.Items.DUSTS_OBSIDIAN).register();
+    public static final ItemEntry<MaterialItem> ARDITE_POWDER = materialItem("ardite_powder").tag(EIOTags.Items.DUSTS_ARDITE).register(); // TODO: hide if ardite isnt present
+    public static final ItemEntry<MaterialItem> COBALT_POWDER = materialItem("cobalt_powder").tag(EIOTags.Items.DUSTS_COBALT).register(); // TODO: hide if cobalt isnt present
     public static final ItemEntry<MaterialItem> LAPIS_LAZULI_POWDER = materialItem("lapis_lazuli_powder").tag(EIOTags.Items.DUSTS_LAPIS).register();
     public static final ItemEntry<MaterialItem> QUARTZ_POWDER = materialItem("quartz_powder").tag(EIOTags.Items.DUSTS_QUARTZ).register();
 

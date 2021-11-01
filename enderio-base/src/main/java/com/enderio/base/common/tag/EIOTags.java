@@ -22,6 +22,14 @@ public class EIOTags {
         
         public static final IOptionalNamedTag<Item> DUSTS_LAPIS = ItemTags.createOptional(new ResourceLocation("forge", "dusts/lapis"));
         public static final IOptionalNamedTag<Item> DUSTS_COAL = ItemTags.createOptional(new ResourceLocation("forge", "dusts/coal"));
+        public static final IOptionalNamedTag<Item> DUSTS_IRON = ItemTags.createOptional(new ResourceLocation("forge", "dusts/iron"));
+        public static final IOptionalNamedTag<Item> DUSTS_GOLD = ItemTags.createOptional(new ResourceLocation("forge", "dusts/gold"));
+        public static final IOptionalNamedTag<Item> DUSTS_COPPER = ItemTags.createOptional(new ResourceLocation("forge", "dusts/copper"));
+        public static final IOptionalNamedTag<Item> DUSTS_TIN = ItemTags.createOptional(new ResourceLocation("forge", "dusts/tin"));
+        public static final IOptionalNamedTag<Item> DUSTS_ENDER = ItemTags.createOptional(new ResourceLocation("forge", "dusts/ender"));
+        public static final IOptionalNamedTag<Item> DUSTS_OBSIDIAN = ItemTags.createOptional(new ResourceLocation("forge", "dusts/obsidian"));
+        public static final IOptionalNamedTag<Item> DUSTS_ARDITE = ItemTags.createOptional(new ResourceLocation("forge", "dusts/ardite"));
+        public static final IOptionalNamedTag<Item> DUSTS_COBALT = ItemTags.createOptional(new ResourceLocation("forge", "dusts/cobalt"));
         public static final IOptionalNamedTag<Item> DUSTS_QUARTZ = ItemTags.createOptional(new ResourceLocation("forge", "dusts/quartz"));
         public static final IOptionalNamedTag<Item> SILICON = ItemTags.createOptional(new ResourceLocation("forge", "silicon"));
         public static final IOptionalNamedTag<Item> GEARS = ItemTags.createOptional(new ResourceLocation("forge", "gears"));

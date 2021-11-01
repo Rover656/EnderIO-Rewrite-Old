@@ -90,6 +90,7 @@ public class GlassBlocks {
                 .isViewBlocking(GlassBlocks::never))
             .item(FusedQuartzItem::new)
             .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.BLOCKS))
+            .tag(name.contains("clear_glass")? EIOTags.Items.CLEAR_GLASS : EIOTags.Items.FUSED_QUARTZ)
             .build()
             .register();
     }
