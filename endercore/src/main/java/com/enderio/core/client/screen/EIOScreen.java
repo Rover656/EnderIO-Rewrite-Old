@@ -24,10 +24,10 @@ public abstract class EIOScreen<T extends AbstractContainerMenu> extends Abstrac
     private final boolean renderLabels;
     private final List<EditBox> editBoxList = new ArrayList<>();
 
-    public EIOScreen(T pMenu, Inventory pPlayerInventory, Component pTitle) {
+    protected EIOScreen(T pMenu, Inventory pPlayerInventory, Component pTitle) {
         this(pMenu, pPlayerInventory, pTitle, false);
     }
-    public EIOScreen(T pMenu, Inventory pPlayerInventory, Component pTitle, boolean renderLabels) {
+    protected EIOScreen(T pMenu, Inventory pPlayerInventory, Component pTitle, boolean renderLabels) {
         super(pMenu, pPlayerInventory, pTitle);
         this.renderLabels = renderLabels;
         this.imageWidth = getBackgroundImageSize().getLeft();
@@ -97,7 +97,7 @@ public abstract class EIOScreen<T extends AbstractContainerMenu> extends Abstrac
     protected abstract Pair<Integer, Integer> getBackgroundImageSize();
 
     @Override
-    protected <T extends GuiEventListener & NarratableEntry> T addWidget(T guiEventListener) {
+    protected <U extends GuiEventListener & NarratableEntry> U addWidget(U guiEventListener) {
         if (guiEventListener instanceof EditBox editBox) {
             editBoxList.add(editBox);
             Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(true);

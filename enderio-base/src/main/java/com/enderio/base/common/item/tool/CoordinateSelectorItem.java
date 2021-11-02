@@ -1,10 +1,8 @@
 package com.enderio.base.common.item.tool;
 
 import com.enderio.base.common.capability.location.CoordinateSelection;
-import com.enderio.base.common.capability.location.ICoordinateSelection;
 import com.enderio.base.common.lang.EIOLang;
 import com.enderio.base.common.menu.CoordinateMenu;
-import net.minecraft.Util;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -55,7 +53,7 @@ public class CoordinateSelectorItem extends Item {
             return super.use(pLevel, pPlayer, pHand);
         }
         if (pPlayer instanceof ServerPlayer serverPlayer)
-            openMenu(serverPlayer, hitResult.getBlockPos(), pLevel.dimension().location());
+            openMenu(serverPlayer, pLevel, hitResult.getBlockPos());
         return InteractionResultHolder.sidedSuccess(itemstack, pLevel.isClientSide);
     }
 
@@ -63,14 +61,14 @@ public class CoordinateSelectorItem extends Item {
     public InteractionResult useOn(UseOnContext pContext) {
         if (pContext.getPlayer() != null && checkPaper(pContext.getPlayer())) {
             if (pContext.getPlayer() instanceof ServerPlayer serverPlayer)
-                openMenu(serverPlayer, pContext.getClickedPos(), pContext.getLevel().dimension().location());
+                openMenu(serverPlayer, pContext.getLevel(), pContext.getClickedPos());
             return InteractionResult.sidedSuccess(pContext.getLevel().isClientSide);
         }
         return super.useOn(pContext);
     }
 
-    public static void openMenu(ServerPlayer player, BlockPos pos, ResourceLocation dimension) {
-        ICoordinateSelection selection = CoordinateSelection.of(pos, dimension);
+    private static void openMenu(ServerPlayer player, Level level, BlockPos pos) {
+        CoordinateSelection selection = CoordinateSelection.of(level, pos);
 
         NetworkHooks.openGui(player,new MenuProvider() {
             @Override
@@ -86,7 +84,7 @@ public class CoordinateSelectorItem extends Item {
         }, buf -> CoordinateMenu.writeAdditionalData(buf, selection, ""));
     }
 
-    private boolean checkPaper(Player player) {
+    private static boolean checkPaper(Player player) {
         if (player.getInventory().contains(Items.PAPER.getDefaultInstance()))
             return true;
         if (player instanceof LocalPlayer)

@@ -1,14 +1,11 @@
 package com.enderio.base.common.menu;
 
-import com.enderio.base.common.capability.location.ICoordinateSelection;
 import com.enderio.base.common.item.EIOItems;
 import com.enderio.base.common.item.LocationPrintoutItem;
 import com.enderio.base.common.capability.location.CoordinateSelection;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
@@ -25,7 +22,7 @@ import java.util.Optional;
 
 public class CoordinateMenu extends AbstractContainerMenu {
 
-    private final ICoordinateSelection selection;
+    private final CoordinateSelection selection;
 
     private final boolean isPrintout;
     private String name;
@@ -42,7 +39,7 @@ public class CoordinateMenu extends AbstractContainerMenu {
     /**
      * @param name is null when you used the coordinate selector, if it's the printout use the ItemStack name
      */
-    public CoordinateMenu(int containerID, ICoordinateSelection selection, @Nullable String name) {
+    public CoordinateMenu(int containerID, CoordinateSelection selection, @Nullable String name) {
         super(EIOMenus.COORDINATE.get(), containerID);
         this.selection = selection;
         this.isPrintout = name != null;
@@ -56,7 +53,7 @@ public class CoordinateMenu extends AbstractContainerMenu {
     /**
      * @param name is null when you used the coordinate selector, if it's the printout use the ItemStack name
      */
-    public static FriendlyByteBuf writeAdditionalData(FriendlyByteBuf buf, ICoordinateSelection selection, @Nullable String name) {
+    public static FriendlyByteBuf writeAdditionalData(FriendlyByteBuf buf, CoordinateSelection selection, @Nullable String name) {
         buf.writeBlockPos(selection.getPos());
         buf.writeResourceLocation(selection.getLevel());
         buf.writeBoolean(name == null);
@@ -133,7 +130,7 @@ public class CoordinateMenu extends AbstractContainerMenu {
         this.name = name;
     }
 
-    public ICoordinateSelection getSelection() {
+    public CoordinateSelection getSelection() {
         return selection;
     }
 }

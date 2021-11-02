@@ -1,19 +1,14 @@
 package com.enderio.base.client.screen;
 
 import com.enderio.base.EnderIO;
-import com.enderio.base.common.capability.location.ICoordinateSelection;
 import com.enderio.base.common.menu.CoordinateMenu;
 import com.enderio.base.common.network.EIOPackets;
 import com.enderio.base.common.network.packet.UpdateCoordinateSelectionNameMenuPacket;
-import com.enderio.base.common.capability.location.CoordinateSelection;
 import com.enderio.core.client.screen.EIOScreen;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -70,7 +65,7 @@ public class CoordinateMenuScreen extends EIOScreen<CoordinateMenu> {
 
         font.drawShadow(pPoseStack, txt, x, y, 0xFFFFFF);
 
-        txt = ICoordinateSelection.getLevelName(getMenu().getSelection().getLevel());
+        txt = getMenu().getSelection().getLevelName();
         y += font.lineHeight + 4;
         x = midX - font.width(txt) / 2;
         font.drawShadow(pPoseStack, txt, x, y, 0xFFFFFF);
