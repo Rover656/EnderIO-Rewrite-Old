@@ -29,7 +29,8 @@ public abstract class PoweredToggledItem extends Item implements IEnergyBar, IMu
         super(pProperties.stacksTo(1));
     }
 
-    protected abstract void onTickWhenActive(Player player, @Nonnull ItemStack pStack, @Nonnull Level pLevel, @Nonnull Entity pEntity, int pSlotId, boolean pIsSelected);
+    protected abstract void onTickWhenActive(Player player, @Nonnull ItemStack pStack, @Nonnull Level pLevel, @Nonnull Entity pEntity, int pSlotId,
+        boolean pIsSelected);
 
     protected abstract int getEnergyUse();
 
@@ -41,6 +42,14 @@ public abstract class PoweredToggledItem extends Item implements IEnergyBar, IMu
 
     protected void disable(ItemStack stack) {
         Toggled.setEnabled(stack, false);
+    }
+
+    protected boolean hasEnergy(ItemStack pStack) {
+        return EnergyUtil.extractEnergy(pStack, getEnergyUse(), true) > 0;
+    }
+
+    protected void useEnergy(ItemStack pStack) {
+        EnergyUtil.extractEnergy(pStack, getEnergyUse(), false);
     }
 
     @Override
@@ -64,9 +73,9 @@ public abstract class PoweredToggledItem extends Item implements IEnergyBar, IMu
     public InteractionResultHolder<ItemStack> use(@Nonnull Level pLevel, Player pPlayer, @Nonnull InteractionHand pUsedHand) {
         if (pPlayer.isCrouching()) {
             ItemStack stack = pPlayer.getItemInHand(pUsedHand);
-            if(Toggled.isEnabled(stack)) {
+            if (Toggled.isEnabled(stack)) {
                 disable(stack);
-            } else if (EnergyUtil.extractEnergy(stack, getEnergyUse(), true) > 0) {
+            } else if (hasEnergy(stack)) {
                 enable(stack);
             }
         }
@@ -77,9 +86,9 @@ public abstract class PoweredToggledItem extends Item implements IEnergyBar, IMu
     public void inventoryTick(@Nonnull ItemStack pStack, @Nonnull Level pLevel, @Nonnull Entity pEntity, int pSlotId, boolean pIsSelected) {
         if (pEntity instanceof Player player) {
             if (Toggled.isEnabled(pStack)) {
-                if (EnergyUtil.extractEnergy(pStack, getEnergyUse(), true) > 0) {
-                    EnergyUtil.extractEnergy(pStack, getEnergyUse(), false);
-                    onTickWhenActive(player, pStack,pLevel,pEntity,pSlotId, pIsSelected);
+                if (hasEnergy(pStack)) {
+                    useEnergy(pStack);
+                    onTickWhenActive(player, pStack, pLevel, pEntity, pSlotId, pIsSelected);
                 } else {
                     disable(pStack);
                 }

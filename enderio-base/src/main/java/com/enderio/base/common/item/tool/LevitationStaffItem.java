@@ -29,9 +29,15 @@ public class LevitationStaffItem extends PoweredToggledItem {
     }
 
     @Override
-    protected void enable(ItemStack stack) {
+    protected boolean hasEnergy(ItemStack pStack) {
         //TODO: Check fluid tank.
-        super.enable(stack);
+        return super.hasEnergy(pStack);
+    }
+
+    @Override
+    protected void useEnergy(ItemStack pStack) {
+        super.useEnergy(pStack);
+        //TODO: Use fluid
     }
 
     @Override
