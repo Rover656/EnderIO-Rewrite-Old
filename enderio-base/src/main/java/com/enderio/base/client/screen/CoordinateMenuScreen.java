@@ -6,6 +6,7 @@ import com.enderio.base.common.menu.CoordinateMenu;
 import com.enderio.base.common.network.EIOPackets;
 import com.enderio.base.common.network.packet.UpdateCoordinateSelectionNameMenuPacket;
 import com.enderio.base.common.capability.location.CoordinateSelection;
+import com.enderio.core.client.screen.EIOScreen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
@@ -17,76 +18,51 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
-public class CoordinateMenuScreen extends AbstractContainerScreen<CoordinateMenu> {
+public class CoordinateMenuScreen extends EIOScreen<CoordinateMenu> {
 
-    private EditBox name;
 
+    private static final Pair<Integer, Integer> BG_SIZE = new ImmutablePair<>(176,116);
     private static final ResourceLocation BG_TEXTURE = new ResourceLocation(EnderIO.DOMAIN, "textures/gui/40/location_printout.png");
 
     public CoordinateMenuScreen(CoordinateMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
-        this.imageWidth = 176;
-        this.imageHeight = 116;
-    }
-
-    @Override
-    public void containerTick() {
-        super.containerTick();
-        this.name.tick();
     }
 
     @Override
     protected void init() {
         super.init();
         Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(true);
-        this.name = new EditBox(this.font, leftPos + 43 + 4, topPos + 20 + 4, 92 - 12, 18, new TextComponent(""));
-        this.name.setCanLoseFocus(false);
-        this.name.setTextColor(0xFFFFFFFF);
-        this.name.setTextColorUneditable(0xFFFFFFFF);
-        this.name.setBordered(false);
-        this.name.setMaxLength(50);
-        this.name.setResponder(this::onNameChanged);
-        this.name.setValue(menu.getName());
-        this.addRenderableWidget(this.name);
-        this.setInitialFocus(this.name);
-        this.name.setEditable(true);
-        setFocused(name);
+
+        EditBox name = new EditBox(this.font, leftPos + 43 + 4, topPos + 20 + 4, 92 - 12, 18, new TextComponent("name"));
+        name.setCanLoseFocus(false);
+        name.setTextColor(0xFFFFFFFF);
+        name.setTextColorUneditable(0xFFFFFFFF);
+        name.setBordered(false);
+        name.setMaxLength(50);
+        name.setResponder(this::onNameChanged);
+        name.setValue(menu.getName());
+        this.addRenderableWidget(name);
+        this.setInitialFocus(name);
+        name.setEditable(true);
         this.addRenderableWidget(new Button(getGuiLeft() + imageWidth - 30, getGuiTop() + imageHeight - 30, 20, 20, new TextComponent("Ok"), mouseButton -> Minecraft.getInstance().player.closeContainer())); //TOOD: translation
     }
 
     @Override
-    public void resize(Minecraft pMinecraft, int pWidth, int pHeight) {
-        String s = this.name.getValue();
-        super.resize(pMinecraft, pWidth, pHeight);
-        this.name.setValue(s);
+    protected ResourceLocation getBackgroundImage() {
+        return BG_TEXTURE;
     }
 
     @Override
-    public void removed() {
-        super.removed();
-        Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(false);
-    }
-
-    @Override
-    public boolean keyPressed(int pKeyCode, int pScanCode, int pModifiers) {
-        if (pKeyCode == 256) { //ESC has priority
-            Minecraft.getInstance().player.closeContainer();
-        }
-
-        return this.name.keyPressed(pKeyCode, pScanCode, pModifiers)
-            || this.name.canConsumeInput()
-            || super.keyPressed(pKeyCode, pScanCode, pModifiers);
+    protected Pair<Integer, Integer> getBackgroundImageSize() {
+        return BG_SIZE;
     }
 
     @Override
     protected void renderBg(PoseStack pPoseStack, float pPartialTicks, int pMouseX, int pMouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, BG_TEXTURE);
-        blit(pPoseStack, getGuiLeft(), getGuiTop(), 0, 0, imageWidth, imageHeight);
-
-
+        super.renderBg(pPoseStack, pPartialTicks, pMouseX, pMouseY);
         int midX = this.width / 2;
         int y = topPos + 48;
         String txt = getMenu().getSelection().getPos().toShortString();
@@ -98,11 +74,6 @@ public class CoordinateMenuScreen extends AbstractContainerScreen<CoordinateMenu
         y += font.lineHeight + 4;
         x = midX - font.width(txt) / 2;
         font.drawShadow(pPoseStack, txt, x, y, 0xFFFFFF);
-    }
-
-    @Override
-    protected void renderLabels(PoseStack pPoseStack, int pMouseX, int pMouseY) {
-        //empty, to hide "Inventory"-label
     }
 
     private void onNameChanged(String name) {

@@ -30,7 +30,7 @@ public class CoordinateMenu extends AbstractContainerMenu {
     private final boolean isPrintout;
     private String name;
 
-    protected CoordinateMenu(@Nullable MenuType<CoordinateMenu> pMenuType, int pContainerId, Inventory inventory, FriendlyByteBuf buf) {
+    protected CoordinateMenu(@Nullable MenuType<CoordinateMenu> pMenuType, int pContainerId, FriendlyByteBuf buf) {
         super(pMenuType, pContainerId);
         selection = new CoordinateSelection();
         selection.setPos(buf.readBlockPos());
@@ -50,12 +50,12 @@ public class CoordinateMenu extends AbstractContainerMenu {
     }
 
     public static CoordinateMenu factory(@Nullable MenuType<CoordinateMenu> pMenuType, int pContainerId, Inventory inventory, FriendlyByteBuf buf) {
-        return new CoordinateMenu(pMenuType, pContainerId, inventory, buf);
+        return new CoordinateMenu(pMenuType, pContainerId, buf);
     }
 
-        /**
-         * @param name is null when you used the coordinate selector, if it's the printout use the ItemStack name
-         */
+    /**
+     * @param name is null when you used the coordinate selector, if it's the printout use the ItemStack name
+     */
     public static FriendlyByteBuf writeAdditionalData(FriendlyByteBuf buf, ICoordinateSelection selection, @Nullable String name) {
         buf.writeBlockPos(selection.getPos());
         buf.writeResourceLocation(selection.getLevel());
@@ -68,8 +68,6 @@ public class CoordinateMenu extends AbstractContainerMenu {
     public boolean stillValid(Player pPlayer) {
         return findInHand(pPlayer, isPrintout ? EIOItems.LOCATION_PRINTOUT.get() : EIOItems.COORDINATE_SELECTOR.get());
     }
-
-
 
     private static boolean findInHand(Player pPlayer, Item toFind) {
         return pPlayer.getMainHandItem().getItem() == toFind || pPlayer.getOffhandItem().getItem() == toFind;

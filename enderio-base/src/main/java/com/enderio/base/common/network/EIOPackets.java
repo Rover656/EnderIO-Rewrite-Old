@@ -12,7 +12,7 @@ public class EIOPackets {
 
     private static final String PROTOCOL_VERSION = "1.0";
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
-        new ResourceLocation(EnderIO.DOMAIN, "network"), //TODO: Enderio.rl
+        EnderIO.loc("network"),
         () -> PROTOCOL_VERSION,
         PROTOCOL_VERSION::equals,
         PROTOCOL_VERSION::equals);
