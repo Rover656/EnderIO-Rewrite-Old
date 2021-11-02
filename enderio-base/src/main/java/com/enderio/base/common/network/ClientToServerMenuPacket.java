@@ -38,7 +38,7 @@ public abstract class ClientToServerMenuPacket<Menu extends AbstractContainerMen
     }
 
     protected Menu getMenu(NetworkEvent.Context context) {
-        return (Menu) context.getSender().containerMenu;
+        return menuClass.cast(context.getSender().containerMenu);
     }
 
     public abstract static class Handler<MSG extends ClientToServerMenuPacket<?>> extends Packet.PacketHandler<MSG> {
