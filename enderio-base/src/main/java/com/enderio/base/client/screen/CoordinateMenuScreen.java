@@ -46,6 +46,11 @@ public class CoordinateMenuScreen extends EIOScreen<CoordinateMenu> {
     }
 
     @Override
+    protected void renderBg(PoseStack pPoseStack, float pPartialTicks, int pMouseX, int pMouseY) {
+        renderGradleWeirdnessBackground(pPoseStack, pPartialTicks, pMouseX, pMouseY);
+    }
+
+    @Override
     protected ResourceLocation getBackgroundImage() {
         return BG_TEXTURE;
     }
@@ -55,21 +60,6 @@ public class CoordinateMenuScreen extends EIOScreen<CoordinateMenu> {
         return BG_SIZE;
     }
 
-    @Override
-    protected void renderBg(PoseStack pPoseStack, float pPartialTicks, int pMouseX, int pMouseY) {
-        super.renderBg(pPoseStack, pPartialTicks, pMouseX, pMouseY);
-        int midX = this.width / 2;
-        int y = topPos + 48;
-        String txt = getMenu().getSelection().getPos().toShortString();
-        int x = midX - font.width(txt) / 2;
-
-        font.drawShadow(pPoseStack, txt, x, y, 0xFFFFFF);
-
-        txt = getMenu().getSelection().getLevelName();
-        y += font.lineHeight + 4;
-        x = midX - font.width(txt) / 2;
-        font.drawShadow(pPoseStack, txt, x, y, 0xFFFFFF);
-    }
 
     private void onNameChanged(String name) {
         EIOPackets.INSTANCE.sendToServer(new UpdateCoordinateSelectionNameMenuPacket(getMenu().containerId, name));

@@ -47,10 +47,17 @@ public abstract class EIOScreen<T extends AbstractContainerMenu> extends Abstrac
         }
     }
 
-    @Override
-    protected void renderBg(PoseStack pPoseStack, float pPartialTicks, int pMouseX, int pMouseY) {
+    /**
+     * This method is not renderBg, because of some gradle weirdness. For reference: https://github.com/Rover656/EnderIO-Rewrite/pull/25
+     * @param pPoseStack
+     * @param pPartialTicks
+     * @param pMouseX
+     * @param pMouseY
+     */
+    protected final void renderGradleWeirdnessBackground(PoseStack pPoseStack, float pPartialTicks, int pMouseX, int pMouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.getShaderColor();
         RenderSystem.setShaderTexture(0, getBackgroundImage());
         blit(pPoseStack, getGuiLeft(), getGuiTop(), 0, 0, imageWidth, imageHeight);
     }
