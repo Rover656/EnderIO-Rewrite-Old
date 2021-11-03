@@ -3,6 +3,7 @@ package com.enderio.base.common.item;
 import com.enderio.base.EnderIO;
 import com.enderio.base.common.capability.capacitors.ICapacitorData;
 import com.enderio.base.common.item.capacitors.LootCapacitorItem;
+import com.enderio.base.common.item.darksteel.DarkSteelPickaxeItem;
 import com.enderio.base.common.item.food.EnderiosItem;
 import com.enderio.base.common.item.misc.EnderfaceItem;
 import com.enderio.base.common.item.misc.GearItem;
@@ -24,9 +25,16 @@ import com.tterrag.registrate.util.nullness.NonNullSupplier;
 
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.common.ForgeTier;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.TierSortingRegistry;
+
+import java.util.List;
 
 @SuppressWarnings("unused")
 public class EIOItems {
@@ -366,6 +374,18 @@ public class EIOItems {
 
     public static ItemEntry<ElectromagnetItem> ELECTROMAGNET = REGISTRATE
         .item("electromagnet", ElectromagnetItem::new)
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
+        .register();
+
+    public static final Tag.Named<Block> DARK_STEEL_TIER_TAG = BlockTags.createOptional(EnderIO.loc("needs_dark_steel"));
+
+    public static final Tier DARK_STEEL_TIER = TierSortingRegistry.registerTier(
+        new ForgeTier(3, 2000, 8.0F, 3, 25, DARK_STEEL_TIER_TAG, () -> Ingredient.of(EIOItems.DARK_STEEL_INGOT.get())),
+        EnderIO.loc("dark_steel_tier"), List.of(Tiers.DIAMOND),
+        List.of(Tiers.NETHERITE));
+
+    public static ItemEntry<DarkSteelPickaxeItem> DARK_STEEL_PICKAXE = REGISTRATE
+        .item("dark_steel_pickaxe", DarkSteelPickaxeItem::new)
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
         .register();
 
