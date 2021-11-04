@@ -57,7 +57,6 @@ public abstract class EIOScreen<T extends AbstractContainerMenu> extends Abstrac
     protected final void renderGradleWeirdnessBackground(PoseStack pPoseStack, float pPartialTicks, int pMouseX, int pMouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.getShaderColor();
         RenderSystem.setShaderTexture(0, getBackgroundImage());
         blit(pPoseStack, getGuiLeft(), getGuiTop(), 0, 0, imageWidth, imageHeight);
     }

@@ -48,6 +48,16 @@ public class CoordinateMenuScreen extends EIOScreen<CoordinateMenu> {
     @Override
     protected void renderBg(PoseStack pPoseStack, float pPartialTicks, int pMouseX, int pMouseY) {
         renderGradleWeirdnessBackground(pPoseStack, pPartialTicks, pMouseX, pMouseY);
+
+        int midX = this.width / 2;
+        int y = topPos + 48;
+        String txt = getMenu().getSelection().getPos().toShortString();
+        int x = midX - font.width(txt) / 2;
+        font.drawShadow(pPoseStack, txt, x, y, 0xFFFFFF);
+        txt = getMenu().getSelection().getLevelName();
+        y += font.lineHeight + 4;
+        x = midX - font.width(txt) / 2;
+        font.drawShadow(pPoseStack, txt, x, y, 0xFFFFFF);
     }
 
     @Override
