@@ -1767,8 +1767,8 @@ e45ad3d086101bb5d1c79c6ebd68a889878bba4a data/enderio/advancements/recipes/ender
 e2ddb1921a0d097e3b1f6663adbfc1833faf7824 data/enderio/advancements/recipes/enderio.blocks/soularium_block.json
 5b39b9ec94a3874c5fca161788c267e806424b6a data/enderio/advancements/recipes/enderio.blocks/soularium_pressure_plate.json
 bfd471397fe3594e53a5e13aa164f5fb3533ef83 data/enderio/advancements/recipes/enderio.blocks/vibrant_alloy_block.json
-d61b3a89350724fc73ba232e6f95cfbb680966c1 data/enderio/advancements/recipes/enderio.gear/yeta_wrench.json
 37bdd031854590b5824868e0852d307a7e597833 data/enderio/advancements/recipes/enderio.gear/empty_soul_vial.json
+d61b3a89350724fc73ba232e6f95cfbb680966c1 data/enderio/advancements/recipes/enderio.gear/yeta_wrench.json
 d9d71c55d84d0c9921c19620b4a35c7ba45054b6 data/enderio/advancements/recipes/enderio.main/conductive_iron_ingot.json
 12fc7d2a6781bb7924877ac9420c1f73b98ce206 data/enderio/advancements/recipes/enderio.main/conductive_iron_nugget.json
 eb022afd4b2ac75845e9c83aeae4e845857923a4 data/enderio/advancements/recipes/enderio.main/conduit_binder_composite.json
@@ -2671,7 +2671,6 @@ b5abe54ae91cca7ed9b08c65c6936ab6f6b03edf data/enderio/recipes/stone_gear.json
 003d090f93b80e32e5fb5d6cb80560b28d7a97dd data/enderio/recipes/stone_gear_upgrade.json
 ee1b04d3c31007269a8ef071fa40709f61998c2c data/enderio/recipes/unfired_death_urn.json
 5c5008cea4255f9c5e6e2f2d8dd6ef1da55376bc data/enderio/recipes/vibrant_alloy_block.json
-1bf805133d949f2fb672f3659883ecd3b5cc436e data/enderio/recipes/yeta_wrench.json
 7996ca3ba3b890613b8108202cb54833e0110319 data/enderio/recipes/vibrant_alloy_ingot.json
 783ac4bff0d01f3eca966a42b0dbc31cbbc8bbaf data/enderio/recipes/vibrant_alloy_nugget.json
 c6972da829a936e7eb2c6a5dd92f0d0fb42ae512 data/enderio/recipes/vibrant_crystal.json
@@ -2679,6 +2678,7 @@ bba20815d6a19efab9c2bc8de452736b8bbf12ff data/enderio/recipes/vibrant_gear.json
 efa6ab8bca35c044e83aa0e5300594812a7fd85b data/enderio/recipes/weather_crystal.json
 728890735de4ab589b589bde3b39e1c9b0a657bd data/enderio/recipes/wood_gear.json
 e029d14019d12b37b82245a405a4c61bdcf61682 data/enderio/recipes/wood_gear_corner.json
+1bf805133d949f2fb672f3659883ecd3b5cc436e data/enderio/recipes/yeta_wrench.json
 aa50aa247000c0610d88b5e65b5599ab318150fa data/enderio/tags/blocks/clear_glass.json
 f9d38c0acfaf3a8d16bf538b94e9c29991552af0 data/enderio/tags/blocks/fused_quartz.json
 aa50aa247000c0610d88b5e65b5599ab318150fa data/enderio/tags/items/clear_glass.json
@@ -2699,7 +2699,6 @@ a2035d25a397933065cedc953d706459fee48445 data/forge/tags/items/dusts/quartz.json
 8d5c0f57c81e3dba8649ba0dc3eefdb03a3dcc4a data/forge/tags/items/dyes/black.json
 43766346bbf2d235b05bcd26cca779537509d1c6 data/forge/tags/items/dyes/brown.json
 45e0689b3f44054612d907eaa419ba590e11c08c data/forge/tags/items/dyes/green.json
-7d649d64da7e9d2016ae53d7986d8f94ba971c18 data/forge/tags/items/tools/wrench.json
 08646ea804a83c7067973039bd672606622b3537 data/forge/tags/items/gears.json
 edf683d90aea65f6d3df6b1cb924e3d219eeb184 data/forge/tags/items/gears/dark_steel.json
 d98edba1a79afa9d6a4d3e658bdd0d25fd013737 data/forge/tags/items/gears/energized.json
@@ -2707,6 +2706,7 @@ ede12d5685eb0acf69ba6ad0819ca99b7876bd55 data/forge/tags/items/gears/stone.json
 7fcd53b4980559d1df60362a3ab28545be7d6ce8 data/forge/tags/items/gears/vibrant.json
 5c5fccaaf14573325115a1b5117ac0c9c1c6a9c3 data/forge/tags/items/gears/wood.json
 84e56c6faf1fe32e4cf741e0638a0b8663e11ac5 data/forge/tags/items/silicon.json
+7d649d64da7e9d2016ae53d7986d8f94ba971c18 data/forge/tags/items/tools/wrench.json
 782afa25aa7fa0838ad6aef8ecf63f5edc647ae9 data/minecraft/advancements/recipes/food/cake.json
 5597efefcd147f7802287fc25adfae06184fa7c4 data/minecraft/advancements/recipes/misc/stick.json
 726852dac17008647c6f371c33bf426f2d551a0d data/minecraft/recipes/cake.json
