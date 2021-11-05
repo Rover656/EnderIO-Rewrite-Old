@@ -3,6 +3,7 @@ package com.enderio.base.common.capability.darksteel;
 import com.enderio.core.common.capability.INamedNBTSerializable;
 import net.minecraft.nbt.Tag;
 
+import java.util.Collection;
 import java.util.Optional;
 
 public interface IDarkSteelUpgradable extends INamedNBTSerializable<Tag> {
@@ -14,8 +15,11 @@ public interface IDarkSteelUpgradable extends INamedNBTSerializable<Tag> {
 
     void addUpgrade(IDarkSteelUpgrade upgrade);
 
-    Optional<IDarkSteelUpgrade> getUpgrade(String upgrade);
+    Optional<IDarkSteelUpgrade> getUpgrade(String upgradeName);
 
-    boolean hasUpgrade(String upgrade);
+    <T extends IDarkSteelUpgrade> Optional<T> getUpgrade(Class<T> upgrade);
 
+    boolean hasUpgrade(String upgradeName);
+
+    Collection<IDarkSteelUpgrade> getUpgrades();
 }

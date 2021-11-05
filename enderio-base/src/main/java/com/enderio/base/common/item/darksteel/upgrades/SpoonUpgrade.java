@@ -6,6 +6,10 @@ public class SpoonUpgrade implements IDarkSteelUpgrade {
 
     public static final String NAME = "Spoon";
 
+    public static SpoonUpgrade create() {
+        return new SpoonUpgrade();
+    }
+
     @Override
     public String getSerializedName() {
         return NAME;
