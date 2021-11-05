@@ -1,35 +1,12 @@
 package com.enderio.base.common.capability.darksteel;
 
-import com.enderio.base.common.item.darksteel.upgrades.SpoonUpgrade;
+import com.enderio.base.common.item.darksteel.upgrades.DarkSteelUpgrades;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Supplier;
+import java.util.*;
 
 public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
-
-    final static Map<String, Supplier<IDarkSteelUpgrade>> REGISTERED_UPGRADES = new HashMap<>();
-
-    public static void registerUpgrade(Supplier<IDarkSteelUpgrade> upgrade) {
-        REGISTERED_UPGRADES.put(upgrade.get().getSerializedName(), upgrade);
-    }
-
-    private static Optional<IDarkSteelUpgrade> createUpgrade(String name) {
-        Supplier<IDarkSteelUpgrade> val = REGISTERED_UPGRADES.get(name);
-        if(val == null) {
-            return Optional.empty();
-        }
-        return Optional.of(val.get());
-    }
-
-    static {
-        registerUpgrade(SpoonUpgrade::new);
-    }
-
-
 
     private Map<String, IDarkSteelUpgrade> upgrades = new HashMap<>();
 
@@ -47,7 +24,7 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
         upgrades.clear();
         if(tag instanceof CompoundTag nbt) {
             for (String key : nbt.getAllKeys()) {
-                createUpgrade(key).ifPresent(upgrade -> {
+                DarkSteelUpgrades.INST.createUpgrade(key).ifPresent(upgrade -> {
                     upgrade.deserializeNBT(nbt.get(key));
                     addUpgrade(upgrade);
                 });
@@ -66,7 +43,24 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
     }
 
     @Override
+    public <T extends IDarkSteelUpgrade> Optional<T> getUpgrade(Class<T> upgrade) {
+        for (var entry : upgrades.values()) {
+            if(upgrade.isAssignableFrom(entry.getClass())) {
+                return Optional.of(upgrade.cast(entry));
+            }
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Collection<IDarkSteelUpgrade> getUpgrades() {
+        return upgrades.values();
+    }
+
+    @Override
     public boolean hasUpgrade(String upgrade) {
         return upgrades.containsKey(upgrade);
     }
+
+
 }
