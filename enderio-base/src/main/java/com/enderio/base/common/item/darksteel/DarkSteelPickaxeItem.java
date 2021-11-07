@@ -27,7 +27,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.TierSortingRegistry;
 import net.minecraftforge.common.util.LazyOptional;
@@ -41,25 +40,8 @@ import java.util.List;
 //TODO: Use dual duration / energy bar
 public class DarkSteelPickaxeItem extends PickaxeItem implements IEnergyBar, IMultiCapabilityItem {
 
-    //TODO: Config
-    private int obsianBreakPowerUse = 50;
-
-    //TODO: Config
-    private int speedBoostWhenPowered = 2;
-
-    //TODO: Config
-    private int speedBoostWhenObsidian = 50;
-
-    //TODO: Config
-    private int powerUsePerDamagePoint = 750;
-
     public DarkSteelPickaxeItem(Properties pProperties) {
         super(EIOItems.DARK_STEEL_TIER, 1, -2.8F, pProperties);
-    }
-
-    @Override
-    public boolean isFoil(ItemStack pStack) {
-        return DarkSteelUpgrades.hasUpgrade(pStack, EmpoweredUpgrade.NAME);
     }
 
     @Override
@@ -69,51 +51,27 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IEnergyBar, IMu
     }
 
     @Override
-    public void setDamage(ItemStack stack, int newDamage) {
-        //TODO: Damage Reduction based on energy upgrade
-        int oldDamage = getDamage(stack);
-        if (newDamage <= oldDamage) {
-            super.setDamage(stack, newDamage);
-        } else {
-            int damage = newDamage - oldDamage;
-            if (!absorbDamageWithEnergy(stack, damage * powerUsePerDamagePoint)) {
-                super.setDamage(stack, newDamage);
-            }
-        }
-    }
-
-    private boolean absorbDamageWithEnergy(@Nonnull ItemStack stack, int amount) {
-        //        EnergyUpgradeHolder eu = EnergyUpgradeManager.loadFromItem(stack);
-        //        if (eu != null && eu.isAbsorbDamageWithPower() && eu.getEnergy() > 0) {
-        //            eu.extractEnergy(amount, false);
-        //            eu.writeToItem();
-        //            return true;
-        //        } else {
-        //            return false;
-        //        }
-        return false;
+    public void setDamage(final ItemStack stack, final int newDamage) {
+        int finalDamage = DarkSteelUpgradeable
+            .getUpgrade(stack, EmpoweredUpgrade.class)
+            .map(empoweredUpgrade -> empoweredUpgrade.adjustDamage(getDamage(stack), newDamage))
+            .orElse(newDamage);
+         super.setDamage(stack, finalDamage);
     }
 
     @Override
     public float getDestroySpeed(ItemStack pStack, BlockState pState) {
-        int energy = EnergyUtil.getEnergyStored(pStack);
-        float result = 1.0f;
-        if (BlockTags.MINEABLE_WITH_PICKAXE.contains(pState.getBlock()) || canSpoon(pStack, pState)) {
-            result = speed;
-        }
-        if (energy > 0) {
-            result += speedBoostWhenPowered;
-        }
-        if (energy >= obsianBreakPowerUse && pState.getBlock() == Blocks.OBSIDIAN) {
-            //TODO: Check for blocks with hardness > 50 as well as obsidian
-            result += speedBoostWhenObsidian;
-        }
-        return result;
+        final float baseSpeed = canHarvest(pStack, pState) ? speed : 1.0f;
+        return DarkSteelUpgradeable
+            .getUpgrade(pStack, EmpoweredUpgrade.class)
+            .map(empoweredUpgrade -> empoweredUpgrade.adjustDestroySpeed(baseSpeed, pState))
+            .orElse(baseSpeed);
     }
 
     @Override
     public boolean mineBlock(ItemStack pStack, Level pLevel, BlockState pState, BlockPos pPos, LivingEntity pEntityLiving) {
-        //TODO: Use energy for obsidian
+        DarkSteelUpgradeable
+            .getUpgrade(pStack, EmpoweredUpgrade.class).ifPresent(empoweredUpgrade -> empoweredUpgrade.onMineBlock(pState));
 
         //TODO: Expolisive upgrade
         return super.mineBlock(pStack, pLevel, pState, pPos, pEntityLiving);
@@ -121,11 +79,19 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IEnergyBar, IMu
 
     @Override
     public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
-        return super.isCorrectToolForDrops(stack, state) || (canSpoon(stack, state) && TierSortingRegistry.isCorrectTierForDrops(getTier(), state));
+        return canHarvest(stack, state) && TierSortingRegistry.isCorrectTierForDrops(getTier(), state);
     }
 
-    private boolean canSpoon(ItemStack stack, BlockState state) {
-        return DarkSteelUpgrades.hasUpgrade(stack, SpoonUpgrade.NAME) && state.is(BlockTags.MINEABLE_WITH_SHOVEL);
+    private boolean canHarvest(ItemStack stack, BlockState state) {
+        return BlockTags.MINEABLE_WITH_PICKAXE.contains(state.getBlock()) || (state.is(BlockTags.MINEABLE_WITH_SHOVEL) && DarkSteelUpgradeable.hasUpgrade(stack, SpoonUpgrade.NAME));
+    }
+
+
+    //------------ Common for all tools
+
+    @Override
+    public boolean isFoil(ItemStack pStack) {
+        return DarkSteelUpgradeable.hasUpgrade(pStack, EmpoweredUpgrade.NAME);
     }
 
     @Nullable
@@ -142,13 +108,13 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IEnergyBar, IMu
             ItemStack is = new ItemStack(this);
             pItems.add(is.copy());
 
-            DarkSteelUpgrades.addUpgrade(is, SpoonUpgrade::new);
-            DarkSteelUpgrades.addUpgrade(is, EmpoweredUpgrade.EMPOWERED_1);
+            DarkSteelUpgradeable.addUpgrade(is, SpoonUpgrade::new);
+            DarkSteelUpgradeable.addUpgrade(is, EmpoweredUpgrade.EMPOWERED_1);
             EnergyUtil.setFull(is);
             pItems.add(is.copy());
 
-            DarkSteelUpgrades.addUpgrade(is, SpoonUpgrade::new);
-            DarkSteelUpgrades.addUpgrade(is, EmpoweredUpgrade.EMPOWERED_2);
+            DarkSteelUpgradeable.addUpgrade(is, SpoonUpgrade::new);
+            DarkSteelUpgradeable.addUpgrade(is, EmpoweredUpgrade.EMPOWERED_2);
             EnergyUtil.setFull(is);
             pItems.add(is.copy());
         }
@@ -159,12 +125,12 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IEnergyBar, IMu
         @Nonnull TooltipFlag pIsAdvanced) {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
 
-        if (DarkSteelUpgrades.hasUpgrade(pStack, EmpoweredUpgrade.NAME)) {
+        if (DarkSteelUpgradeable.hasUpgrade(pStack, EmpoweredUpgrade.NAME)) {
             String tip = EnergyUtil.getEnergyStored(pStack) + "/" + EnergyUtil.getMaxEnergyStored(pStack);
             pTooltipComponents.add(new TranslatableComponent(tip));
         }
 
-        var upgrades = DarkSteelUpgrades.getUpgrades(pStack);
+        var upgrades = DarkSteelUpgradeable.getUpgrades(pStack);
         upgrades
             .stream()
             .sorted(Comparator.comparing(INamedNBTSerializable::getSerializedName))
