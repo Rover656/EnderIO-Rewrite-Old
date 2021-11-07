@@ -1,12 +1,31 @@
 package com.enderio.base.common.capability.darksteel;
 
+import com.enderio.base.common.capability.EIOCapabilities;
 import com.enderio.base.common.item.darksteel.upgrades.DarkSteelUpgrades;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
+
+    public static void addUpgrade(ItemStack is, Supplier<? extends IDarkSteelUpgrade> upgrade) {
+        is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).ifPresent(upgradable -> upgradable.addUpgrade(upgrade.get()));
+    }
+
+    public static Collection<IDarkSteelUpgrade> getUpgrades(ItemStack is) {
+        return is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).map(IDarkSteelUpgradable::getUpgrades).orElse(Collections.emptyList());
+    }
+
+    public static boolean hasUpgrade(ItemStack is, String name) {
+        return is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).map(upgradable -> upgradable.hasUpgrade(name)).orElse(false);
+    }
+
+    public static <T extends IDarkSteelUpgrade> Optional<T> getUpgrade(ItemStack is, Class<T> upgrade) {
+        return is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).map(upgradable -> upgradable.getUpgrade(upgrade)).orElse(Optional.empty());
+    }
 
     private Map<String, IDarkSteelUpgrade> upgrades = new HashMap<>();
 

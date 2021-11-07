@@ -20,6 +20,7 @@ public final class DarkSteelUpgrades {
 
     private final Map<String, Supplier<IDarkSteelUpgrade>> registeredUpgrades = new HashMap<>();
 
+    private DarkSteelUpgrades() {}
 
 
     public void registerUpgrade(Supplier<IDarkSteelUpgrade> upgrade) {
@@ -34,16 +35,7 @@ public final class DarkSteelUpgrades {
         return Optional.of(val.get());
     }
 
-    public static void addUpgrade(ItemStack is, Supplier<? extends IDarkSteelUpgrade> upgrade) {
-        is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).ifPresent(upgradable -> upgradable.addUpgrade(upgrade.get()));
-    }
 
-    public static Collection<IDarkSteelUpgrade> getUpgrades(ItemStack is) {
-        return is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).map(IDarkSteelUpgradable::getUpgrades).orElse(Collections.emptyList());
-    }
 
-    public static boolean hasUpgrade(ItemStack is, String name) {
-        return is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).map(upgradable -> upgradable.hasUpgrade(name)).orElse(false);
-    }
 
 }
