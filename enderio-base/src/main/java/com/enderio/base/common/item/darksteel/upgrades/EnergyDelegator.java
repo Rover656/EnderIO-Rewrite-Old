@@ -62,27 +62,14 @@ public class EnergyDelegator implements IEnergyStorage , INBTSerializable<Tag>  
     }
 
     private IEnergyStorage getDelegate() {
-//        return prov
-//            .getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE)
-//            .resolve()
-//            .flatMap(upgradable -> upgradable.getUpgrade(EmpoweredUpgrade.class))
-//            .map(energyUpgrade -> energyUpgrade.getStorage())
-//            .orElse(NULL_DELEGATE);
-
-        //        Optional<IDarkSteelUpgradable> a = prov.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).map(upgradable -> upgradable);
-        //        Optional<EnergyUpgrade> b = a.flatMap(upgradable -> upgradable.getUpgrade(EnergyUpgrade.class));
-        //        Optional<EnergyStorage> c = b.map(energyUpgrade -> energyUpgrade.getStorage());
-        //        c.orElse(NULL_DELEGATE);
-
-                Optional<IDarkSteelUpgradable> cap = prov.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).resolve();
-                if(cap.isPresent()) {
-                    Optional<EmpoweredUpgrade> energyUp = cap.get().getUpgrade(EmpoweredUpgrade.class);
-                    if(energyUp.isPresent()) {
-                        return energyUp.get().getStorage();
-                    }
-                }
-                return NULL_DELEGATE;
-
+        Optional<IDarkSteelUpgradable> cap = prov.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).resolve();
+        if (cap.isPresent()) {
+            Optional<EmpoweredUpgrade> energyUp = cap.get().getUpgradeAs(EmpoweredUpgrade.NAME);
+            if (energyUp.isPresent()) {
+                return energyUp.get().getStorage();
+            }
+        }
+        return NULL_DELEGATE;
     }
 
 

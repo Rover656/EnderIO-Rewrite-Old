@@ -13,13 +13,15 @@ public interface IDarkSteelUpgradable extends INamedNBTSerializable<Tag> {
         return "DarkSteelUpgradable";
     }
 
-    void addUpgrade(IDarkSteelUpgrade upgrade);
+    void applyUpgrade(IDarkSteelUpgrade upgrade);
 
     Optional<IDarkSteelUpgrade> getUpgrade(String upgradeName);
 
-    <T extends IDarkSteelUpgrade> Optional<T> getUpgrade(Class<T> upgrade);
+    <T extends IDarkSteelUpgrade> Optional<T> getUpgradeAs(String upgrade);
 
     boolean hasUpgrade(String upgradeName);
 
     Collection<IDarkSteelUpgrade> getUpgrades();
+
+    Collection<String> getAllPossibleUpgrades();
 }
