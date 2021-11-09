@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface IDarkSteelUpgrade extends INamedNBTSerializable<Tag> {
 
+    //TODO: lang
     default String getDisplayName() {
         return getSerializedName();
     }
@@ -22,11 +23,28 @@ public interface IDarkSteelUpgrade extends INamedNBTSerializable<Tag> {
     }
 
     /**
+     * For non-tiered upgrades, always true. For tiered upgrades return true for tier 0.
+     * @return true if base tier
+     */
+    default boolean isBaseTier() {
+        return true;
+    }
+
+    /**
      * If this upgrade has multiple tiers (eg, level 1, 2, 3 etc) return the next tier.
      * @return the next tier
      */
     default Optional<? extends IDarkSteelUpgrade> getNextTier() {
         return Optional.empty();
+    }
+
+    /**
+     * If an upgrade has multiple tiers, checks that the current upgrade can be replaced by the supplied upgrade
+     * @param upgrade the upgrade to be checked
+     * @return res
+     */
+    default boolean isValidUpgrade(IDarkSteelUpgrade upgrade) {
+        return false;
     }
 
     @Override

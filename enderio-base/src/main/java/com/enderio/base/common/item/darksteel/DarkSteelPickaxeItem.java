@@ -119,7 +119,7 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IEnergyBar, IMu
 
             //All the upgrades
             is = new ItemStack(this);
-            Collection<IDarkSteelUpgrade> ups = DarkSteelUpgrades.instance().getUpgradesForSet(UPGRADE_SET_NAME);
+            Collection<? extends IDarkSteelUpgrade> ups = DarkSteelUpgradeable.getAllPossibleUpgrades(is);
             for(IDarkSteelUpgrade upgrade : ups) {
                 IDarkSteelUpgrade maxTier = upgrade;
                 Optional<? extends IDarkSteelUpgrade> nextTier = maxTier.getNextTier();
@@ -149,6 +149,18 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IEnergyBar, IMu
             .stream()
             .sorted(Comparator.comparing(INamedNBTSerializable::getSerializedName))
             .forEach(upgrade -> pTooltipComponents.add(new TranslatableComponent(upgrade.getDisplayName())));
+
+
+
+        var availUpgrades = DarkSteelUpgradeable.getUpgradesThatCanBeAppliedAtTheMoment(pStack);
+        if(!availUpgrades.isEmpty()) {
+            pTooltipComponents.add(new TranslatableComponent("Available Upgrades:"));
+            availUpgrades
+                .stream()
+                .sorted(Comparator.comparing(INamedNBTSerializable::getSerializedName))
+                .forEach(upgrade -> pTooltipComponents.add(new TranslatableComponent(upgrade.getDisplayName())));
+        }
+
 
     }
 }

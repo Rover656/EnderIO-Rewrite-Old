@@ -1,14 +1,14 @@
 package com.enderio.base.common.item.darksteel.upgrades;
 
+import com.enderio.base.EnderIO;
 import com.enderio.base.common.capability.darksteel.IDarkSteelUpgrade;
-import net.minecraft.world.item.ItemStack;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.function.Supplier;
-import java.util.stream.Stream;
 
 public final class DarkSteelUpgrades {
+
+    public static final String UPGADE_PREFIX = EnderIO.DOMAIN + ".darksteel.upgrade.";
 
 
     private static final DarkSteelUpgrades INST = new DarkSteelUpgrades();

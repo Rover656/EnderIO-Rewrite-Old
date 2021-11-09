@@ -1,5 +1,6 @@
 package com.enderio.base.common.item.darksteel.upgrades;
 
+import com.enderio.base.EnderIO;
 import com.enderio.base.common.capability.darksteel.IDarkSteelUpgrade;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -13,6 +14,8 @@ import java.util.function.Supplier;
 
 public class EmpoweredUpgrade implements IDarkSteelUpgrade {
 
+    public static final String NAME = DarkSteelUpgrades.UPGADE_PREFIX + "empowered";
+
     //TODO: Config All the things
     private static final Supplier<EmpoweredUpgrade>[] UPGRADES = new Supplier[] {
         () -> new EmpoweredUpgrade(0,100000, 0.5f),
@@ -21,14 +24,16 @@ public class EmpoweredUpgrade implements IDarkSteelUpgrade {
         () -> new EmpoweredUpgrade(3,1000000,0.85f)
     };
 
+    public static EmpoweredUpgrade createBaseUpgrade() {
+        return UPGRADES[0].get();
+    }
+
     public static Optional<EmpoweredUpgrade> getUpgradeForTier(int tier) {
         if(tier < 0 || tier >= UPGRADES.length) {
             return Optional.empty();
         }
         return Optional.of(UPGRADES[tier].get());
     }
-
-    public static final String NAME = "Empowered";
 
     private static final Random RANDOM = new Random();
 
@@ -95,8 +100,21 @@ public class EmpoweredUpgrade implements IDarkSteelUpgrade {
     }
 
     @Override
+    public boolean isBaseTier() {
+        return level == 0;
+    }
+
+    @Override
     public Optional<? extends IDarkSteelUpgrade> getNextTier() {
         return getUpgradeForTier(level + 1);
+    }
+
+    @Override
+    public boolean isValidUpgrade(IDarkSteelUpgrade upgrade) {
+        if(upgrade instanceof EmpoweredUpgrade eu) {
+            return eu.level == level + 1;
+        }
+        return false;
     }
 
     public EnergyStorage getStorage() {
