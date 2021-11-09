@@ -7,16 +7,26 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.energy.EnergyStorage;
 
+import java.util.Optional;
 import java.util.Random;
 import java.util.function.Supplier;
 
 public class EmpoweredUpgrade implements IDarkSteelUpgrade {
 
     //TODO: Config All the things
-    public static final Supplier<EmpoweredUpgrade> EMPOWERED_1 = () -> new EmpoweredUpgrade(1,100000, 0.5f);
-    public static final Supplier<EmpoweredUpgrade> EMPOWERED_2 = () -> new EmpoweredUpgrade(2,150000, 0.6f);
-    public static final Supplier<EmpoweredUpgrade> EMPOWERED_3 = () -> new EmpoweredUpgrade(3,250000, 0.7f);
-    public static final Supplier<EmpoweredUpgrade> EMPOWERED_4 = () -> new EmpoweredUpgrade(4,1000000,0.85f);
+    private static final Supplier<EmpoweredUpgrade>[] UPGRADES = new Supplier[] {
+        () -> new EmpoweredUpgrade(0,100000, 0.5f),
+        () -> new EmpoweredUpgrade(1,150000, 0.6f),
+        () -> new EmpoweredUpgrade(2,250000, 0.7f),
+        () -> new EmpoweredUpgrade(3,1000000,0.85f)
+    };
+
+    public static Optional<EmpoweredUpgrade> getUpgradeForTier(int tier) {
+        if(tier < 0 || tier >= UPGRADES.length) {
+            return Optional.empty();
+        }
+        return Optional.of(UPGRADES[tier].get());
+    }
 
     public static final String NAME = "Empowered";
 
@@ -44,7 +54,7 @@ public class EmpoweredUpgrade implements IDarkSteelUpgrade {
 
 
     public EmpoweredUpgrade() {
-        this(0,0,0);
+        this(1,100000,0.5f);
     }
 
     public EmpoweredUpgrade(int level, int  maxStorage, float damageAbsorptionChance) {
@@ -84,6 +94,11 @@ public class EmpoweredUpgrade implements IDarkSteelUpgrade {
         return storage.getEnergyStored() >= obsianBreakPowerUse && pState.getBlock() == Blocks.OBSIDIAN;
     }
 
+    @Override
+    public Optional<? extends IDarkSteelUpgrade> getNextTier() {
+        return getUpgradeForTier(level + 1);
+    }
+
     public EnergyStorage getStorage() {
         return storage;
     }
@@ -95,13 +110,14 @@ public class EmpoweredUpgrade implements IDarkSteelUpgrade {
 
     @Override
     public String getDisplayName() {
-        return getSerializedName() + " " + level;
+        return getSerializedName() + " " + (level + 1);
     }
 
     @Override
     public Tag serializeNBT() {
         CompoundTag nbt = new CompoundTag();
         nbt.putInt("level", level);
+        nbt.put("storage", storage.serializeNBT());
         nbt.putInt("maxStorage", maxStorage);
         nbt.putFloat("damageAbsorptionChance", damageAbsorptionChance);
         return nbt;
@@ -112,8 +128,9 @@ public class EmpoweredUpgrade implements IDarkSteelUpgrade {
         if(tag instanceof CompoundTag nbt) {
             level = nbt.getInt("level");
             maxStorage = nbt.getInt("maxStorage");
-            damageAbsorptionChance = nbt.getFloat("damageAbsorptionChance");
             storage = new EnergyStorage(maxStorage);
+            storage.deserializeNBT(nbt.get("storage"));
+            damageAbsorptionChance = nbt.getFloat("damageAbsorptionChance");
         }
     }
 

@@ -2,6 +2,7 @@ package com.enderio.base.common.item.darksteel;
 
 import com.enderio.base.common.capability.EIOCapabilities;
 import com.enderio.base.common.capability.darksteel.DarkSteelUpgradeable;
+import com.enderio.base.common.capability.darksteel.IDarkSteelUpgrade;
 import com.enderio.base.common.item.EIOItems;
 import com.enderio.base.common.item.darksteel.upgrades.DarkSteelUpgrades;
 import com.enderio.base.common.item.darksteel.upgrades.EmpoweredUpgrade;
@@ -34,14 +35,21 @@ import net.minecraftforge.energy.CapabilityEnergy;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 //TODO: Use dual duration / energy bar
 public class DarkSteelPickaxeItem extends PickaxeItem implements IEnergyBar, IMultiCapabilityItem {
 
+    public static final String UPGRADE_SET_NAME = "DarkSteelPickaxeItem";
+
     public DarkSteelPickaxeItem(Properties pProperties) {
         super(EIOItems.DARK_STEEL_TIER, 1, -2.8F, pProperties);
+        DarkSteelUpgrades
+            .instance()
+            .addUpgradesToSet(new DarkSteelUpgrades.UpgradeSet(UPGRADE_SET_NAME).addUpgrades(EmpoweredUpgrade.NAME, SpoonUpgrade.NAME));
     }
 
     @Override
@@ -52,27 +60,19 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IEnergyBar, IMu
 
     @Override
     public void setDamage(final ItemStack stack, final int newDamage) {
-        int finalDamage = DarkSteelUpgradeable
-            .getUpgrade(stack, EmpoweredUpgrade.class)
-            .map(empoweredUpgrade -> empoweredUpgrade.adjustDamage(getDamage(stack), newDamage))
-            .orElse(newDamage);
-         super.setDamage(stack, finalDamage);
+        int finalDamage = getEmpoweredUpgrade(stack).map(empoweredUpgrade -> empoweredUpgrade.adjustDamage(getDamage(stack), newDamage)).orElse(newDamage);
+        super.setDamage(stack, finalDamage);
     }
 
     @Override
     public float getDestroySpeed(ItemStack pStack, BlockState pState) {
         final float baseSpeed = canHarvest(pStack, pState) ? speed : 1.0f;
-        return DarkSteelUpgradeable
-            .getUpgrade(pStack, EmpoweredUpgrade.class)
-            .map(empoweredUpgrade -> empoweredUpgrade.adjustDestroySpeed(baseSpeed, pState))
-            .orElse(baseSpeed);
+        return getEmpoweredUpgrade(pStack).map(empoweredUpgrade -> empoweredUpgrade.adjustDestroySpeed(baseSpeed, pState)).orElse(baseSpeed);
     }
 
     @Override
     public boolean mineBlock(ItemStack pStack, Level pLevel, BlockState pState, BlockPos pPos, LivingEntity pEntityLiving) {
-        DarkSteelUpgradeable
-            .getUpgrade(pStack, EmpoweredUpgrade.class).ifPresent(empoweredUpgrade -> empoweredUpgrade.onMineBlock(pState));
-
+        getEmpoweredUpgrade(pStack).ifPresent(empoweredUpgrade -> empoweredUpgrade.onMineBlock(pState));
         //TODO: Expolisive upgrade
         return super.mineBlock(pStack, pLevel, pState, pPos, pEntityLiving);
     }
@@ -83,9 +83,13 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IEnergyBar, IMu
     }
 
     private boolean canHarvest(ItemStack stack, BlockState state) {
-        return BlockTags.MINEABLE_WITH_PICKAXE.contains(state.getBlock()) || (state.is(BlockTags.MINEABLE_WITH_SHOVEL) && DarkSteelUpgradeable.hasUpgrade(stack, SpoonUpgrade.NAME));
+        return BlockTags.MINEABLE_WITH_PICKAXE.contains(state.getBlock()) || (state.is(BlockTags.MINEABLE_WITH_SHOVEL) && DarkSteelUpgradeable.hasUpgrade(stack,
+            SpoonUpgrade.NAME));
     }
 
+    private static Optional<EmpoweredUpgrade> getEmpoweredUpgrade(ItemStack stack) {
+        return DarkSteelUpgradeable.getUpgradeAs(stack, EmpoweredUpgrade.NAME);
+    }
 
     //------------ Common for all tools
 
@@ -97,7 +101,7 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IEnergyBar, IMu
     @Nullable
     @Override
     public MultiCapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt, MultiCapabilityProvider provider) {
-        provider.addSerialized(EIOCapabilities.DARK_STEEL_UPGRADABLE, LazyOptional.of(DarkSteelUpgradeable::new));
+        provider.addSerialized(EIOCapabilities.DARK_STEEL_UPGRADABLE, LazyOptional.of(() -> new DarkSteelUpgradeable(UPGRADE_SET_NAME)));
         provider.addSerialized("Energy", CapabilityEnergy.ENERGY, LazyOptional.of(() -> new EnergyDelegator(provider)));
         return provider;
     }
@@ -108,13 +112,23 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IEnergyBar, IMu
             ItemStack is = new ItemStack(this);
             pItems.add(is.copy());
 
-            DarkSteelUpgradeable.addUpgrade(is, SpoonUpgrade::new);
-            DarkSteelUpgradeable.addUpgrade(is, EmpoweredUpgrade.EMPOWERED_1);
-            EnergyUtil.setFull(is);
+            //Just empowered
+            is = new ItemStack(this);
+            DarkSteelUpgradeable.addUpgrade(is,EmpoweredUpgrade.getUpgradeForTier(0).get());
             pItems.add(is.copy());
 
-            DarkSteelUpgradeable.addUpgrade(is, SpoonUpgrade::new);
-            DarkSteelUpgradeable.addUpgrade(is, EmpoweredUpgrade.EMPOWERED_2);
+            //All the upgrades
+            is = new ItemStack(this);
+            Collection<IDarkSteelUpgrade> ups = DarkSteelUpgrades.instance().getUpgradesForSet(UPGRADE_SET_NAME);
+            for(IDarkSteelUpgrade upgrade : ups) {
+                IDarkSteelUpgrade maxTier = upgrade;
+                Optional<? extends IDarkSteelUpgrade> nextTier = maxTier.getNextTier();
+                while(nextTier.isPresent()) {
+                    maxTier = nextTier.get();
+                    nextTier = maxTier.getNextTier();
+                }
+                DarkSteelUpgradeable.addUpgrade(is,maxTier);
+            }
             EnergyUtil.setFull(is);
             pItems.add(is.copy());
         }

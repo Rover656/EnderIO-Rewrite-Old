@@ -11,8 +11,14 @@ import java.util.function.Supplier;
 
 public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
 
+    //----------------------- Utils
+
     public static void addUpgrade(ItemStack is, Supplier<? extends IDarkSteelUpgrade> upgrade) {
-        is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).ifPresent(upgradable -> upgradable.addUpgrade(upgrade.get()));
+        is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).ifPresent(upgradable -> upgradable.applyUpgrade(upgrade.get()));
+    }
+
+    public static void addUpgrade(ItemStack is, IDarkSteelUpgrade upgrade) {
+        is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).ifPresent(upgradable -> upgradable.applyUpgrade(upgrade));
     }
 
     public static Collection<IDarkSteelUpgrade> getUpgrades(ItemStack is) {
@@ -23,36 +29,30 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
         return is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).map(upgradable -> upgradable.hasUpgrade(name)).orElse(false);
     }
 
-    public static <T extends IDarkSteelUpgrade> Optional<T> getUpgrade(ItemStack is, Class<T> upgrade) {
-        return is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).map(upgradable -> upgradable.getUpgrade(upgrade)).orElse(Optional.empty());
+    public static <T extends IDarkSteelUpgrade> Optional<T> getUpgradeAs(ItemStack is, String upgrade) {
+        Optional<IDarkSteelUpgradable> cap = is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).resolve();
+        if(cap.isEmpty()) {
+            return Optional.empty();
+        }
+        return cap.get().getUpgradeAs(upgrade);
     }
+
+    //----------------------- Class
 
     private Map<String, IDarkSteelUpgrade> upgrades = new HashMap<>();
 
-    @Override
-    public CompoundTag serializeNBT() {
-        CompoundTag tag = new CompoundTag();
-        for (var entry : upgrades.entrySet()) {
-            tag.put(entry.getKey(), entry.getValue().serializeNBT());
-        }
-        return tag;
+    private String upgradeSet;
+
+    public DarkSteelUpgradeable(){
+        this("");
+    }
+
+    public DarkSteelUpgradeable(String upgradeSet) {
+        this.upgradeSet = upgradeSet == null ? "" : upgradeSet;
     }
 
     @Override
-    public void deserializeNBT(Tag tag) {
-        upgrades.clear();
-        if(tag instanceof CompoundTag nbt) {
-            for (String key : nbt.getAllKeys()) {
-                DarkSteelUpgrades.INST.createUpgrade(key).ifPresent(upgrade -> {
-                    upgrade.deserializeNBT(nbt.get(key));
-                    addUpgrade(upgrade);
-                });
-            }
-        }
-    }
-
-    @Override
-    public void addUpgrade(IDarkSteelUpgrade upgrade) {
+    public void applyUpgrade(IDarkSteelUpgrade upgrade) {
         upgrades.put(upgrade.getSerializedName(), upgrade);
     }
 
@@ -62,13 +62,15 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
     }
 
     @Override
-    public <T extends IDarkSteelUpgrade> Optional<T> getUpgrade(Class<T> upgrade) {
-        for (var entry : upgrades.values()) {
-            if(upgrade.isAssignableFrom(entry.getClass())) {
-                return Optional.of(upgrade.cast(entry));
-            }
+    public <T extends IDarkSteelUpgrade> Optional<T> getUpgradeAs(String upgrade) {
+        try {
+            return Optional.ofNullable((T) upgrades.get(upgrade));
+        } catch (Exception e) {
+            //TODO: Log
+            System.out.println("DarkSteelUpgradeable.getUpgradeAs: upgrade=" + upgrade + " Error=" + e);
+            e.printStackTrace();
+            return Optional.empty();
         }
-        return Optional.empty();
     }
 
     @Override
@@ -81,5 +83,33 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
         return upgrades.containsKey(upgrade);
     }
 
+    @Override
+    public Collection<String> getAllPossibleUpgrades() {
+        return DarkSteelUpgrades.instance().getUpgradeSet(upgradeSet).map(DarkSteelUpgrades.UpgradeSet::getUpgrades).orElse(Collections.emptySet());
+    }
+
+    @Override
+    public CompoundTag serializeNBT() {
+        CompoundTag tag = new CompoundTag();
+        for (var entry : upgrades.entrySet()) {
+            tag.put(entry.getKey(), entry.getValue().serializeNBT());
+        }
+        tag.putString("upgradeSet", upgradeSet);
+        return tag;
+    }
+
+    @Override
+    public void deserializeNBT(Tag tag) {
+        upgrades.clear();
+        if(tag instanceof CompoundTag nbt) {
+            for (String key : nbt.getAllKeys()) {
+                DarkSteelUpgrades.instance().createUpgrade(key).ifPresent(upgrade -> {
+                    upgrade.deserializeNBT(nbt.get(key));
+                    applyUpgrade(upgrade);
+                });
+            }
+            upgradeSet = nbt.getString("upgradeSet");
+        }
+    }
 
 }
