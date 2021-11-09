@@ -3,25 +3,28 @@ package com.enderio.base.common.item.darksteel.upgrades.crafting;
 import com.enderio.base.EnderIO;
 import com.enderio.base.common.capability.EIOCapabilities;
 import com.enderio.base.common.capability.darksteel.DarkSteelUpgradeable;
+import com.enderio.base.common.capability.darksteel.IDarkSteelUpgradable;
+import com.enderio.base.common.capability.darksteel.IDarkSteelUpgrade;
 import com.enderio.base.common.item.darksteel.upgrades.SpoonUpgrade;
 import com.google.gson.JsonObject;
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.ShapelessRecipe;
+import net.minecraft.world.item.crafting.UpgradeRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
+import javax.annotation.Nullable;
+import java.util.Optional;
+
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = EnderIO.MODID)
-public class DarkSteelUpgradeRecipe extends ShapelessRecipe {
+public class DarkSteelUpgradeRecipe extends UpgradeRecipe {
 
     //---------- Register recipe
 
@@ -36,13 +39,8 @@ public class DarkSteelUpgradeRecipe extends ShapelessRecipe {
     //--------- Class
 
     public DarkSteelUpgradeRecipe(ResourceLocation pRecipeId) {
-        super(pRecipeId, "", ItemStack.EMPTY, NonNullList.create());
+        super(pRecipeId, Ingredient.EMPTY,Ingredient.EMPTY,ItemStack.EMPTY);
     }
-
-//    @Override
-//    public RecipeType<?> getType() {
-//        return RecipeType.SMITHING;
-//    }
 
     @Override
     public boolean isSpecial() {
@@ -50,36 +48,33 @@ public class DarkSteelUpgradeRecipe extends ShapelessRecipe {
     }
 
     @Override
-    public boolean matches(CraftingContainer pInv, Level pLevel) {
-        ItemStack item = null;
-        ItemStack upgarde = null;
-        for (int i = 0; i < pInv.getContainerSize(); i++) {
-            if (pInv.getItem(i).getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).isPresent()) {
-                item = pInv.getItem(i);
-            }
-            if (pInv.getItem(i).is(Items.APPLE)) {
-                upgarde = item = pInv.getItem(i);
-            }
-        }
-        return item != null && upgarde != null;
+    public boolean matches(Container pInv, Level pLevel) {
+        Optional<IDarkSteelUpgradable> target = getUpgradableFromItem(pInv.getItem(0));
+        Optional<IDarkSteelUpgrade> upgrade = getUpgradeFromItem(pInv.getItem(0));
+        return target.map(upgradable -> upgrade.map(upgradable::canApplyUpgrade).orElse(false)).orElse(false);
     }
 
-    @Override
-    public ItemStack assemble(CraftingContainer pInv) {
 
-        ItemStack item = ItemStack.EMPTY;
-        ItemStack upgarde = ItemStack.EMPTY;
-        for (int i = 0; i < pInv.getContainerSize(); i++) {
-            if (pInv.getItem(i).getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).isPresent()) {
-                item = pInv.getItem(i);
-            }
-            if (pInv.getItem(i).is(Items.APPLE)) {
-                upgarde = pInv.getItem(i);
-            }
+    @Override
+    public ItemStack assemble(Container pInv) {
+        ItemStack resultItem = pInv.getItem(0).copy();
+        Optional<IDarkSteelUpgradable> target = getUpgradableFromItem(resultItem);
+        Optional<IDarkSteelUpgrade> upgrade = getUpgradeFromItem(pInv.getItem(1));
+        return target.map(upgradable -> upgrade.map(up -> DarkSteelUpgradeable.addUpgrade(resultItem, up)).orElse(ItemStack.EMPTY)).orElse(ItemStack.EMPTY);
+    }
+
+    private Optional<IDarkSteelUpgradable> getUpgradableFromItem(@Nullable ItemStack item) {
+        if(item == null) {
+            return Optional.empty();
         }
-        ItemStack result = item.copy();
-        DarkSteelUpgradeable.addUpgrade(result, SpoonUpgrade::new);
-        return result;
+        return item.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).resolve();
+    }
+
+    private Optional<IDarkSteelUpgrade> getUpgradeFromItem(@Nullable ItemStack item) {
+        if(item == null) {
+            return Optional.empty();
+        }
+        return Optional.of(new SpoonUpgrade());
     }
 
     @Override

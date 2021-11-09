@@ -18,8 +18,9 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
         is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).ifPresent(upgradable -> upgradable.addUpgrade(upgrade.get()));
     }
 
-    public static void addUpgrade(ItemStack is, IDarkSteelUpgrade upgrade) {
+    public static ItemStack addUpgrade(ItemStack is, IDarkSteelUpgrade upgrade) {
         is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).ifPresent(upgradable -> upgradable.addUpgrade(upgrade));
+        return is;
     }
 
     public static Collection<IDarkSteelUpgrade> getUpgrades(ItemStack is) {
@@ -95,12 +96,12 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
         if(!upgrade.isBaseTier()) {
             return false;
         }
-        return DarkSteelUpgrades.instance().getUpgradesForSet(upgradeSet).contains(upgrade);
+        return DarkSteelUpgrades.instance().getUpgradeSet(upgradeSet).map(set -> set.getUpgrades().contains(upgrade.getSerializedName())).orElse(false);
     }
 
     @Override
     public Optional<IDarkSteelUpgrade> getUpgrade(String upgrade) {
-        return Optional.of(upgrades.get(upgrade));
+        return Optional.ofNullable(upgrades.get(upgrade));
     }
 
     @Override
