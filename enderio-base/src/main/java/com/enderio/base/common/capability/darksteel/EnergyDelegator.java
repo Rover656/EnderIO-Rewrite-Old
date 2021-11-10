@@ -1,7 +1,8 @@
-package com.enderio.base.common.item.darksteel.upgrades;
+package com.enderio.base.common.capability.darksteel;
 
 import com.enderio.base.common.capability.EIOCapabilities;
 import com.enderio.base.common.capability.darksteel.IDarkSteelUpgradable;
+import com.enderio.base.common.item.darksteel.upgrades.EmpoweredUpgrade;
 import com.enderio.core.common.capability.MultiCapabilityProvider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;

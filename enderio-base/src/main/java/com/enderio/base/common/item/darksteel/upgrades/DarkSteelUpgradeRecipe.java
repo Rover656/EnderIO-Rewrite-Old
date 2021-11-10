@@ -1,11 +1,10 @@
-package com.enderio.base.common.item.darksteel.upgrades.crafting;
+package com.enderio.base.common.item.darksteel.upgrades;
 
 import com.enderio.base.EnderIO;
 import com.enderio.base.common.capability.EIOCapabilities;
 import com.enderio.base.common.capability.darksteel.DarkSteelUpgradeable;
 import com.enderio.base.common.capability.darksteel.IDarkSteelUpgradable;
 import com.enderio.base.common.capability.darksteel.IDarkSteelUpgrade;
-import com.enderio.base.common.item.darksteel.upgrades.SpoonUpgrade;
 import com.google.gson.JsonObject;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;

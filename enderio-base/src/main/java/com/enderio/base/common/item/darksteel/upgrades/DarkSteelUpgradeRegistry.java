@@ -2,29 +2,30 @@ package com.enderio.base.common.item.darksteel.upgrades;
 
 import com.enderio.base.EnderIO;
 import com.enderio.base.common.capability.darksteel.IDarkSteelUpgrade;
+import net.minecraft.world.item.Item;
 
 import java.util.*;
 import java.util.function.Supplier;
 
-public final class DarkSteelUpgrades {
+public final class DarkSteelUpgradeRegistry {
 
     public static final String UPGADE_PREFIX = EnderIO.DOMAIN + ".darksteel.upgrade.";
 
 
-    private static final DarkSteelUpgrades INST = new DarkSteelUpgrades();
+    private static final DarkSteelUpgradeRegistry INST = new DarkSteelUpgradeRegistry();
 
     static {
         INST.registerUpgrade(SpoonUpgrade::new);
         INST.registerUpgrade(EmpoweredUpgrade::new);
     }
 
-    public static DarkSteelUpgrades instance() {return INST; }
+    public static DarkSteelUpgradeRegistry instance() {return INST; }
 
     private final Map<String, Supplier<IDarkSteelUpgrade>> registeredUpgrades = new HashMap<>();
 
     private final Map<String, UpgradeSet> possibleUpgradeLists = new HashMap<>();
 
-    private DarkSteelUpgrades() {}
+    private DarkSteelUpgradeRegistry() {}
 
     public void registerUpgrade(Supplier<IDarkSteelUpgrade> upgrade) {
         registeredUpgrades.put(upgrade.get().getSerializedName(), upgrade);
@@ -36,6 +37,10 @@ public final class DarkSteelUpgrades {
             return Optional.empty();
         }
         return Optional.of(val.get());
+    }
+
+    public void addUpgradesToSet(String setName, String... upgrades) {
+        addUpgradesToSet(new UpgradeSet(setName).addUpgrades(upgrades));
     }
 
     public void addUpgradesToSet(UpgradeSet upgrades) {
@@ -51,7 +56,6 @@ public final class DarkSteelUpgrades {
     public Collection<IDarkSteelUpgrade> getUpgradesForSet(String name) {
         Set<String> upNames = possibleUpgradeLists.get(name).getUpgrades();
         List<IDarkSteelUpgrade> res = new ArrayList<>(upNames.size());
-
         for(String up : upNames) {
             createUpgrade(up).ifPresent(res::add);
         }
