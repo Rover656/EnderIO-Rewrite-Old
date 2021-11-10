@@ -5,11 +5,13 @@ import com.enderio.base.common.lang.EIOLang;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.energy.EnergyStorage;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
 import java.util.function.Supplier;
 
 public class EmpoweredUpgrade implements IDarkSteelUpgrade {
@@ -41,13 +43,7 @@ public class EmpoweredUpgrade implements IDarkSteelUpgrade {
     private static final Random RANDOM = new Random();
 
     //TODO: Config
-    private int obsianBreakPowerUse = 50;
-
-    //TODO: Config
     private int speedBoostWhenPowered = 2;
-
-    //TODO: Config
-    private int speedBoostWhenObsidian = 50;
 
     //TODO: Config
     private int powerUsePerDamagePoint = 750;
@@ -76,9 +72,6 @@ public class EmpoweredUpgrade implements IDarkSteelUpgrade {
         if (storage.getEnergyStored() > 0) {
             speed += speedBoostWhenPowered;
         }
-        if (useObsidianMining(pState)) {
-            speed += speedBoostWhenObsidian;
-        }
         return speed;
     }
 
@@ -91,16 +84,16 @@ public class EmpoweredUpgrade implements IDarkSteelUpgrade {
         return newDamage;
     }
 
-    public void onMineBlock(BlockState pState) {
-        if(useObsidianMining(pState)) {
-           storage.extractEnergy(obsianBreakPowerUse, false);
-        }
-    }
-
-    private boolean useObsidianMining(BlockState pState) {
-        //TODO: Check for blocks with hardness > 50 as well as obsidian
-        return storage.getEnergyStored() >= obsianBreakPowerUse && pState.getBlock() == Blocks.OBSIDIAN;
-    }
+//    public void onMineBlock(BlockState pState) {
+//        if(useObsidianMining(pState)) {
+//           storage.extractEnergy(obsianBreakPowerUse, false);
+//        }
+//    }
+//
+//    private boolean useObsidianMining(BlockState pState) {
+//        //TODO: Check for blocks with hardness > 50 as well as obsidian
+//        return storage.getEnergyStored() >= obsianBreakPowerUse && pState.getBlock() == Blocks.OBSIDIAN;
+//    }
 
     @Override
     public boolean isBaseTier() {

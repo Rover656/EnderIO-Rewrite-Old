@@ -27,7 +27,7 @@ public interface IDarkSteelItem extends IMultiCapabilityItem {
 
 
     default Optional<EmpoweredUpgrade> getEmpoweredUpgrade(ItemStack stack) {
-        return DarkSteelUpgradeable.getUpgradeAs(stack, EmpoweredUpgrade.NAME);
+        return DarkSteelUpgradeable.getUpgradeAs(stack, EmpoweredUpgrade.NAME, EmpoweredUpgrade.class);
     }
 
     default MultiCapabilityProvider initDarkSteelCapabilities(MultiCapabilityProvider provider, String upgradeSetName) {

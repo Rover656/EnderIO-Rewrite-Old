@@ -39,7 +39,7 @@ public interface IDarkSteelUpgradable extends INamedNBTSerializable<Tag> {
 
     Optional<IDarkSteelUpgrade> getUpgrade(String upgradeName);
 
-    <T extends IDarkSteelUpgrade> Optional<T> getUpgradeAs(String upgrade);
+    <T extends IDarkSteelUpgrade> Optional<T> getUpgradeAs(String upgrade, Class<T> as);
 
     /**
      * Returns the list of upgrades that will return true from {@link #canApplyUpgrade(IDarkSteelUpgrade)}
