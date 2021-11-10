@@ -331,6 +331,11 @@ public class EIOItems {
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
         .register();
 
+    // endregion
+
+
+    // region DarkSteel
+
     public static final Tag.Named<Block> DARK_STEEL_TIER_TAG = BlockTags.createOptional(EnderIO.loc("needs_dark_steel"));
 
     public static final Tier DARK_STEEL_TIER = TierSortingRegistry.registerTier(

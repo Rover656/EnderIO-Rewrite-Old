@@ -1,7 +1,7 @@
 package com.enderio.base.common.capability.darksteel;
 
 import com.enderio.base.common.capability.EIOCapabilities;
-import com.enderio.base.common.item.darksteel.upgrades.DarkSteelUpgrades;
+import com.enderio.base.common.item.darksteel.upgrades.DarkSteelUpgradeRegistry;
 import com.enderio.base.common.item.darksteel.upgrades.EmpoweredUpgrade;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -96,7 +96,7 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
         if(!upgrade.isBaseTier()) {
             return false;
         }
-        return DarkSteelUpgrades.instance().getUpgradeSet(upgradeSet).map(set -> set.getUpgrades().contains(upgrade.getSerializedName())).orElse(false);
+        return DarkSteelUpgradeRegistry.instance().getUpgradeSet(upgradeSet).map(set -> set.getUpgrades().contains(upgrade.getSerializedName())).orElse(false);
     }
 
     @Override
@@ -144,9 +144,9 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
 
     @Override
     public Collection<IDarkSteelUpgrade> getAllPossibleUpgrades() {
-        Set<String> upgradeNames = DarkSteelUpgrades.instance().getUpgradeSet(upgradeSet).map(DarkSteelUpgrades.UpgradeSet::getUpgrades).orElse(Collections.emptySet());
+        Set<String> upgradeNames = DarkSteelUpgradeRegistry.instance().getUpgradeSet(upgradeSet).map(DarkSteelUpgradeRegistry.UpgradeSet::getUpgrades).orElse(Collections.emptySet());
         final List<IDarkSteelUpgrade> result = new ArrayList<>();
-        upgradeNames.forEach(s -> DarkSteelUpgrades.instance().createUpgrade(s).ifPresent(result::add));
+        upgradeNames.forEach(s -> DarkSteelUpgradeRegistry.instance().createUpgrade(s).ifPresent(result::add));
         return result;
     }
 
@@ -165,7 +165,7 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
         upgrades.clear();
         if(tag instanceof CompoundTag nbt) {
             for (String key : nbt.getAllKeys()) {
-                DarkSteelUpgrades.instance().createUpgrade(key).ifPresent(upgrade -> {
+                DarkSteelUpgradeRegistry.instance().createUpgrade(key).ifPresent(upgrade -> {
                     upgrade.deserializeNBT(nbt.get(key));
                     addUpgrade(upgrade);
                 });

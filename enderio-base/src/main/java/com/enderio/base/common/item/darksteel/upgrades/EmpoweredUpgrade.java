@@ -1,6 +1,5 @@
 package com.enderio.base.common.item.darksteel.upgrades;
 
-import com.enderio.base.EnderIO;
 import com.enderio.base.common.capability.darksteel.IDarkSteelUpgrade;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -8,31 +7,31 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.energy.EnergyStorage;
 
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class EmpoweredUpgrade implements IDarkSteelUpgrade {
 
-    public static final String NAME = DarkSteelUpgrades.UPGADE_PREFIX + "empowered";
+    public static final String NAME = DarkSteelUpgradeRegistry.UPGADE_PREFIX + "empowered";
 
-    //TODO: Config All the things
-    private static final Supplier<EmpoweredUpgrade>[] UPGRADES = new Supplier[] {
-        () -> new EmpoweredUpgrade(0,100000, 0.5f),
-        () -> new EmpoweredUpgrade(1,150000, 0.6f),
-        () -> new EmpoweredUpgrade(2,250000, 0.7f),
-        () -> new EmpoweredUpgrade(3,1000000,0.85f)
-    };
+    private static final Map<Integer,Supplier<EmpoweredUpgrade>> UPGRADES = new HashMap<>();
+    static {
+        //TODO: Config All the things
+        UPGRADES.put(0, () -> new EmpoweredUpgrade(0,100000, 0.5f));
+        UPGRADES.put(1, () -> new EmpoweredUpgrade(1,150000, 0.6f));
+        UPGRADES.put(2, () -> new EmpoweredUpgrade(2,250000, 0.7f));
+        UPGRADES.put(3, () -> new EmpoweredUpgrade(3,1000000,0.85f));
+    }
 
     public static EmpoweredUpgrade createBaseUpgrade() {
-        return UPGRADES[0].get();
+        return UPGRADES.get(0).get();
     }
 
     public static Optional<EmpoweredUpgrade> getUpgradeForTier(int tier) {
-        if(tier < 0 || tier >= UPGRADES.length) {
+        if(!UPGRADES.containsKey(tier)) {
             return Optional.empty();
         }
-        return Optional.of(UPGRADES[tier].get());
+        return Optional.of(UPGRADES.get(tier).get());
     }
 
     private static final Random RANDOM = new Random();

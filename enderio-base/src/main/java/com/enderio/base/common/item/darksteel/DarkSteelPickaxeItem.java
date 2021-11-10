@@ -4,9 +4,9 @@ import com.enderio.base.common.capability.EIOCapabilities;
 import com.enderio.base.common.capability.darksteel.DarkSteelUpgradeable;
 import com.enderio.base.common.capability.darksteel.IDarkSteelUpgrade;
 import com.enderio.base.common.item.EIOItems;
-import com.enderio.base.common.item.darksteel.upgrades.DarkSteelUpgrades;
+import com.enderio.base.common.item.darksteel.upgrades.DarkSteelUpgradeRegistry;
 import com.enderio.base.common.item.darksteel.upgrades.EmpoweredUpgrade;
-import com.enderio.base.common.item.darksteel.upgrades.EnergyDelegator;
+import com.enderio.base.common.capability.darksteel.EnergyDelegator;
 import com.enderio.base.common.item.darksteel.upgrades.SpoonUpgrade;
 import com.enderio.base.common.item.util.IEnergyBar;
 import com.enderio.core.common.capability.IMultiCapabilityItem;
@@ -41,15 +41,13 @@ import java.util.List;
 import java.util.Optional;
 
 //TODO: Use dual duration / energy bar
-public class DarkSteelPickaxeItem extends PickaxeItem implements IEnergyBar, IMultiCapabilityItem {
+public class DarkSteelPickaxeItem extends PickaxeItem implements IMultiCapabilityItem, IDarkSteelItem {
 
-    public static final String UPGRADE_SET_NAME = "DarkSteelPickaxeItem";
+    public static final String UPGRADE_SET_NAME = "DarkSteelPickaxeUpgrades";
 
     public DarkSteelPickaxeItem(Properties pProperties) {
         super(EIOItems.DARK_STEEL_TIER, 1, -2.8F, pProperties);
-        DarkSteelUpgrades
-            .instance()
-            .addUpgradesToSet(new DarkSteelUpgrades.UpgradeSet(UPGRADE_SET_NAME).addUpgrades(EmpoweredUpgrade.NAME, SpoonUpgrade.NAME));
+        DarkSteelUpgradeRegistry.instance().addUpgradesToSet(UPGRADE_SET_NAME, EmpoweredUpgrade.NAME, SpoonUpgrade.NAME);
     }
 
     @Override
