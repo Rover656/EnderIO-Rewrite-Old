@@ -2,13 +2,12 @@ package com.enderio.base.common.item.darksteel;
 
 import com.enderio.base.common.capability.EIOCapabilities;
 import com.enderio.base.common.capability.darksteel.DarkSteelUpgradeable;
+import com.enderio.base.common.capability.darksteel.EnergyDelegator;
 import com.enderio.base.common.capability.darksteel.IDarkSteelUpgrade;
 import com.enderio.base.common.item.EIOItems;
 import com.enderio.base.common.item.darksteel.upgrades.DarkSteelUpgradeRegistry;
 import com.enderio.base.common.item.darksteel.upgrades.EmpoweredUpgrade;
-import com.enderio.base.common.capability.darksteel.EnergyDelegator;
 import com.enderio.base.common.item.darksteel.upgrades.SpoonUpgrade;
-import com.enderio.base.common.item.util.IEnergyBar;
 import com.enderio.core.common.capability.IMultiCapabilityItem;
 import com.enderio.core.common.capability.INamedNBTSerializable;
 import com.enderio.core.common.capability.MultiCapabilityProvider;
@@ -108,11 +107,6 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IMultiCapabilit
     public void fillItemCategory(@Nonnull CreativeModeTab pCategory, @Nonnull NonNullList<ItemStack> pItems) {
         if (allowdedIn(pCategory)) {
             ItemStack is = new ItemStack(this);
-            pItems.add(is.copy());
-
-            //Just empowered
-            is = new ItemStack(this);
-            DarkSteelUpgradeable.addUpgrade(is,EmpoweredUpgrade.getUpgradeForTier(0).get());
             pItems.add(is.copy());
 
             //All the upgrades
