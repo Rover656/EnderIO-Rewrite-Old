@@ -129,7 +129,7 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
     @Override
     public Collection<IDarkSteelUpgrade> getUpgradesThatCanBeAppliedAtTheMoment() {
         if(upgrades.isEmpty()) {
-            return List.of(EmpoweredUpgrade.createBaseUpgrade());
+            return List.of(EmpoweredUpgrade.TIER_0.get());
         }
         final List<IDarkSteelUpgrade> result = new ArrayList<>();
         upgrades.values().forEach(upgrade -> upgrade.getNextTier().ifPresent(result::add));

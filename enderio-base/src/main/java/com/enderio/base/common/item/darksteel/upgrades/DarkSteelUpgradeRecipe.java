@@ -49,7 +49,7 @@ public class DarkSteelUpgradeRecipe extends UpgradeRecipe {
     @Override
     public boolean matches(Container pInv, Level pLevel) {
         Optional<IDarkSteelUpgradable> target = getUpgradableFromItem(pInv.getItem(0));
-        Optional<IDarkSteelUpgrade> upgrade = getUpgradeFromItem(pInv.getItem(0));
+        Optional<IDarkSteelUpgrade> upgrade = getUpgradeFromItem(pInv.getItem(1));
         return target.map(upgradable -> upgrade.map(upgradable::canApplyUpgrade).orElse(false)).orElse(false);
     }
 
@@ -73,7 +73,7 @@ public class DarkSteelUpgradeRecipe extends UpgradeRecipe {
         if(item == null) {
             return Optional.empty();
         }
-        return Optional.of(new SpoonUpgrade());
+        return DarkSteelUpgradeRegistry.instance().readUpgradeFromStack(item);
     }
 
     @Override

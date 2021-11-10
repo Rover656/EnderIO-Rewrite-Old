@@ -15,19 +15,21 @@ public class EmpoweredUpgrade implements IDarkSteelUpgrade {
     public static final String NAME = DarkSteelUpgradeRegistry.UPGADE_PREFIX + "empowered";
 
     private static final Map<Integer,Supplier<EmpoweredUpgrade>> UPGRADES = new HashMap<>();
+
+    //TODO: Config All the things
+    public static final Supplier<EmpoweredUpgrade> TIER_0 = () -> new EmpoweredUpgrade(0,100000, 0.5f);
+    public static final Supplier<EmpoweredUpgrade> TIER_1 = () -> new EmpoweredUpgrade(1,150000, 0.6f);
+    public static final Supplier<EmpoweredUpgrade> TIER_2 = () -> new EmpoweredUpgrade(2,250000, 0.7f);
+    public static final Supplier<EmpoweredUpgrade> TIER_3 = () -> new EmpoweredUpgrade(3,1000000,0.85f);
+
     static {
-        //TODO: Config All the things
-        UPGRADES.put(0, () -> new EmpoweredUpgrade(0,100000, 0.5f));
-        UPGRADES.put(1, () -> new EmpoweredUpgrade(1,150000, 0.6f));
-        UPGRADES.put(2, () -> new EmpoweredUpgrade(2,250000, 0.7f));
-        UPGRADES.put(3, () -> new EmpoweredUpgrade(3,1000000,0.85f));
+        UPGRADES.put(0, TIER_0);
+        UPGRADES.put(1, TIER_1);
+        UPGRADES.put(2, TIER_2);
+        UPGRADES.put(3, TIER_3);
     }
 
-    public static EmpoweredUpgrade createBaseUpgrade() {
-        return UPGRADES.get(0).get();
-    }
-
-    public static Optional<EmpoweredUpgrade> getUpgradeForTier(int tier) {
+    private static Optional<EmpoweredUpgrade> getUpgradeForTier(int tier) {
         if(!UPGRADES.containsKey(tier)) {
             return Optional.empty();
         }
