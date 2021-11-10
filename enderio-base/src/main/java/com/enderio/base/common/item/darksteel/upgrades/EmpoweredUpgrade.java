@@ -1,8 +1,10 @@
 package com.enderio.base.common.item.darksteel.upgrades;
 
 import com.enderio.base.common.capability.darksteel.IDarkSteelUpgrade;
+import com.enderio.base.common.lang.EIOLang;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.energy.EnergyStorage;
@@ -128,8 +130,8 @@ public class EmpoweredUpgrade implements IDarkSteelUpgrade {
     }
 
     @Override
-    public String getDisplayName() {
-        return getSerializedName() + " " + (level + 1);
+    public Component getDisplayName() {
+        return EIOLang.DS_UPGRADE_EMPOWERED.copy().append(" " + (level + 1));
     }
 
     @Override

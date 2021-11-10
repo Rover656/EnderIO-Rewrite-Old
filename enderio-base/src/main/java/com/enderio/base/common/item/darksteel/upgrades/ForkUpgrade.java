@@ -4,12 +4,12 @@ import com.enderio.base.common.capability.darksteel.IDarkSteelUpgrade;
 import com.enderio.base.common.lang.EIOLang;
 import net.minecraft.network.chat.Component;
 
-public class SpoonUpgrade implements IDarkSteelUpgrade {
+public class ForkUpgrade implements IDarkSteelUpgrade {
 
-    public static final String NAME = DarkSteelUpgradeRegistry.UPGADE_PREFIX + "spoon";
+    public static final String NAME = DarkSteelUpgradeRegistry.UPGADE_PREFIX + "fork";
 
-    public static SpoonUpgrade create() {
-        return new SpoonUpgrade();
+    public static ForkUpgrade create() {
+        return new ForkUpgrade();
     }
 
     @Override
@@ -19,6 +19,6 @@ public class SpoonUpgrade implements IDarkSteelUpgrade {
 
     @Override
     public Component getDisplayName() {
-        return EIOLang.DS_UPGRADE_SPOON;
+        return EIOLang.DS_UPGRADE_FORK;
     }
 }

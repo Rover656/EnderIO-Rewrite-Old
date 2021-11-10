@@ -3,15 +3,13 @@ package com.enderio.base.common.capability.darksteel;
 import com.enderio.core.common.capability.INamedNBTSerializable;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 
 import java.util.Optional;
 
 public interface IDarkSteelUpgrade extends INamedNBTSerializable<Tag> {
 
-    //TODO: lang
-    default String getDisplayName() {
-        return getSerializedName();
-    }
+    Component getDisplayName();
 
     /**
      * Only one upgrade can be added for a slot. For example, if you had a jetpack and glider upgrade, both upgrades returning the same
