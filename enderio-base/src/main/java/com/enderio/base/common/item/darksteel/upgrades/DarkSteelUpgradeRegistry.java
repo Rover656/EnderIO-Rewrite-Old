@@ -31,6 +31,8 @@ public final class DarkSteelUpgradeRegistry {
 
     private DarkSteelUpgradeRegistry() {}
 
+    //---------- Upgrade register
+
     public void registerUpgrade(Supplier<IDarkSteelUpgrade> upgrade) {
         registeredUpgrades.put(upgrade.get().getSerializedName(), upgrade);
     }
@@ -42,6 +44,8 @@ public final class DarkSteelUpgradeRegistry {
         }
         return Optional.of(val.get());
     }
+
+    //---------- Read / Write of Upgrades to ItemStacks
 
     public ItemStack writeUpgradeToItemStack(ItemStack stack, IDarkSteelUpgrade upgrade) {
         CompoundTag rootTag = new CompoundTag();
@@ -73,6 +77,8 @@ public final class DarkSteelUpgradeRegistry {
         }
         return Optional.empty();
     }
+
+    //---------- Upgrade Sets (the set of upgrades that can be applied to an upgradable item
 
     public void addUpgradesToSet(String setName, String... upgrades) {
         addUpgradesToSet(new UpgradeSet(setName).addUpgrades(upgrades));
