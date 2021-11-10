@@ -8,15 +8,10 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.*;
-import java.util.function.Supplier;
 
 public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
 
     //----------------------- Utils
-
-    public static void addUpgrade(ItemStack is, Supplier<? extends IDarkSteelUpgrade> upgrade) {
-        is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).ifPresent(upgradable -> upgradable.addUpgrade(upgrade.get()));
-    }
 
     public static ItemStack addUpgrade(ItemStack is, IDarkSteelUpgrade upgrade) {
         is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).ifPresent(upgradable -> upgradable.addUpgrade(upgrade));
