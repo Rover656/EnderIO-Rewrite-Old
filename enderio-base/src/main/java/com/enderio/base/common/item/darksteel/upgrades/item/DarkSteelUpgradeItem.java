@@ -2,6 +2,8 @@ package com.enderio.base.common.item.darksteel.upgrades.item;
 
 import com.enderio.base.common.capability.darksteel.IDarkSteelUpgrade;
 import com.enderio.base.common.item.darksteel.upgrades.DarkSteelUpgradeRegistry;
+import net.minecraft.Util;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -33,7 +35,14 @@ public class DarkSteelUpgradeItem extends Item {
         ItemStack stack = pPlayer.getItemInHand(pUsedHand);
         if (pPlayer.isCrouching() && !DarkSteelUpgradeRegistry.instance().hasUpgrade(stack)) {
             //TODO: use XP
-            DarkSteelUpgradeRegistry.instance().writeUpgradeToItemStack(stack, upgrade.get());
+
+            if(pPlayer.experienceLevel >= levelsRequired ) {
+                pPlayer.giveExperienceLevels(-levelsRequired);
+                DarkSteelUpgradeRegistry.instance().writeUpgradeToItemStack(stack, upgrade.get());
+            } else if(pLevel.isClientSide){
+                pPlayer.sendMessage(new TextComponent("Not enough XP to activate"), Util.NIL_UUID);
+            }
+
             return InteractionResultHolder.consume(stack);
         }
         return super.use(pLevel, pPlayer, pUsedHand);

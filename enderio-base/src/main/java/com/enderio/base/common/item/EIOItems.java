@@ -341,7 +341,6 @@ public class EIOItems {
 
     public static final Tag.Named<Block> DARK_STEEL_TIER_TAG = BlockTags.createOptional(EnderIO.loc("needs_dark_steel"));
 
-    //TODO: Config all the things
     public static final Tier DARK_STEEL_TIER = TierSortingRegistry.registerTier(
         new ForgeTier(3, 2000, 8.0F, 3, 25, DARK_STEEL_TIER_TAG, () -> Ingredient.of(EIOItems.DARK_STEEL_INGOT.get())),
         EnderIO.loc("dark_steel_tier"), List.of(Tiers.DIAMOND),
@@ -352,23 +351,24 @@ public class EIOItems {
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
         .register();
 
+    //TODO: use Config for required levels
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_EMPOWERED_1 = REGISTRATE
         .item("dark_steel_upgrade_empowered_1", properties -> new DarkSteelUpgradeItem(properties,4, EmpoweredUpgrade.TIER_0))
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
         .register();
 
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_EMPOWERED_2 = REGISTRATE
-        .item("dark_steel_upgrade_empowered_2", properties -> new DarkSteelUpgradeItem(properties,4, EmpoweredUpgrade.TIER_1))
+        .item("dark_steel_upgrade_empowered_2", properties -> new DarkSteelUpgradeItem(properties,8, EmpoweredUpgrade.TIER_1))
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
         .register();
 
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_EMPOWERED_3 = REGISTRATE
-        .item("dark_steel_upgrade_empowered_3", properties -> new DarkSteelUpgradeItem(properties,4, EmpoweredUpgrade.TIER_2))
+        .item("dark_steel_upgrade_empowered_3", properties -> new DarkSteelUpgradeItem(properties,12, EmpoweredUpgrade.TIER_2))
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
         .register();
 
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_EMPOWERED_4 = REGISTRATE
-        .item("dark_steel_upgrade_empowered_4", properties -> new DarkSteelUpgradeItem(properties,4, EmpoweredUpgrade.TIER_3))
+        .item("dark_steel_upgrade_empowered_4", properties -> new DarkSteelUpgradeItem(properties,16, EmpoweredUpgrade.TIER_3))
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
         .register();
 
