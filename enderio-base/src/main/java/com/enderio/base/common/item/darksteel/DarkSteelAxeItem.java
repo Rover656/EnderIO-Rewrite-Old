@@ -1,12 +1,10 @@
 package com.enderio.base.common.item.darksteel;
 
 import com.enderio.base.common.capability.darksteel.DarkSteelUpgradeable;
-import com.enderio.base.common.capability.darksteel.IDarkSteelUpgrade;
 import com.enderio.base.common.item.EIOItems;
 import com.enderio.base.common.item.darksteel.upgrades.DarkSteelUpgradeRegistry;
 import com.enderio.base.common.item.darksteel.upgrades.EmpoweredUpgrade;
 import com.enderio.base.common.item.darksteel.upgrades.ForkUpgrade;
-import com.enderio.base.common.item.darksteel.upgrades.SpoonUpgrade;
 import com.enderio.core.common.capability.MultiCapabilityProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
