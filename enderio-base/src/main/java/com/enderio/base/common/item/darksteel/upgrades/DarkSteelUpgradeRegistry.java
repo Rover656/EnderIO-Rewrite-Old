@@ -18,8 +18,9 @@ public final class DarkSteelUpgradeRegistry {
     private static final String UPGRADE_IN_STACK_KEY = "dark_steel_upgrade";
 
     static {
-        INST.registerUpgrade(SpoonUpgrade::new);
         INST.registerUpgrade(EmpoweredUpgrade::new);
+        INST.registerUpgrade(SpoonUpgrade::new);
+        INST.registerUpgrade(ForkUpgrade::new);
     }
 
     public static DarkSteelUpgradeRegistry instance() {return INST; }
@@ -84,7 +85,7 @@ public final class DarkSteelUpgradeRegistry {
     }
 
     public Optional<UpgradeSet> getUpgradeSet(String name) {
-        return Optional.of(possibleUpgradeLists.get(name));
+        return Optional.ofNullable(possibleUpgradeLists.get(name));
     }
 
     public Collection<IDarkSteelUpgrade> getUpgradesForSet(String name) {

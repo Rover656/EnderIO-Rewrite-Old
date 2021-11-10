@@ -1,9 +1,11 @@
 package com.enderio.base.common.item.darksteel;
 
 import com.enderio.base.common.capability.darksteel.DarkSteelUpgradeable;
+import com.enderio.base.common.capability.darksteel.IDarkSteelUpgrade;
 import com.enderio.base.common.item.EIOItems;
 import com.enderio.base.common.item.darksteel.upgrades.DarkSteelUpgradeRegistry;
 import com.enderio.base.common.item.darksteel.upgrades.EmpoweredUpgrade;
+import com.enderio.base.common.item.darksteel.upgrades.ForkUpgrade;
 import com.enderio.base.common.item.darksteel.upgrades.SpoonUpgrade;
 import com.enderio.core.common.capability.MultiCapabilityProvider;
 import net.minecraft.core.BlockPos;
@@ -11,36 +13,26 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.PickaxeItem;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.TierSortingRegistry;
+import net.minecraftforge.common.ToolActions;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-//TODO: Use dual duration / energy bar
-public class DarkSteelPickaxeItem extends PickaxeItem implements IDarkSteelItem {
+public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
 
-    public static final String UPGRADE_SET_NAME = "DarkSteelPickaxeUpgrades";
+    public static final String UPGRADE_SET_NAME = "DarkSteelAxeUpgrades";
 
-    public DarkSteelPickaxeItem(Properties pProperties) {
-        super(EIOItems.DARK_STEEL_TIER, 1, -2.8F, pProperties);
-        DarkSteelUpgradeRegistry.instance().addUpgradesToSet(UPGRADE_SET_NAME, EmpoweredUpgrade.NAME, SpoonUpgrade.NAME);
-    }
-
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
-        //TODO: Right cick placement of blocks
-        return super.use(pLevel, pPlayer, pUsedHand);
+    public DarkSteelAxeItem(Properties pProperties) {
+        super(EIOItems.DARK_STEEL_TIER, 5, -3, pProperties);
+        DarkSteelUpgradeRegistry.instance().addUpgradesToSet(UPGRADE_SET_NAME, EmpoweredUpgrade.NAME, ForkUpgrade.NAME);
     }
 
     @Override
@@ -57,8 +49,7 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IDarkSteelItem 
 
     @Override
     public boolean mineBlock(ItemStack pStack, Level pLevel, BlockState pState, BlockPos pPos, LivingEntity pEntityLiving) {
-        getEmpoweredUpgrade(pStack).ifPresent(empoweredUpgrade -> empoweredUpgrade.onMineBlock(pState));
-        //TODO: Expolisive upgrade
+        //TODO: Entire tree chopping
         return super.mineBlock(pStack, pLevel, pState, pPos, pEntityLiving);
     }
 
@@ -67,12 +58,26 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IDarkSteelItem 
         return canHarvest(stack, state) && TierSortingRegistry.isCorrectTierForDrops(getTier(), state);
     }
 
-    private boolean canHarvest(ItemStack stack, BlockState state) {
-        return BlockTags.MINEABLE_WITH_PICKAXE.contains(state.getBlock()) || (state.is(BlockTags.MINEABLE_WITH_SHOVEL) && DarkSteelUpgradeable.hasUpgrade(stack,
-            SpoonUpgrade.NAME));
+    @Override
+    public InteractionResult useOn(UseOnContext pContext) {
+        if(hasFork(pContext.getItemInHand())) {
+            return Items.DIAMOND_HOE.useOn(pContext);
+        }
+        return super.useOn(pContext);
     }
 
+    @Override
+    public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
+        return super.canPerformAction(stack,toolAction) || (hasFork(stack) && ToolActions.DEFAULT_HOE_ACTIONS.contains(toolAction));
+    }
 
+    private boolean canHarvest(ItemStack stack, BlockState state) {
+        return BlockTags.MINEABLE_WITH_PICKAXE.contains(state.getBlock()) || (state.is(BlockTags.MINEABLE_WITH_HOE) && hasFork(stack));
+    }
+
+    private boolean hasFork(ItemStack stack) {
+        return DarkSteelUpgradeable.hasUpgrade(stack, ForkUpgrade.NAME);
+    }
 
     //------------ Common for all tools
 
@@ -100,6 +105,4 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IDarkSteelItem 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         addUpgradeHoverTest(pStack, pTooltipComponents);
     }
-
-
 }

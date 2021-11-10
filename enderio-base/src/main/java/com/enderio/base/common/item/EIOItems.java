@@ -3,8 +3,10 @@ package com.enderio.base.common.item;
 import com.enderio.base.EnderIO;
 import com.enderio.base.common.capability.capacitors.ICapacitorData;
 import com.enderio.base.common.item.capacitors.LootCapacitorItem;
+import com.enderio.base.common.item.darksteel.DarkSteelAxeItem;
 import com.enderio.base.common.item.darksteel.DarkSteelPickaxeItem;
 import com.enderio.base.common.item.darksteel.upgrades.EmpoweredUpgrade;
+import com.enderio.base.common.item.darksteel.upgrades.ForkUpgrade;
 import com.enderio.base.common.item.darksteel.upgrades.SpoonUpgrade;
 import com.enderio.base.common.item.darksteel.upgrades.item.DarkSteelUpgradeItem;
 import com.enderio.base.common.item.food.EnderiosItem;
@@ -397,6 +399,11 @@ public class EIOItems {
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
         .register();
 
+    public static ItemEntry<DarkSteelAxeItem> DARK_STEEL_AXE = REGISTRATE
+        .item("dark_steel_axe", DarkSteelAxeItem::new)
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
+        .register();
+
     //TODO: use Config for required levels
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_EMPOWERED_1 = REGISTRATE
         .item("dark_steel_upgrade_empowered_1", properties -> new DarkSteelUpgradeItem(properties,4, EmpoweredUpgrade.TIER_0))
@@ -420,6 +427,11 @@ public class EIOItems {
 
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_SPOON = REGISTRATE
         .item("dark_steel_upgrade_spoon", properties -> new DarkSteelUpgradeItem(properties,4, SpoonUpgrade::new))
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
+        .register();
+
+    public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_FORK = REGISTRATE
+        .item("dark_steel_upgrade_fork", properties -> new DarkSteelUpgradeItem(properties,4, ForkUpgrade::new))
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
         .register();
 
