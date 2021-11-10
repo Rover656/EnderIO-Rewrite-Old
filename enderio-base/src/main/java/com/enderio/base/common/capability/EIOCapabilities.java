@@ -2,7 +2,9 @@ package com.enderio.base.common.capability;
 
 import com.enderio.base.EnderIO;
 import com.enderio.base.common.capability.capacitors.ICapacitorData;
+import com.enderio.base.common.capability.darksteel.IDarkSteelUpgradable;
 import com.enderio.base.common.capability.entity.IEntityStorage;
+import com.enderio.base.common.capability.location.ICoordinateSelectionHolder;
 import com.enderio.base.common.capability.owner.IOwner;
 import com.enderio.base.common.capability.toggled.IToggled;
 
@@ -21,6 +23,8 @@ public class EIOCapabilities {
     public static final Capability<ICapacitorData> CAPACITOR = CapabilityManager.get(new CapabilityToken<>() {});
 
     public static final Capability<ICoordinateSelectionHolder> COORDINATE_SELECTION_HOLDER = CapabilityManager.get(new CapabilityToken<>() {});
+
+    public static Capability<IDarkSteelUpgradable> DARK_STEEL_UPGRADABLE = CapabilityManager.get(new CapabilityToken<>() {});
 
     @SubscribeEvent
     public static void register(RegisterCapabilitiesEvent event) {
