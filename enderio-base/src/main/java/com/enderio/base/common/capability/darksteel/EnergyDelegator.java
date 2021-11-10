@@ -1,7 +1,6 @@
 package com.enderio.base.common.capability.darksteel;
 
 import com.enderio.base.common.capability.EIOCapabilities;
-import com.enderio.base.common.capability.darksteel.IDarkSteelUpgradable;
 import com.enderio.base.common.item.darksteel.upgrades.EmpoweredUpgrade;
 import com.enderio.core.common.capability.MultiCapabilityProvider;
 import net.minecraft.nbt.CompoundTag;
@@ -65,7 +64,7 @@ public class EnergyDelegator implements IEnergyStorage , INBTSerializable<Tag>  
     private IEnergyStorage getDelegate() {
         Optional<IDarkSteelUpgradable> cap = prov.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).resolve();
         if (cap.isPresent()) {
-            Optional<EmpoweredUpgrade> energyUp = cap.get().getUpgradeAs(EmpoweredUpgrade.NAME);
+            Optional<EmpoweredUpgrade> energyUp = cap.get().getUpgradeAs(EmpoweredUpgrade.NAME, EmpoweredUpgrade.class);
             if (energyUp.isPresent()) {
                 return energyUp.get().getStorage();
             }

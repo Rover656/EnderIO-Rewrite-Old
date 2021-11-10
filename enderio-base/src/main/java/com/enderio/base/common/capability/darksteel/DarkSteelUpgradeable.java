@@ -26,12 +26,12 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
         return is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).map(upgradable -> upgradable.hasUpgrade(name)).orElse(false);
     }
 
-    public static <T extends IDarkSteelUpgrade> Optional<T> getUpgradeAs(ItemStack is, String upgrade) {
+    public static <T extends IDarkSteelUpgrade> Optional<T> getUpgradeAs(ItemStack is, String upgrade, Class<T> as) {
         Optional<IDarkSteelUpgradable> cap = is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).resolve();
         if(cap.isEmpty()) {
             return Optional.empty();
         }
-        return cap.get().getUpgradeAs(upgrade);
+        return cap.get().getUpgradeAs(upgrade, as);
     }
 
     public static Collection<IDarkSteelUpgrade> getUpgradesThatCanBeAppliedAtTheMoment(ItemStack is) {
@@ -100,15 +100,12 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
     }
 
     @Override
-    public <T extends IDarkSteelUpgrade> Optional<T> getUpgradeAs(String upgrade) {
-        try {
-            return Optional.ofNullable((T) upgrades.get(upgrade));
-        } catch (Exception e) {
-            //TODO: Log
-            System.out.println("DarkSteelUpgradeable.getUpgradeAs: upgrade=" + upgrade + " Error=" + e);
-            e.printStackTrace();
-            return Optional.empty();
+    public <T extends IDarkSteelUpgrade> Optional<T> getUpgradeAs(String upgrade, Class<T> as) {
+        IDarkSteelUpgrade up = upgrades.get(upgrade);
+        if (up != null && as.isAssignableFrom(up.getClass())) {
+            return Optional.of(as.cast(up));
         }
+        return Optional.empty();
     }
 
     @Override

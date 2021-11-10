@@ -6,22 +6,21 @@ import com.enderio.base.common.item.darksteel.upgrades.DarkSteelUpgradeRegistry;
 import com.enderio.base.common.item.darksteel.upgrades.EmpoweredUpgrade;
 import com.enderio.base.common.item.darksteel.upgrades.SpoonUpgrade;
 import com.enderio.core.common.capability.MultiCapabilityProvider;
+import com.enderio.core.common.util.EnergyUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.PickaxeItem;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.TierSortingRegistry;
+import net.minecraftforge.common.ToolActions;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -32,15 +31,15 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IDarkSteelItem 
 
     public static final String UPGRADE_SET_NAME = "DarkSteelPickaxeUpgrades";
 
+    //TODO: Config
+    private int obsianBreakPowerUse = 50;
+
+    //TODO: Config
+    private int speedBoostWhenObsidian = 50;
+
     public DarkSteelPickaxeItem(Properties pProperties) {
         super(EIOItems.DARK_STEEL_TIER, 1, -2.8F, pProperties);
         DarkSteelUpgradeRegistry.instance().addUpgradesToSet(UPGRADE_SET_NAME, EmpoweredUpgrade.NAME, SpoonUpgrade.NAME);
-    }
-
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
-        //TODO: Right cick placement of blocks
-        return super.use(pLevel, pPlayer, pUsedHand);
     }
 
     @Override
@@ -52,13 +51,18 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IDarkSteelItem 
     @Override
     public float getDestroySpeed(ItemStack pStack, BlockState pState) {
         final float baseSpeed = canHarvest(pStack, pState) ? speed : 1.0f;
-        return getEmpoweredUpgrade(pStack).map(empoweredUpgrade -> empoweredUpgrade.adjustDestroySpeed(baseSpeed, pState)).orElse(baseSpeed);
+        float adjustedSpeed = getEmpoweredUpgrade(pStack).map(empoweredUpgrade -> empoweredUpgrade.adjustDestroySpeed(baseSpeed, pState)).orElse(baseSpeed);
+        if (useObsidianMining(pState, pStack)) {
+            adjustedSpeed += speedBoostWhenObsidian;
+        }
+        return adjustedSpeed;
     }
 
     @Override
     public boolean mineBlock(ItemStack pStack, Level pLevel, BlockState pState, BlockPos pPos, LivingEntity pEntityLiving) {
-        getEmpoweredUpgrade(pStack).ifPresent(empoweredUpgrade -> empoweredUpgrade.onMineBlock(pState));
-        //TODO: Expolisive upgrade
+        if (useObsidianMining(pState, pStack)) {
+            EnergyUtil.extractEnergy(pStack, obsianBreakPowerUse, false);
+        }
         return super.mineBlock(pStack, pLevel, pState, pPos, pEntityLiving);
     }
 
@@ -67,11 +71,31 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IDarkSteelItem 
         return canHarvest(stack, state) && TierSortingRegistry.isCorrectTierForDrops(getTier(), state);
     }
 
-    private boolean canHarvest(ItemStack stack, BlockState state) {
-        return BlockTags.MINEABLE_WITH_PICKAXE.contains(state.getBlock()) || (state.is(BlockTags.MINEABLE_WITH_SHOVEL) && DarkSteelUpgradeable.hasUpgrade(stack,
-            SpoonUpgrade.NAME));
+    @Override
+    public InteractionResult useOn(UseOnContext pContext) {
+        if(hasSpoon(pContext.getItemInHand())) {
+            return Items.DIAMOND_SHOVEL.useOn(pContext);
+        }
+        return super.useOn(pContext);
     }
 
+    @Override
+    public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
+        return super.canPerformAction(stack,toolAction) || (hasSpoon(stack) && ToolActions.DEFAULT_SHOVEL_ACTIONS.contains(toolAction));
+    }
+
+    private boolean canHarvest(ItemStack stack, BlockState state) {
+        return BlockTags.MINEABLE_WITH_PICKAXE.contains(state.getBlock()) || (state.is(BlockTags.MINEABLE_WITH_SHOVEL) && hasSpoon(stack));
+    }
+
+    private boolean hasSpoon(ItemStack stack) {
+        return DarkSteelUpgradeable.hasUpgrade(stack, SpoonUpgrade.NAME);
+    }
+
+    private boolean useObsidianMining(BlockState pState, ItemStack stack) {
+        //TODO: Check for blocks with hardness > 50 as well as obsidian
+        return EnergyUtil.getEnergyStored(stack) >= obsianBreakPowerUse && pState.getBlock() == Blocks.OBSIDIAN;
+    }
 
 
     //------------ Common for all tools
