@@ -84,17 +84,6 @@ public class EmpoweredUpgrade implements IDarkSteelUpgrade {
         return newDamage;
     }
 
-//    public void onMineBlock(BlockState pState) {
-//        if(useObsidianMining(pState)) {
-//           storage.extractEnergy(obsianBreakPowerUse, false);
-//        }
-//    }
-//
-//    private boolean useObsidianMining(BlockState pState) {
-//        //TODO: Check for blocks with hardness > 50 as well as obsidian
-//        return storage.getEnergyStored() >= obsianBreakPowerUse && pState.getBlock() == Blocks.OBSIDIAN;
-//    }
-
     @Override
     public boolean isBaseTier() {
         return level == 0;

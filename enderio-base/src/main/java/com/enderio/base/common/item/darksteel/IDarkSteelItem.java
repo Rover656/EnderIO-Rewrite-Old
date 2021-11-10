@@ -36,7 +36,7 @@ public interface IDarkSteelItem extends IMultiCapabilityItem {
         return provider;
     }
 
-    default void addCreateItems(NonNullList<ItemStack> pItems, Item item) {
+    default void addCreativeItems(NonNullList<ItemStack> pItems, Item item) {
         ItemStack is = new ItemStack(item);
         pItems.add(is.copy());
 
