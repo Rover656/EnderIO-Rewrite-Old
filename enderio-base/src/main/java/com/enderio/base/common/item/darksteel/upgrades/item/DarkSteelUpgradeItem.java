@@ -4,6 +4,8 @@ import com.enderio.base.common.capability.darksteel.IDarkSteelUpgrade;
 import com.enderio.base.common.item.darksteel.upgrades.DarkSteelUpgradeRegistry;
 import com.enderio.base.common.lang.EIOLang;
 import net.minecraft.Util;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -11,6 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
+import java.util.Random;
 import java.util.function.Supplier;
 
 public class DarkSteelUpgradeItem extends Item {
@@ -20,7 +23,7 @@ public class DarkSteelUpgradeItem extends Item {
     private final Supplier<? extends IDarkSteelUpgrade> upgrade;
 
     public DarkSteelUpgradeItem(Properties pProperties, int levelsRequired, Supplier<? extends IDarkSteelUpgrade> upgrade) {
-        super(pProperties);
+        super(pProperties.stacksTo(1));
         this.levelsRequired = levelsRequired;
         this.upgrade = upgrade;
     }
@@ -39,6 +42,7 @@ public class DarkSteelUpgradeItem extends Item {
                     pPlayer.giveExperienceLevels(-levelsRequired);
                 }
                 DarkSteelUpgradeRegistry.instance().writeUpgradeToItemStack(stack, upgrade.get());
+                pLevel.playSound(pPlayer, pPlayer.getOnPos(), SoundEvents.ENCHANTMENT_TABLE_USE, SoundSource.BLOCKS, 1.0F, new Random().nextFloat() * 0.1F + 0.9F);
             } else if(pLevel.isClientSide){
                 pPlayer.sendMessage(EIOLang.DS_UPGRADE_ITEM_NO_XP, Util.NIL_UUID);
             }
