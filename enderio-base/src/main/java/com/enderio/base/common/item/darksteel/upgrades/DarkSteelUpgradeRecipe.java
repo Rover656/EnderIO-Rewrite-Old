@@ -62,17 +62,11 @@ public class DarkSteelUpgradeRecipe extends UpgradeRecipe {
         return target.map(upgradable -> upgrade.map(up -> DarkSteelUpgradeable.addUpgrade(resultItem, up)).orElse(ItemStack.EMPTY)).orElse(ItemStack.EMPTY);
     }
 
-    private Optional<IDarkSteelUpgradable> getUpgradableFromItem(@Nullable ItemStack item) {
-        if(item == null) {
-            return Optional.empty();
-        }
+    private Optional<IDarkSteelUpgradable> getUpgradableFromItem(ItemStack item) {
         return item.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).resolve();
     }
 
-    private Optional<IDarkSteelUpgrade> getUpgradeFromItem(@Nullable ItemStack item) {
-        if(item == null) {
-            return Optional.empty();
-        }
+    private Optional<IDarkSteelUpgrade> getUpgradeFromItem(ItemStack item) {
         return DarkSteelUpgradeRegistry.instance().readUpgradeFromStack(item);
     }
 
