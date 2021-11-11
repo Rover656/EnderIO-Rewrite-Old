@@ -6,7 +6,7 @@ import net.minecraft.network.chat.Component;
 
 public class SpoonUpgrade implements IDarkSteelUpgrade {
 
-    public static final String NAME = DarkSteelUpgradeRegistry.UPGADE_PREFIX + "spoon";
+    public static final String NAME = DarkSteelUpgradeRegistry.UPGRADE_PREFIX + "spoon";
 
     public static SpoonUpgrade create() {
         return new SpoonUpgrade();
