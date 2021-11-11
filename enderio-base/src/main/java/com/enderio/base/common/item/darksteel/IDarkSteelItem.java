@@ -1,11 +1,13 @@
 package com.enderio.base.common.item.darksteel;
 
+import com.enderio.base.client.renderer.DarkSteelDurabilityRenderer;
 import com.enderio.base.common.capability.EIOCapabilities;
 import com.enderio.base.common.capability.darksteel.DarkSteelUpgradeable;
 import com.enderio.base.common.capability.darksteel.EnergyDelegator;
 import com.enderio.base.common.capability.darksteel.IDarkSteelUpgrade;
 import com.enderio.base.common.item.darksteel.upgrades.EmpoweredUpgrade;
 import com.enderio.base.common.lang.EIOLang;
+import com.enderio.core.client.render.IItemOverlayRender;
 import com.enderio.core.common.capability.IMultiCapabilityItem;
 import com.enderio.core.common.capability.INamedNBTSerializable;
 import com.enderio.core.common.capability.MultiCapabilityProvider;
@@ -23,7 +25,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-public interface IDarkSteelItem extends IMultiCapabilityItem {
+public interface IDarkSteelItem extends IMultiCapabilityItem, IItemOverlayRender {
 
 
     default Optional<EmpoweredUpgrade> getEmpoweredUpgrade(ItemStack stack) {
@@ -77,6 +79,15 @@ public interface IDarkSteelItem extends IMultiCapabilityItem {
                 .sorted(Comparator.comparing(INamedNBTSerializable::getSerializedName))
                 .forEach(upgrade -> pTooltipComponents.add(upgrade.getDisplayName()));
         }
+    }
+
+    default void renderOverlay(ItemStack pStack, int pXPosition, int pYPosition) {
+        DarkSteelDurabilityRenderer.renderOverlay(pStack, pXPosition, pYPosition);
+    }
+
+    @Override
+    default boolean showDurabilityBar(ItemStack stack) {
+        return stack.getDamageValue() > 0 || EnergyUtil.getMaxEnergyStored(stack) > 0;
     }
 
 }
