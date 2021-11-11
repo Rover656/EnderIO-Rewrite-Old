@@ -6,7 +6,7 @@ import net.minecraft.network.chat.Component;
 
 public class ForkUpgrade implements IDarkSteelUpgrade {
 
-    public static final String NAME = DarkSteelUpgradeRegistry.UPGADE_PREFIX + "fork";
+    public static final String NAME = DarkSteelUpgradeRegistry.UPGRADE_PREFIX + "fork";
 
     public static ForkUpgrade create() {
         return new ForkUpgrade();

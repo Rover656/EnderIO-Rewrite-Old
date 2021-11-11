@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 
 public class EmpoweredUpgrade implements IDarkSteelUpgrade {
 
-    public static final String NAME = DarkSteelUpgradeRegistry.UPGADE_PREFIX + "empowered";
+    public static final String NAME = DarkSteelUpgradeRegistry.UPGRADE_PREFIX + "empowered";
 
     private static final Map<Integer,Supplier<EmpoweredUpgrade>> UPGRADES = new HashMap<>();
 
