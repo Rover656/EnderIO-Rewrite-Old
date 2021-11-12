@@ -23,9 +23,7 @@ import net.minecraftforge.common.ToolActions;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static net.minecraft.core.Direction.DOWN;
 import static net.minecraft.core.Direction.UP;
@@ -51,22 +49,36 @@ public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
     @Override
     public boolean mineBlock(ItemStack pStack, Level pLevel, BlockState pState, BlockPos pPos, LivingEntity pEntityLiving) {
         if(pEntityLiving instanceof Player player) {
-            if(pEntityLiving.isCrouching() && getEmpoweredUpgrade(pStack).isPresent() && pState.is(BlockTags.LOGS)) {
-                //"powerUsePerDamagePointMultiHarvest", 1500
-                int energyPerBlock = 1500;
+            if(pEntityLiving.isCrouching() && pState.is(BlockTags.LOGS) && EnergyUtil.getEnergyStored(pStack) > 0) {
+
+                Set<BlockPos> chopCandidates = new HashSet<>();
+                fellTree(pLevel, pPos, new HashSet<>(), chopCandidates, 400, pState.getBlock());
+                chopCandidates.remove(pPos); // dont double harvest this guy
+
+                int energyPerBlock = 1500; //TODO: Config "powerUsePerDamagePointMultiHarvest", 1500
                 int maxBlocks = EnergyUtil.getEnergyStored(pStack)/energyPerBlock;
 
-                Set<BlockPos> toChop = new HashSet<>();
-                fellTree(pLevel, pPos, new HashSet<>(), toChop, maxBlocks, pState.getBlock());
+                Collection<BlockPos> toChop = chopCandidates;
+                if(maxBlocks < chopCandidates.size()) {
+                    //If not enough power to get them all cut top to bottom to avoid floating logs
+                    List<BlockPos> orderedChopList = new ArrayList<>(chopCandidates);
+                    orderedChopList.sort((o1, o2) -> Integer.compare(o2.getY(), o1.getY()));
+                    toChop = orderedChopList;
+                }
 
-                int powerUse = 0;
-                for (BlockPos pos : toChop) {
-                    if (removeBlock(pLevel, player, pStack, pos)) {
-                        powerUse += energyPerBlock;
+                int chopCount = 0;
+                int energyUse = 0;
+                for(BlockPos chopPos : toChop) {
+                    if (removeBlock(pLevel, player, pStack, chopPos)) {
+                        energyUse += energyPerBlock;
+                        chopCount++;
+                        if(chopCount >= maxBlocks) {
+                            break;
+                        }
                     }
                 }
-                if (powerUse > 0) {
-                    EnergyUtil.extractEnergy(pStack, powerUse, false);
+                if (energyUse  > 0) {
+                    EnergyUtil.extractEnergy(pStack, energyUse, false);
                 }
             }
         }
