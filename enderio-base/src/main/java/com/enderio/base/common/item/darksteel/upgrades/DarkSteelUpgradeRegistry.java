@@ -4,6 +4,7 @@ import com.enderio.base.EnderIO;
 import com.enderio.base.common.capability.darksteel.IDarkSteelUpgrade;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.*;
@@ -26,7 +27,7 @@ public final class DarkSteelUpgradeRegistry {
 
     private final Map<String, Supplier<IDarkSteelUpgrade>> registeredUpgrades = new HashMap<>();
 
-    private final Map<String, UpgradeSet> possibleUpgradeLists = new HashMap<>();
+    private final Map<ResourceLocation, Set<String>> possibleUpgrades = new HashMap<>();
 
     private DarkSteelUpgradeRegistry() {}
 
@@ -46,12 +47,11 @@ public final class DarkSteelUpgradeRegistry {
 
     //---------- Read / Write of Upgrades to ItemStacks
 
-    public ItemStack writeUpgradeToItemStack(ItemStack stack, IDarkSteelUpgrade upgrade) {
+    public void writeUpgradeToItemStack(ItemStack stack, IDarkSteelUpgrade upgrade) {
         CompoundTag rootTag = new CompoundTag();
         rootTag.putString("name", upgrade.getSerializedName());
         rootTag.put("data", upgrade.serializeNBT());
         stack.getOrCreateTag().put(UPGRADE_IN_STACK_KEY, rootTag);
-        return stack;
     }
 
     public boolean hasUpgrade(ItemStack stack) {
@@ -70,7 +70,7 @@ public final class DarkSteelUpgradeRegistry {
             String serName = rootTag.getString("name");
             final Optional<IDarkSteelUpgrade> upgrade = createUpgrade(serName);
             return upgrade.map(up -> {
-                up.deserializeNBT(rootTag.get("data"));
+                up.deserializeNBT(Objects.requireNonNull(rootTag.get("data")));
                 return upgrade;
             }).orElse(Optional.empty());
         }
@@ -79,57 +79,15 @@ public final class DarkSteelUpgradeRegistry {
 
     //---------- Upgrade Sets (the set of upgrades that can be applied to an upgradable item
 
-    public void addUpgradesToSet(String setName, String... upgrades) {
-        addUpgradesToSet(new UpgradeSet(setName).addUpgrades(upgrades));
+    public void addUpgradesForItem(ResourceLocation forItem, String... upgrades) {
+        Set<String> currentValues = possibleUpgrades.getOrDefault(forItem, new HashSet<>());
+        currentValues.addAll(Arrays.stream(upgrades).toList());
+        possibleUpgrades.put(forItem, currentValues);
     }
 
-    public void addUpgradesToSet(UpgradeSet upgrades) {
-        UpgradeSet set = possibleUpgradeLists.getOrDefault(upgrades.getName(), new UpgradeSet(upgrades.getName()));
-        set.addUpgrades(upgrades);
-        possibleUpgradeLists.put(set.getName(), set);
+    public Set<String> getUpgradesForItem(ResourceLocation forItem) {
+        return Collections.unmodifiableSet(possibleUpgrades.getOrDefault(forItem, Collections.emptySet()));
     }
 
-    public Optional<UpgradeSet> getUpgradeSet(String name) {
-        return Optional.ofNullable(possibleUpgradeLists.get(name));
-    }
-
-    public Collection<IDarkSteelUpgrade> getUpgradesForSet(String name) {
-        Set<String> upNames = possibleUpgradeLists.get(name).getUpgrades();
-        List<IDarkSteelUpgrade> res = new ArrayList<>(upNames.size());
-        for(String up : upNames) {
-            createUpgrade(up).ifPresent(res::add);
-        }
-        return res;
-    }
-
-    public static class UpgradeSet {
-
-        private final String name;
-        private final Set<String> upgrades;
-
-        public UpgradeSet(String name) {
-            this.name = name;
-            upgrades = new HashSet<>();
-        }
-
-        public UpgradeSet addUpgrades(UpgradeSet set) {
-            upgrades.addAll(set.getUpgrades());
-            return this;
-        }
-
-        public UpgradeSet addUpgrades(String... upgrade) {
-            upgrades.addAll(Arrays.stream(upgrade).toList());
-            return this;
-        }
-
-        public Set<String> getUpgrades() {
-            return Collections.unmodifiableSet(upgrades);
-        }
-
-        public String getName() {
-            return name;
-        }
-
-    }
 
 }

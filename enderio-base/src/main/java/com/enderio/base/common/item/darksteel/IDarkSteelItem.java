@@ -11,17 +11,17 @@ import com.enderio.core.common.capability.INamedNBTSerializable;
 import com.enderio.core.common.capability.MultiCapabilityProvider;
 import com.enderio.core.common.util.EnergyUtil;
 import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import javax.annotation.Nullable;
+import java.util.*;
 
 public interface IDarkSteelItem extends IMultiCapabilityItem {
 
@@ -30,8 +30,12 @@ public interface IDarkSteelItem extends IMultiCapabilityItem {
         return DarkSteelUpgradeable.getUpgradeAs(stack, EmpoweredUpgrade.NAME, EmpoweredUpgrade.class);
     }
 
-    default MultiCapabilityProvider initDarkSteelCapabilities(MultiCapabilityProvider provider, String upgradeSetName) {
-        provider.addSerialized(EIOCapabilities.DARK_STEEL_UPGRADABLE, LazyOptional.of(() -> new DarkSteelUpgradeable(upgradeSetName)));
+    default MultiCapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt, MultiCapabilityProvider provider) {
+        return initDarkSteelCapabilities(provider, Objects.requireNonNull(stack.getItem().getRegistryName()));
+    }
+
+    default MultiCapabilityProvider initDarkSteelCapabilities(MultiCapabilityProvider provider, ResourceLocation forItem) {
+        provider.addSerialized(EIOCapabilities.DARK_STEEL_UPGRADABLE, LazyOptional.of(() -> new DarkSteelUpgradeable(forItem)));
         provider.addSerialized("Energy", CapabilityEnergy.ENERGY, LazyOptional.of(() -> new EnergyDelegator(provider)));
         return provider;
     }

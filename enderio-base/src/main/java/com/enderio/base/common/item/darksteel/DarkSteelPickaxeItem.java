@@ -2,14 +2,11 @@ package com.enderio.base.common.item.darksteel;
 
 import com.enderio.base.common.capability.darksteel.DarkSteelUpgradeable;
 import com.enderio.base.common.item.EIOItems;
-import com.enderio.base.common.item.darksteel.upgrades.DarkSteelUpgradeRegistry;
 import com.enderio.base.common.item.darksteel.upgrades.EmpoweredUpgrade;
 import com.enderio.base.common.item.darksteel.upgrades.SpoonUpgrade;
-import com.enderio.core.common.capability.MultiCapabilityProvider;
 import com.enderio.core.common.util.EnergyUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
@@ -29,8 +26,6 @@ import java.util.List;
 //TODO: Use dual duration / energy bar
 public class DarkSteelPickaxeItem extends PickaxeItem implements IDarkSteelItem {
 
-    public static final String UPGRADE_SET_NAME = "DarkSteelPickaxeUpgrades";
-
     //TODO: Config
     private int obsianBreakPowerUse = 50;
 
@@ -39,7 +34,6 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IDarkSteelItem 
 
     public DarkSteelPickaxeItem(Properties pProperties) {
         super(EIOItems.DARK_STEEL_TIER, 1, -2.8F, pProperties);
-        DarkSteelUpgradeRegistry.instance().addUpgradesToSet(UPGRADE_SET_NAME, EmpoweredUpgrade.NAME, SpoonUpgrade.NAME);
     }
 
     @Override
@@ -103,12 +97,6 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IDarkSteelItem 
     @Override
     public boolean isFoil(ItemStack pStack) {
         return DarkSteelUpgradeable.hasUpgrade(pStack, EmpoweredUpgrade.NAME);
-    }
-
-    @Nullable
-    @Override
-    public MultiCapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt, MultiCapabilityProvider provider) {
-        return initDarkSteelCapabilities(provider, UPGRADE_SET_NAME);
     }
 
     @Override
