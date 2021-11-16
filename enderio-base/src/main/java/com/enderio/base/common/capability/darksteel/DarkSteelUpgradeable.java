@@ -1,14 +1,17 @@
 package com.enderio.base.common.capability.darksteel;
 
+import com.enderio.base.EnderIO;
 import com.enderio.base.common.capability.EIOCapabilities;
 import com.enderio.base.common.item.darksteel.upgrades.DarkSteelUpgradeRegistry;
 import com.enderio.base.common.item.darksteel.upgrades.EmpoweredUpgrade;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.*;
 
+@SuppressWarnings("unused")
 public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
 
     //----------------------- Utils
@@ -46,14 +49,15 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
 
     private final Map<String, IDarkSteelUpgrade> upgrades = new HashMap<>();
 
-    private String upgradeSet;
+    /** The type of item that is upgradable, used to determine valid upgrades.*/
+    private ResourceLocation onItem;
 
     public DarkSteelUpgradeable(){
-        this("");
+        this(EnderIO.loc("empty"));
     }
 
-    public DarkSteelUpgradeable(String upgradeSet) {
-        this.upgradeSet = upgradeSet == null ? "" : upgradeSet;
+    public DarkSteelUpgradeable(ResourceLocation onItem) {
+        this.onItem = onItem;
     }
 
     @Override
@@ -91,7 +95,7 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
         if(!upgrade.isBaseTier()) {
             return false;
         }
-        return DarkSteelUpgradeRegistry.instance().getUpgradeSet(upgradeSet).map(set -> set.getUpgrades().contains(upgrade.getSerializedName())).orElse(false);
+        return DarkSteelUpgradeRegistry.instance().getUpgradesForItem(onItem).contains(upgrade.getSerializedName());
     }
 
     @Override
@@ -136,7 +140,7 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
 
     @Override
     public Collection<IDarkSteelUpgrade> getAllPossibleUpgrades() {
-        Set<String> upgradeNames = DarkSteelUpgradeRegistry.instance().getUpgradeSet(upgradeSet).map(DarkSteelUpgradeRegistry.UpgradeSet::getUpgrades).orElse(Collections.emptySet());
+        Set<String> upgradeNames = DarkSteelUpgradeRegistry.instance().getUpgradesForItem(onItem);
         final List<IDarkSteelUpgrade> result = new ArrayList<>();
         upgradeNames.forEach(s -> DarkSteelUpgradeRegistry.instance().createUpgrade(s).ifPresent(result::add));
         return result;
@@ -148,7 +152,7 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
         for (var entry : upgrades.entrySet()) {
             tag.put(entry.getKey(), entry.getValue().serializeNBT());
         }
-        tag.putString("upgradeSet", upgradeSet);
+        tag.putString("onItem", onItem.toString());
         return tag;
     }
 
@@ -158,11 +162,11 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
         if(tag instanceof CompoundTag nbt) {
             for (String key : nbt.getAllKeys()) {
                 DarkSteelUpgradeRegistry.instance().createUpgrade(key).ifPresent(upgrade -> {
-                    upgrade.deserializeNBT(nbt.get(key));
+                    upgrade.deserializeNBT(Objects.requireNonNull(nbt.get(key)));
                     addUpgrade(upgrade);
                 });
             }
-            upgradeSet = nbt.getString("upgradeSet");
+            onItem = new ResourceLocation(nbt.getString("onItem"));
         }
     }
 

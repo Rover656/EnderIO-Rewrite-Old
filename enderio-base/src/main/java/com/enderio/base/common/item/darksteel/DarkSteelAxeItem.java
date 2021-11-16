@@ -5,11 +5,8 @@ import com.enderio.base.common.item.EIOItems;
 import com.enderio.base.common.item.darksteel.upgrades.DarkSteelUpgradeRegistry;
 import com.enderio.base.common.item.darksteel.upgrades.EmpoweredUpgrade;
 import com.enderio.base.common.item.darksteel.upgrades.ForkUpgrade;
-import com.enderio.base.common.item.darksteel.upgrades.direct.DirectUpgrade;
 import com.enderio.core.common.capability.MultiCapabilityProvider;
-import com.enderio.core.common.util.EnergyUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -34,11 +31,8 @@ import static net.minecraft.core.Direction.UP;
 
 public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
 
-    public static final String UPGRADE_SET_NAME = "DarkSteelAxeUpgrades";
-
     public DarkSteelAxeItem(Properties pProperties) {
         super(EIOItems.DARK_STEEL_TIER, 5, -3, pProperties);
-        DarkSteelUpgradeRegistry.instance().addUpgradesToSet(UPGRADE_SET_NAME, EmpoweredUpgrade.NAME, ForkUpgrade.NAME, DirectUpgrade.NAME);
     }
 
     @Override
@@ -164,12 +158,6 @@ public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
     @Override
     public boolean isFoil(ItemStack pStack) {
         return DarkSteelUpgradeable.hasUpgrade(pStack, EmpoweredUpgrade.NAME);
-    }
-
-    @Nullable
-    @Override
-    public MultiCapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt, MultiCapabilityProvider provider) {
-        return initDarkSteelCapabilities(provider, UPGRADE_SET_NAME);
     }
 
     @Override

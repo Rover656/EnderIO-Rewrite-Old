@@ -32,7 +32,7 @@ public class EIOCapabilities {
         event.register(IToggled.class);
         event.register(IOwner.class);
         event.register(ICapacitorData.class);
-        event.register(ICoordinateSelectionHolder.class);
         event.register(IDarkSteelUpgradable.class);
+        event.register(ICoordinateSelectionHolder.class);
     }
 }
