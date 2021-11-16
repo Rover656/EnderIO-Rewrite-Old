@@ -5,6 +5,7 @@ import com.enderio.base.common.item.EIOItems;
 import com.enderio.base.common.item.darksteel.upgrades.DarkSteelUpgradeRegistry;
 import com.enderio.base.common.item.darksteel.upgrades.EmpoweredUpgrade;
 import com.enderio.base.common.item.darksteel.upgrades.ForkUpgrade;
+import com.enderio.base.common.item.darksteel.upgrades.direct.DirectUpgrade;
 import com.enderio.core.common.capability.MultiCapabilityProvider;
 import com.enderio.core.common.util.EnergyUtil;
 import net.minecraft.core.BlockPos;
@@ -37,7 +38,7 @@ public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
 
     public DarkSteelAxeItem(Properties pProperties) {
         super(EIOItems.DARK_STEEL_TIER, 5, -3, pProperties);
-        DarkSteelUpgradeRegistry.instance().addUpgradesToSet(UPGRADE_SET_NAME, EmpoweredUpgrade.NAME, ForkUpgrade.NAME);
+        DarkSteelUpgradeRegistry.instance().addUpgradesToSet(UPGRADE_SET_NAME, EmpoweredUpgrade.NAME, ForkUpgrade.NAME, DirectUpgrade.NAME);
     }
 
     @Override
