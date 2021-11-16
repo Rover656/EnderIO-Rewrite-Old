@@ -9,6 +9,7 @@ import com.enderio.base.common.item.darksteel.upgrades.DarkSteelUpgradeRegistry;
 import com.enderio.base.common.item.darksteel.upgrades.EmpoweredUpgrade;
 import com.enderio.base.common.item.darksteel.upgrades.ForkUpgrade;
 import com.enderio.base.common.item.darksteel.upgrades.SpoonUpgrade;
+import com.enderio.base.common.item.darksteel.upgrades.direct.DirectUpgrade;
 import com.enderio.base.common.item.darksteel.upgrades.item.DarkSteelUpgradeItem;
 import com.enderio.base.common.item.food.EnderiosItem;
 import com.enderio.base.common.item.misc.EnderfaceItem;
@@ -430,6 +431,11 @@ public class EIOItems {
 
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_FORK = REGISTRATE
         .item("dark_steel_upgrade_fork", properties -> new DarkSteelUpgradeItem(properties, 4, ForkUpgrade::new))
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
+        .register();
+
+    public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_DIRECT = REGISTRATE
+        .item("dark_steel_upgrade_direct", properties -> new DarkSteelUpgradeItem(properties,4, DirectUpgrade::new))
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
         .register();
 

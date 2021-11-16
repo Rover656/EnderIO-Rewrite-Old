@@ -15,6 +15,7 @@ public class EIOLang {
     public static final Component DS_UPGRADE_EMPOWERED = REGISTRATE.addLang("info", EnderIO.loc("darksteel.upgrade.empowered"), "Empowered");
     public static final Component DS_UPGRADE_SPOON = REGISTRATE.addLang("info", EnderIO.loc("darksteel.upgrade.spoon"), "Spoon");
     public static final Component DS_UPGRADE_FORK = REGISTRATE.addLang("info", EnderIO.loc("darksteel.upgrade.fork"), "Fork");
+    public static final Component DS_UPGRADE_DIRECT = REGISTRATE.addLang("info", EnderIO.loc("darksteel.upgrade.direct"), "Direct");
 
     public static void register() {}
 }
