@@ -31,10 +31,7 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
 
     public static <T extends IDarkSteelUpgrade> Optional<T> getUpgradeAs(ItemStack is, String upgrade, Class<T> as) {
         Optional<IDarkSteelUpgradable> cap = is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).resolve();
-        if(cap.isEmpty()) {
-            return Optional.empty();
-        }
-        return cap.get().getUpgradeAs(upgrade, as);
+        return cap.flatMap(upgradeCap -> upgradeCap.getUpgradeAs(upgrade, as));
     }
 
     public static Collection<IDarkSteelUpgrade> getUpgradesThatCanBeAppliedAtTheMoment(ItemStack is) {
