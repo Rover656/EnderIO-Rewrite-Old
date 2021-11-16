@@ -64,7 +64,7 @@ public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
     }
 
     private boolean canHarvest(ItemStack stack, BlockState state) {
-        return BlockTags.MINEABLE_WITH_PICKAXE.contains(state.getBlock()) || (state.is(BlockTags.MINEABLE_WITH_HOE) && hasFork(stack));
+        return BlockTags.MINEABLE_WITH_AXE.contains(state.getBlock()) || (state.is(BlockTags.MINEABLE_WITH_HOE) && hasFork(stack));
     }
 
     private boolean hasFork(ItemStack stack) {

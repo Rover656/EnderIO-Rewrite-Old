@@ -13,6 +13,7 @@ import com.enderio.core.common.util.EnergyUtil;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -74,7 +75,7 @@ public interface IDarkSteelItem extends IMultiCapabilityItem {
 
         var availUpgrades = DarkSteelUpgradeable.getUpgradesThatCanBeAppliedAtTheMoment(pStack);
         if(!availUpgrades.isEmpty()) {
-            pTooltipComponents.add(new TranslatableComponent(""));
+            pTooltipComponents.add(TextComponent.EMPTY);
             pTooltipComponents.add(EIOLang.DS_UPGRADE_AVAILABLE);
             availUpgrades
                 .stream()

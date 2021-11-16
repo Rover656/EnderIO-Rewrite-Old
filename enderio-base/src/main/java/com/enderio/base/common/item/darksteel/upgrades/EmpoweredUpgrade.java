@@ -21,16 +21,16 @@ public class EmpoweredUpgrade implements IDarkSteelUpgrade {
     private static final Map<Integer,Supplier<EmpoweredUpgrade>> UPGRADES = new HashMap<>();
 
     //TODO: Config All the things
-    public static final Supplier<EmpoweredUpgrade> TIER_0 = () -> new EmpoweredUpgrade(0,100000, 0.5f);
-    public static final Supplier<EmpoweredUpgrade> TIER_1 = () -> new EmpoweredUpgrade(1,150000, 0.6f);
-    public static final Supplier<EmpoweredUpgrade> TIER_2 = () -> new EmpoweredUpgrade(2,250000, 0.7f);
-    public static final Supplier<EmpoweredUpgrade> TIER_3 = () -> new EmpoweredUpgrade(3,1000000,0.85f);
+    public static final Supplier<EmpoweredUpgrade> TIER_0_FACTORY = () -> new EmpoweredUpgrade(0,100000, 0.5f);
+    public static final Supplier<EmpoweredUpgrade> TIER_1_FACTORY = () -> new EmpoweredUpgrade(1,150000, 0.6f);
+    public static final Supplier<EmpoweredUpgrade> TIER_2_FACTORY = () -> new EmpoweredUpgrade(2,250000, 0.7f);
+    public static final Supplier<EmpoweredUpgrade> TIER_3_FACTORY = () -> new EmpoweredUpgrade(3,1000000,0.85f);
 
     static {
-        UPGRADES.put(0, TIER_0);
-        UPGRADES.put(1, TIER_1);
-        UPGRADES.put(2, TIER_2);
-        UPGRADES.put(3, TIER_3);
+        UPGRADES.put(0, TIER_0_FACTORY);
+        UPGRADES.put(1, TIER_1_FACTORY);
+        UPGRADES.put(2, TIER_2_FACTORY);
+        UPGRADES.put(3, TIER_3_FACTORY);
     }
 
     private static Optional<EmpoweredUpgrade> getUpgradeForTier(int tier) {
@@ -136,6 +136,4 @@ public class EmpoweredUpgrade implements IDarkSteelUpgrade {
             damageAbsorptionChance = nbt.getFloat("damageAbsorptionChance");
         }
     }
-
-
 }

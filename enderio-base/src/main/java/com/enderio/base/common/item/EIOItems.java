@@ -404,22 +404,22 @@ public class EIOItems {
 
     //TODO: use Config for required levels
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_EMPOWERED_1 = REGISTRATE
-        .item("dark_steel_upgrade_empowered_1", properties -> new DarkSteelUpgradeItem(properties, 4, EmpoweredUpgrade.TIER_0))
+        .item("dark_steel_upgrade_empowered_1", properties -> new DarkSteelUpgradeItem(properties, 4, EmpoweredUpgrade.TIER_0_FACTORY))
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
         .register();
 
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_EMPOWERED_2 = REGISTRATE
-        .item("dark_steel_upgrade_empowered_2", properties -> new DarkSteelUpgradeItem(properties, 8, EmpoweredUpgrade.TIER_1))
+        .item("dark_steel_upgrade_empowered_2", properties -> new DarkSteelUpgradeItem(properties, 8, EmpoweredUpgrade.TIER_1_FACTORY))
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
         .register();
 
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_EMPOWERED_3 = REGISTRATE
-        .item("dark_steel_upgrade_empowered_3", properties -> new DarkSteelUpgradeItem(properties, 12, EmpoweredUpgrade.TIER_2))
+        .item("dark_steel_upgrade_empowered_3", properties -> new DarkSteelUpgradeItem(properties, 12, EmpoweredUpgrade.TIER_2_FACTORY))
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
         .register();
 
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_EMPOWERED_4 = REGISTRATE
-        .item("dark_steel_upgrade_empowered_4", properties -> new DarkSteelUpgradeItem(properties, 16, EmpoweredUpgrade.TIER_3))
+        .item("dark_steel_upgrade_empowered_4", properties -> new DarkSteelUpgradeItem(properties, 16, EmpoweredUpgrade.TIER_3_FACTORY))
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
         .register();
 
