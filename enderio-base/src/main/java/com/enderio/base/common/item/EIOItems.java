@@ -348,7 +348,6 @@ public class EIOItems {
 
     // endregion
 
-
     // region Tools
     public static ItemEntry<YetaWrenchItem> YETA_WRENCH = REGISTRATE
         .item("yeta_wrench", YetaWrenchItem::new)
@@ -381,13 +380,11 @@ public class EIOItems {
 
     // endregion
 
-
     // region DarkSteel
 
     public static final Tier DARK_STEEL_TIER = TierSortingRegistry.registerTier(
         new ForgeTier(3, 2000, 8.0F, 3, 25, EIOTags.Blocks.DARK_STEEL_TIER, () -> Ingredient.of(EIOItems.DARK_STEEL_INGOT.get())),
-        EnderIO.loc("dark_steel_tier"), List.of(Tiers.DIAMOND),
-        List.of(Tiers.NETHERITE));
+        EnderIO.loc("dark_steel_tier"), List.of(Tiers.DIAMOND), List.of(Tiers.NETHERITE));
 
     public static ItemEntry<DarkSteelPickaxeItem> DARK_STEEL_PICKAXE = REGISTRATE
         .item("dark_steel_pickaxe", DarkSteelPickaxeItem::new)
@@ -407,32 +404,32 @@ public class EIOItems {
 
     //TODO: use Config for required levels
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_EMPOWERED_1 = REGISTRATE
-        .item("dark_steel_upgrade_empowered_1", properties -> new DarkSteelUpgradeItem(properties,4, EmpoweredUpgrade.TIER_0))
+        .item("dark_steel_upgrade_empowered_1", properties -> new DarkSteelUpgradeItem(properties, 4, EmpoweredUpgrade.TIER_0))
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
         .register();
 
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_EMPOWERED_2 = REGISTRATE
-        .item("dark_steel_upgrade_empowered_2", properties -> new DarkSteelUpgradeItem(properties,8, EmpoweredUpgrade.TIER_1))
+        .item("dark_steel_upgrade_empowered_2", properties -> new DarkSteelUpgradeItem(properties, 8, EmpoweredUpgrade.TIER_1))
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
         .register();
 
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_EMPOWERED_3 = REGISTRATE
-        .item("dark_steel_upgrade_empowered_3", properties -> new DarkSteelUpgradeItem(properties,12, EmpoweredUpgrade.TIER_2))
+        .item("dark_steel_upgrade_empowered_3", properties -> new DarkSteelUpgradeItem(properties, 12, EmpoweredUpgrade.TIER_2))
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
         .register();
 
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_EMPOWERED_4 = REGISTRATE
-        .item("dark_steel_upgrade_empowered_4", properties -> new DarkSteelUpgradeItem(properties,16, EmpoweredUpgrade.TIER_3))
+        .item("dark_steel_upgrade_empowered_4", properties -> new DarkSteelUpgradeItem(properties, 16, EmpoweredUpgrade.TIER_3))
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
         .register();
 
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_SPOON = REGISTRATE
-        .item("dark_steel_upgrade_spoon", properties -> new DarkSteelUpgradeItem(properties,4, SpoonUpgrade::new))
+        .item("dark_steel_upgrade_spoon", properties -> new DarkSteelUpgradeItem(properties, 4, SpoonUpgrade::new))
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
         .register();
 
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_FORK = REGISTRATE
-        .item("dark_steel_upgrade_fork", properties -> new DarkSteelUpgradeItem(properties,4, ForkUpgrade::new))
+        .item("dark_steel_upgrade_fork", properties -> new DarkSteelUpgradeItem(properties, 4, ForkUpgrade::new))
         .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
         .register();
 
@@ -455,7 +452,6 @@ public class EIOItems {
     public static ItemEntry<EnderfaceItem> CREATIVE_ICON_CONDUITS = dumbItem("enderface_conduits", EnderfaceItem::new);
     public static ItemEntry<EnderfaceItem> CREATIVE_ICON_MOBS = dumbItem("enderface_mobs", EnderfaceItem::new);
     public static ItemEntry<EnderfaceItem> CREATIVE_ICON_INVPANEL = dumbItem("enderface_invpanel", EnderfaceItem::new);
-
 
     // endregion
 
