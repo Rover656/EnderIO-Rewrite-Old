@@ -39,7 +39,9 @@ public interface IDarkSteelUpgradable extends INamedNBTSerializable<Tag> {
 
     Optional<IDarkSteelUpgrade> getUpgrade(String upgradeName);
 
-    <T extends IDarkSteelUpgrade> Optional<T> getUpgradeAs(String upgrade, Class<T> as);
+    default <T extends IDarkSteelUpgrade> Optional<T> getUpgradeAs(String upgradeName, Class<T> as) {
+        return getUpgrade(upgradeName).filter(as::isInstance).map(as::cast);
+    }
 
     /**
      * Returns the list of upgrades that will return true from {@link #canApplyUpgrade(IDarkSteelUpgrade)}

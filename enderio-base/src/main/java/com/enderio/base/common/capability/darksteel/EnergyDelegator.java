@@ -57,9 +57,7 @@ public class EnergyDelegator implements IEnergyStorage , INBTSerializable<Tag>  
     }
 
     @Override
-    public void deserializeNBT(Tag nbt) {
-
-    }
+    public void deserializeNBT(Tag nbt) {}
 
     private IEnergyStorage getDelegate() {
         Optional<IDarkSteelUpgradable> cap = prov.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).resolve();
@@ -71,8 +69,4 @@ public class EnergyDelegator implements IEnergyStorage , INBTSerializable<Tag>  
         }
         return NULL_DELEGATE;
     }
-
-
-
-
 }
