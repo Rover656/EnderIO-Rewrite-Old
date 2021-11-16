@@ -34,6 +34,5 @@ public class EIOCapabilities {
         event.register(ICapacitorData.class);
         event.register(IDarkSteelUpgradable.class);
         event.register(ICoordinateSelectionHolder.class);
-        event.register(IDarkSteelUpgradable.class);
     }
 }
