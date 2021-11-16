@@ -49,7 +49,7 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
     /** The type of item that is upgradable, used to determine valid upgrades.*/
     private ResourceLocation onItem;
 
-    public DarkSteelUpgradeable(){
+    public DarkSteelUpgradeable() {
         this(EnderIO.loc("empty"));
     }
 
