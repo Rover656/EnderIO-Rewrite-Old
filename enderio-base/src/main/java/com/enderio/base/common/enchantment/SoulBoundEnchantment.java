@@ -1,13 +1,13 @@
 package com.enderio.base.common.enchantment;
 
-import com.enderio.base.EIOConfig;
+import com.enderio.base.config.base.BaseConfig;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 
 public class SoulBoundEnchantment extends EIOBaseEnchantment {
 
     public SoulBoundEnchantment() {
-        super(EIOConfig.COMMON.ENCHANTMENTS.SOUL_BOUND_RARITY.get(), EnchantmentCategory.VANISHABLE, EquipmentSlot.values(), () -> true);
+        super(BaseConfig.COMMON.ENCHANTMENTS.SOUL_BOUND_RARITY.get(), EnchantmentCategory.VANISHABLE, EquipmentSlot.values(), () -> true);
     }
 
     @Override
@@ -17,11 +17,11 @@ public class SoulBoundEnchantment extends EIOBaseEnchantment {
 
     @Override
     public int getMaxCost(int pLevel) {
-        return EIOConfig.COMMON.ENCHANTMENTS.SOUL_BOUND_MAX_COST.get();
+        return BaseConfig.COMMON.ENCHANTMENTS.SOUL_BOUND_MAX_COST.get();
     }
 
     @Override
     public int getMinCost(int pLevel) {
-        return EIOConfig.COMMON.ENCHANTMENTS.SOUL_BOUND_MIN_COST.get();
+        return BaseConfig.COMMON.ENCHANTMENTS.SOUL_BOUND_MIN_COST.get();
     }
 }

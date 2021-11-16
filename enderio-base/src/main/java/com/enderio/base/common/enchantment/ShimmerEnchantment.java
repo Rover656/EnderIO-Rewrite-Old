@@ -1,13 +1,13 @@
 package com.enderio.base.common.enchantment;
 
-import com.enderio.base.EIOConfig;
+import com.enderio.base.config.base.BaseConfig;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 
 public class ShimmerEnchantment extends EIOBaseEnchantment {
 
     public ShimmerEnchantment() {
-        super(EIOConfig.COMMON.ENCHANTMENTS.SHIMMER_RARITY.get(), EnchantmentCategory.VANISHABLE, EquipmentSlot.values(), () -> true);
+        super(BaseConfig.COMMON.ENCHANTMENTS.SHIMMER_RARITY.get(), EnchantmentCategory.VANISHABLE, EquipmentSlot.values(), () -> true);
     }
 
     @Override
@@ -17,12 +17,12 @@ public class ShimmerEnchantment extends EIOBaseEnchantment {
 
     @Override
     public int getMaxCost(int pLevel) {
-        return EIOConfig.COMMON.ENCHANTMENTS.SHIMMER_MAX_COST.get();
+        return BaseConfig.COMMON.ENCHANTMENTS.SHIMMER_MAX_COST.get();
     }
 
     @Override
     public int getMinCost(int pLevel) {
-        return EIOConfig.COMMON.ENCHANTMENTS.SHIMMER_MIN_COST.get();
+        return BaseConfig.COMMON.ENCHANTMENTS.SHIMMER_MIN_COST.get();
     }
 
     @Override
