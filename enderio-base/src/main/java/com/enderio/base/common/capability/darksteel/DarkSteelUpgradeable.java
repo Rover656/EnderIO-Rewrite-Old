@@ -70,8 +70,8 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
 
     private void removeUpgradeInSlot(String slot) {
         Optional<String> toRemove = Optional.empty();
-        for(var entry : upgrades.entrySet()) {
-            if(entry.getValue().getSlot().equals(slot)) {
+        for (var entry : upgrades.entrySet()) {
+            if (entry.getValue().getSlot().equals(slot)) {
                 toRemove = Optional.of(entry.getKey());
                 break;
             }
