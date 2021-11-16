@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import com.enderio.base.EIOConfig;
 import com.enderio.base.EnderIO;
 import com.enderio.base.common.item.spawner.BrokenSpawnerItem;
 import com.google.common.collect.Lists;
@@ -39,13 +40,12 @@ public class BrokenSpawnerLootModifier extends LootModifier {
     protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
         BlockEntity entity = context.getParam(LootContextParams.BLOCK_ENTITY);
         if (entity instanceof SpawnerBlockEntity spawnerBlockEntity) {
-            // TODO: Drop chance config
-
-            // TODO: Tool blacklists
-
-            BaseSpawner spawner = spawnerBlockEntity.getSpawner();
-            ItemStack brokenSpawner = BrokenSpawnerItem.forType(spawner.getEntityId(context.getLevel(), entity.getBlockPos()));
-            return Lists.newArrayList(brokenSpawner);
+            if (context.getRandom().nextFloat() < EIOConfig.COMMON.BLOCKS.BROKEN_SPAWNER_DROP_CHANCE.get()) {
+                // TODO: Tool blacklists
+                BaseSpawner spawner = spawnerBlockEntity.getSpawner();
+                ItemStack brokenSpawner = BrokenSpawnerItem.forType(spawner.getEntityId(context.getLevel(), entity.getBlockPos()));
+                return Lists.newArrayList(brokenSpawner);
+            }
         }
 
         return generatedLoot;

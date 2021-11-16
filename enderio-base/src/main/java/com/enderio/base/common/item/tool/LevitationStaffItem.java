@@ -1,5 +1,6 @@
 package com.enderio.base.common.item.tool;
 
+import com.enderio.base.EIOConfig;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -18,14 +19,12 @@ public class LevitationStaffItem extends PoweredToggledItem {
 
     @Override
     protected int getEnergyUse() {
-        //TODO: Config
-        return 1;
+        return EIOConfig.COMMON.ITEMS.LEVITATION_STAFF_ENERGY_USE.get();
     }
 
     @Override
     protected int getMaxEnergy() {
-        //TODO: Config
-        return 1000;
+        return EIOConfig.COMMON.ITEMS.LEVITATION_STAFF_MAX_ENERGY.get();
     }
 
     @Override

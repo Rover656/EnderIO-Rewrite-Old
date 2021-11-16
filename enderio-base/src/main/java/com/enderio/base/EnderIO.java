@@ -21,7 +21,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.data.ForgeBlockTagsProvider;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 
@@ -33,6 +35,11 @@ public class EnderIO {
     private static final NonNullLazyValue<Registrate> REGISTRATE = new NonNullLazyValue<>(() -> Registrate.create(DOMAIN));
 
     public EnderIO() {
+        // Register configs
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, EIOConfig.COMMON_SPEC);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, EIOConfig.CLIENT_SPEC);
+
+        // Registries
         EIOItems.register();
         EIOBlocks.register();
         EIOBlockEntities.register();
@@ -45,7 +52,6 @@ public class EnderIO {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         EIORecipes.register(modEventBus);
-
 
         // Run datagen after registrate is finished.
         modEventBus.addListener(EventPriority.LOWEST, this::gatherData);

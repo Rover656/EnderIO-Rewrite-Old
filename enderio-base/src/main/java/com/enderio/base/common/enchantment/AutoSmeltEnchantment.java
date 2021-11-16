@@ -2,6 +2,7 @@ package com.enderio.base.common.enchantment;
 
 import javax.annotation.Nonnull;
 
+import com.enderio.base.EIOConfig;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
@@ -9,9 +10,8 @@ import net.minecraft.world.item.enchantment.Enchantments;
 
 public class AutoSmeltEnchantment extends EIOBaseEnchantment {
 
-    //TODO config rarity
     public AutoSmeltEnchantment() {
-        super(Rarity.RARE, EnchantmentCategory.DIGGER, new EquipmentSlot[] { EquipmentSlot.MAINHAND }, () -> true);
+        super(EIOConfig.COMMON.ENCHANTMENTS.AUTO_SMELT_RARITY.get(), EnchantmentCategory.DIGGER, new EquipmentSlot[] { EquipmentSlot.MAINHAND }, () -> true);
     }
 
     @Override
@@ -19,16 +19,14 @@ public class AutoSmeltEnchantment extends EIOBaseEnchantment {
         return 1;
     }
 
-    //TODO config
     @Override
     public int getMaxCost(int pLevel) {
-        return 60;
+        return EIOConfig.COMMON.ENCHANTMENTS.AUTO_SMELT_MAX_COST.get();
     }
 
-    //TODO config
     @Override
     public int getMinCost(int pLevel) {
-        return 15;
+        return EIOConfig.COMMON.ENCHANTMENTS.AUTO_SMELT_MIN_COST.get();
     }
 
     @Override
