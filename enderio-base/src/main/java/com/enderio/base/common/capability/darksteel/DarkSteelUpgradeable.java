@@ -16,30 +16,30 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
 
     //----------------------- Utils
 
-    public static ItemStack addUpgrade(ItemStack is, IDarkSteelUpgrade upgrade) {
-        is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).ifPresent(upgradable -> upgradable.addUpgrade(upgrade));
-        return is;
+    public static ItemStack addUpgrade(ItemStack itemStack, IDarkSteelUpgrade upgrade) {
+        itemStack.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).ifPresent(upgradable -> upgradable.addUpgrade(upgrade));
+        return itemStack;
     }
 
-    public static Collection<IDarkSteelUpgrade> getUpgrades(ItemStack is) {
-        return is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).map(IDarkSteelUpgradable::getUpgrades).orElse(Collections.emptyList());
+    public static Collection<IDarkSteelUpgrade> getUpgrades(ItemStack itemStack) {
+        return itemStack.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).map(IDarkSteelUpgradable::getUpgrades).orElse(Collections.emptyList());
     }
 
-    public static boolean hasUpgrade(ItemStack is, String name) {
-        return is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).map(upgradable -> upgradable.hasUpgrade(name)).orElse(false);
+    public static boolean hasUpgrade(ItemStack itemStack, String name) {
+        return itemStack.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).map(upgradable -> upgradable.hasUpgrade(name)).orElse(false);
     }
 
-    public static <T extends IDarkSteelUpgrade> Optional<T> getUpgradeAs(ItemStack is, String upgrade, Class<T> as) {
-        Optional<IDarkSteelUpgradable> cap = is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).resolve();
+    public static <T extends IDarkSteelUpgrade> Optional<T> getUpgradeAs(ItemStack itemStack, String upgrade, Class<T> as) {
+        Optional<IDarkSteelUpgradable> cap = itemStack.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).resolve();
         return cap.flatMap(upgradeCap -> upgradeCap.getUpgradeAs(upgrade, as));
     }
 
-    public static Collection<IDarkSteelUpgrade> getUpgradesThatCanBeAppliedAtTheMoment(ItemStack is) {
-        return is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).map(IDarkSteelUpgradable::getUpgradesThatCanBeAppliedAtTheMoment).orElse(Collections.emptyList());
+    public static Collection<IDarkSteelUpgrade> getUpgradesThatCanBeAppliedAtTheMoment(ItemStack itemStack) {
+        return itemStack.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).map(IDarkSteelUpgradable::getUpgradesThatCanBeAppliedAtTheMoment).orElse(Collections.emptyList());
     }
 
-    public static Collection<IDarkSteelUpgrade> getAllPossibleUpgrades(ItemStack is) {
-        return is.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).map(IDarkSteelUpgradable::getAllPossibleUpgrades).orElse(Collections.emptyList());
+    public static Collection<IDarkSteelUpgrade> getAllPossibleUpgrades(ItemStack itemStack) {
+        return itemStack.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).map(IDarkSteelUpgradable::getAllPossibleUpgrades).orElse(Collections.emptyList());
     }
 
     //----------------------- Class
