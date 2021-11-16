@@ -101,15 +101,6 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
     }
 
     @Override
-    public <T extends IDarkSteelUpgrade> Optional<T> getUpgradeAs(String upgrade, Class<T> as) {
-        IDarkSteelUpgrade up = upgrades.get(upgrade);
-        if (as.isInstance(up)) {
-            return Optional.of(as.cast(up));
-        }
-        return Optional.empty();
-    }
-
-    @Override
     public Collection<IDarkSteelUpgrade> getUpgrades() {
         return upgrades.values();
     }
