@@ -16,6 +16,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -63,9 +64,11 @@ public interface IDarkSteelItem extends IMultiCapabilityItem, IItemOverlayRender
     }
 
     default void addUpgradeHoverTest(ItemStack pStack, List<Component> pTooltipComponents) {
+
+        //TODO: Only show when shift is held down
         if (DarkSteelUpgradeable.hasUpgrade(pStack, EmpoweredUpgrade.NAME)) {
             String energy = EnergyUtil.getEnergyStored(pStack) + "/" + EnergyUtil.getMaxEnergyStored(pStack);
-            pTooltipComponents.add(new TextComponent(energy));
+            pTooltipComponents.add(new TranslatableComponent(EIOLang.ENERGY_AMOUNT.getKey(), energy));
         }
 
         var upgrades = DarkSteelUpgradeable.getUpgrades(pStack);

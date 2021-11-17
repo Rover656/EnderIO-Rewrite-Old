@@ -10,7 +10,7 @@ import com.enderio.base.common.item.darksteel.upgrades.EmpoweredUpgrade;
 import com.enderio.base.common.item.darksteel.upgrades.ForkUpgrade;
 import com.enderio.base.common.item.darksteel.upgrades.SpoonUpgrade;
 import com.enderio.base.common.item.darksteel.upgrades.direct.DirectUpgrade;
-import com.enderio.base.common.item.darksteel.upgrades.item.DarkSteelUpgradeItem;
+import com.enderio.base.common.item.darksteel.DarkSteelUpgradeItem;
 import com.enderio.base.common.item.food.EnderiosItem;
 import com.enderio.base.common.item.misc.EnderfaceItem;
 import com.enderio.base.common.item.misc.GearItem;
@@ -398,40 +398,48 @@ public class EIOItems {
             .addUpgradesForItem(Objects.requireNonNull(item.getRegistryName()), EmpoweredUpgrade.NAME, ForkUpgrade.NAME, DirectUpgrade.NAME))
         .register();
 
+
+    private static final String UPGRADE_TEXT = " Upgrade";
+
+    public static ItemEntry<MaterialItem> DARK_STEEL_UPGRADE_BLANK = REGISTRATE
+        .item("dark_steel_upgrade_blank", props -> new MaterialItem(props, false))
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR)).lang("Blank" + UPGRADE_TEXT)
+        .register();
+
     //TODO: use Config for required levels
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_EMPOWERED_1 = REGISTRATE
         .item("dark_steel_upgrade_empowered_1", properties -> new DarkSteelUpgradeItem(properties, 4, EmpoweredUpgrade.TIER_0_FACTORY))
-        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR)).lang("Empowered" + UPGRADE_TEXT)
         .register();
 
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_EMPOWERED_2 = REGISTRATE
         .item("dark_steel_upgrade_empowered_2", properties -> new DarkSteelUpgradeItem(properties, 8, EmpoweredUpgrade.TIER_1_FACTORY))
-        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR)).lang("Empowered 2" + UPGRADE_TEXT)
         .register();
 
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_EMPOWERED_3 = REGISTRATE
         .item("dark_steel_upgrade_empowered_3", properties -> new DarkSteelUpgradeItem(properties, 12, EmpoweredUpgrade.TIER_2_FACTORY))
-        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR)).lang("Empowered 3" + UPGRADE_TEXT)
         .register();
 
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_EMPOWERED_4 = REGISTRATE
         .item("dark_steel_upgrade_empowered_4", properties -> new DarkSteelUpgradeItem(properties, 16, EmpoweredUpgrade.TIER_3_FACTORY))
-        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR)).lang("Empowered 4" + UPGRADE_TEXT)
         .register();
 
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_SPOON = REGISTRATE
         .item("dark_steel_upgrade_spoon", properties -> new DarkSteelUpgradeItem(properties, 4, SpoonUpgrade::new))
-        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR)).lang("Spoon" + UPGRADE_TEXT)
         .register();
 
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_FORK = REGISTRATE
         .item("dark_steel_upgrade_fork", properties -> new DarkSteelUpgradeItem(properties, 4, ForkUpgrade::new))
-        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR)).lang("Fork" + UPGRADE_TEXT)
         .register();
 
     public static ItemEntry<DarkSteelUpgradeItem> DARK_STEEL_UPGRADE_DIRECT = REGISTRATE
         .item("dark_steel_upgrade_direct", properties -> new DarkSteelUpgradeItem(properties,4, DirectUpgrade::new))
-        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR))
+        .group(new NonNullLazyValue<>(() -> EIOCreativeTabs.GEAR)).lang("Direct" + UPGRADE_TEXT)
         .register();
 
     // endregion
