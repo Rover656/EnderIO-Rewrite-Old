@@ -14,7 +14,6 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -37,7 +36,7 @@ public interface IDarkSteelItem extends IMultiCapabilityItem {
 
     default MultiCapabilityProvider initDarkSteelCapabilities(MultiCapabilityProvider provider, ResourceLocation forItem) {
         provider.addSerialized(EIOCapabilities.DARK_STEEL_UPGRADABLE, LazyOptional.of(() -> new DarkSteelUpgradeable(forItem)));
-        provider.addSerialized("Energy", CapabilityEnergy.ENERGY, LazyOptional.of(() -> new EnergyDelegator(provider)));
+        provider.addSimple(CapabilityEnergy.ENERGY, LazyOptional.of(() -> new EnergyDelegator(provider)));
         return provider;
     }
 
@@ -63,8 +62,8 @@ public interface IDarkSteelItem extends IMultiCapabilityItem {
 
     default void addUpgradeHoverTest(ItemStack pStack, List<Component> pTooltipComponents) {
         if (DarkSteelUpgradeable.hasUpgrade(pStack, EmpoweredUpgrade.NAME)) {
-            String tip = EnergyUtil.getEnergyStored(pStack) + "/" + EnergyUtil.getMaxEnergyStored(pStack);
-            pTooltipComponents.add(new TranslatableComponent(tip));
+            String energy = EnergyUtil.getEnergyStored(pStack) + "/" + EnergyUtil.getMaxEnergyStored(pStack);
+            pTooltipComponents.add(new TextComponent(energy));
         }
 
         var upgrades = DarkSteelUpgradeable.getUpgrades(pStack);

@@ -81,7 +81,7 @@ public final class DarkSteelUpgradeRegistry {
 
     public void addUpgradesForItem(ResourceLocation forItem, String... upgrades) {
         Set<String> currentValues = possibleUpgrades.getOrDefault(forItem, new HashSet<>());
-        currentValues.addAll(Arrays.stream(upgrades).toList());
+        Collections.addAll(currentValues, upgrades);
         possibleUpgrades.put(forItem, currentValues);
     }
 

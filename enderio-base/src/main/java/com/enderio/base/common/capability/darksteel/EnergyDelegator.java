@@ -3,15 +3,12 @@ package com.enderio.base.common.capability.darksteel;
 import com.enderio.base.common.capability.EIOCapabilities;
 import com.enderio.base.common.item.darksteel.upgrades.EmpoweredUpgrade;
 import com.enderio.core.common.capability.MultiCapabilityProvider;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
-import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 
 import java.util.Optional;
 
-public class EnergyDelegator implements IEnergyStorage , INBTSerializable<Tag>  {
+public class EnergyDelegator implements IEnergyStorage {
 
     private final MultiCapabilityProvider prov;
 
@@ -50,14 +47,6 @@ public class EnergyDelegator implements IEnergyStorage , INBTSerializable<Tag>  
     public boolean canReceive() {
         return getDelegate().canReceive();
     }
-
-    @Override
-    public Tag serializeNBT() {
-        return new CompoundTag();
-    }
-
-    @Override
-    public void deserializeNBT(Tag nbt) {}
 
     private IEnergyStorage getDelegate() {
         Optional<IDarkSteelUpgradable> cap = prov.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).resolve();

@@ -44,6 +44,8 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
 
     //----------------------- Class
 
+    private static final String ON_ITEM_KEY = "onItem";
+
     private final Map<String, IDarkSteelUpgrade> upgrades = new HashMap<>();
 
     /** The type of item that is upgradable, used to determine valid upgrades.*/
@@ -69,14 +71,12 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
     }
 
     private void removeUpgradeInSlot(String slot) {
-        Optional<String> toRemove = Optional.empty();
         for (var entry : upgrades.entrySet()) {
             if (entry.getValue().getSlot().equals(slot)) {
-                toRemove = Optional.of(entry.getKey());
+                upgrades.remove(entry.getKey());
                 break;
             }
         }
-        toRemove.ifPresent(upgrades::remove);
     }
 
     @Override
@@ -140,7 +140,7 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
         for (var entry : upgrades.entrySet()) {
             tag.put(entry.getKey(), entry.getValue().serializeNBT());
         }
-        tag.putString("onItem", onItem.toString());
+        tag.putString(ON_ITEM_KEY, onItem.toString());
         return tag;
     }
 
@@ -154,7 +154,7 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
                     addUpgrade(upgrade);
                 });
             }
-            onItem = new ResourceLocation(nbt.getString("onItem"));
+            onItem = new ResourceLocation(nbt.getString(ON_ITEM_KEY));
         }
     }
 
