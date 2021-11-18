@@ -34,6 +34,9 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IDarkSteelItem 
     //TODO: Config
     private int speedBoostWhenObsidian = 50;
 
+    //TODO: Config
+    private int useObsidianBreakSpeedAtHardness = 50;
+
     public DarkSteelPickaxeItem(Properties pProperties) {
         super(EIOItems.DARK_STEEL_TIER, 1, -2.8F, pProperties);
     }
@@ -69,7 +72,7 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IDarkSteelItem 
 
     @Override
     public InteractionResult useOn(UseOnContext pContext) {
-        if(hasSpoon(pContext.getItemInHand())) {
+        if (hasSpoon(pContext.getItemInHand())) {
             return Items.DIAMOND_SHOVEL.useOn(pContext);
         }
         return super.useOn(pContext);
@@ -77,7 +80,7 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IDarkSteelItem 
 
     @Override
     public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
-        return super.canPerformAction(stack,toolAction) || (hasSpoon(stack) && ToolActions.DEFAULT_SHOVEL_ACTIONS.contains(toolAction));
+        return super.canPerformAction(stack, toolAction) || (hasSpoon(stack) && ToolActions.DEFAULT_SHOVEL_ACTIONS.contains(toolAction));
     }
 
     private boolean canHarvest(ItemStack stack, BlockState state) {
@@ -89,12 +92,15 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IDarkSteelItem 
     }
 
     private boolean useObsidianMining(BlockState pState, ItemStack stack) {
-        //TODO: Check for blocks with hardness > 50 as well as obsidian
-        return EnergyUtil.getEnergyStored(stack) >= obsianBreakPowerUse && pState.getBlock() == Blocks.OBSIDIAN;
+        return EnergyUtil.getEnergyStored(stack) >= obsianBreakPowerUse && treatBlockAsObsidian(pState);
     }
 
+    private boolean treatBlockAsObsidian(BlockState pState) {
+        return pState.getBlock() == Blocks.OBSIDIAN || (useObsidianBreakSpeedAtHardness > 0
+            && pState.getBlock().defaultDestroyTime() >= useObsidianBreakSpeedAtHardness);
+    }
 
-    //------------ Common for all tools
+    // region Common for all tools
 
     @Override
     public boolean isFoil(ItemStack pStack) {
@@ -115,5 +121,5 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IDarkSteelItem 
         addUpgradeHoverTest(pStack, pTooltipComponents);
     }
 
-
+    // endregion
 }

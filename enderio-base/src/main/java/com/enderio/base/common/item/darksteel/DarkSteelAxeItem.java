@@ -152,7 +152,7 @@ public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
         return removed;
     }
 
-    //------------ Common for all tools
+    // region Common for all tools
 
     @Override
     public boolean isFoil(ItemStack pStack) {
@@ -172,4 +172,6 @@ public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         addUpgradeHoverTest(pStack, pTooltipComponents);
     }
+
+    // endregion
 }

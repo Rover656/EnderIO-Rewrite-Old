@@ -2,7 +2,6 @@ package com.enderio.base.common.item.darksteel.upgrades;
 
 import com.enderio.base.EnderIO;
 import com.enderio.base.common.capability.darksteel.IDarkSteelUpgrade;
-import com.enderio.base.common.item.darksteel.upgrades.direct.DirectUpgrade;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
@@ -33,7 +32,7 @@ public final class DarkSteelUpgradeRegistry {
 
     private DarkSteelUpgradeRegistry() {}
 
-    //---------- Upgrade register
+    // region Upgrade register
 
     public void registerUpgrade(Supplier<IDarkSteelUpgrade> upgrade) {
         registeredUpgrades.put(upgrade.get().getSerializedName(), upgrade);
@@ -46,8 +45,9 @@ public final class DarkSteelUpgradeRegistry {
         }
         return Optional.of(val.get());
     }
+    // endregion
 
-    //---------- Read / Write of Upgrades to ItemStacks
+    // region Read / Write of Upgrades to ItemStacks
 
     public void writeUpgradeToItemStack(ItemStack stack, IDarkSteelUpgrade upgrade) {
         CompoundTag rootTag = new CompoundTag();
@@ -79,7 +79,9 @@ public final class DarkSteelUpgradeRegistry {
         return Optional.empty();
     }
 
-    //---------- Upgrade Sets (the set of upgrades that can be applied to an upgradable item
+    // endregion
+
+    // region Upgrade Sets (the set of upgrades that can be applied to an upgradable item
 
     public void addUpgradesForItem(ResourceLocation forItem, String... upgrades) {
         Set<String> currentValues = possibleUpgrades.getOrDefault(forItem, new HashSet<>());
@@ -91,5 +93,5 @@ public final class DarkSteelUpgradeRegistry {
         return Collections.unmodifiableSet(possibleUpgrades.getOrDefault(forItem, Collections.emptySet()));
     }
 
-
+    // endregion
 }

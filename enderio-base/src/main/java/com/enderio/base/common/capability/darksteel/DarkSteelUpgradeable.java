@@ -14,7 +14,7 @@ import java.util.*;
 @SuppressWarnings("unused")
 public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
 
-    //----------------------- Utils
+    // region Utils
 
     public static ItemStack addUpgrade(ItemStack itemStack, IDarkSteelUpgrade upgrade) {
         itemStack.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).ifPresent(upgradable -> upgradable.addUpgrade(upgrade));
@@ -42,7 +42,9 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
         return itemStack.getCapability(EIOCapabilities.DARK_STEEL_UPGRADABLE).map(IDarkSteelUpgradable::getAllPossibleUpgrades).orElse(Collections.emptyList());
     }
 
-    //----------------------- Class
+    // endregion
+
+    // region Class Impl
 
     private static final String ON_ITEM_KEY = "onItem";
 
@@ -158,4 +160,5 @@ public class DarkSteelUpgradeable implements IDarkSteelUpgradable {
         }
     }
 
+    // endregion
 }
