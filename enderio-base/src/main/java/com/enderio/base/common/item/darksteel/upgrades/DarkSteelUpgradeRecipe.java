@@ -24,7 +24,7 @@ import java.util.Optional;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = EnderIO.MODID)
 public class DarkSteelUpgradeRecipe extends UpgradeRecipe {
 
-    //---------- Register recipe
+    // region Register recipe
 
     public static final RecipeSerializer<DarkSteelUpgradeRecipe> SERIALIZER = new Serializer();
 
@@ -34,7 +34,7 @@ public class DarkSteelUpgradeRecipe extends UpgradeRecipe {
         event.getRegistry().register(SERIALIZER);
     }
 
-    //--------- Class
+    // endregion
 
     public DarkSteelUpgradeRecipe(ResourceLocation pRecipeId) {
         super(pRecipeId, Ingredient.EMPTY,Ingredient.EMPTY,ItemStack.EMPTY);
@@ -51,7 +51,6 @@ public class DarkSteelUpgradeRecipe extends UpgradeRecipe {
         Optional<IDarkSteelUpgrade> upgrade = getUpgradeFromItem(pInv.getItem(1));
         return target.map(upgradable -> upgrade.map(upgradable::canApplyUpgrade).orElse(false)).orElse(false);
     }
-
 
     @Override
     public ItemStack assemble(Container pInv) {
@@ -78,7 +77,6 @@ public class DarkSteelUpgradeRecipe extends UpgradeRecipe {
     public RecipeSerializer<?> getSerializer() {
         return SERIALIZER;
     }
-
 
     static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<DarkSteelUpgradeRecipe> {
 

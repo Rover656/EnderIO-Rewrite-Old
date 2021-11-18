@@ -71,7 +71,7 @@ public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
         return DarkSteelUpgradeable.hasUpgrade(stack, ForkUpgrade.NAME);
     }
 
-    //------------ Common for all tools
+    // region Common for all tools
 
     @Override
     public boolean isFoil(ItemStack pStack) {
@@ -91,4 +91,6 @@ public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
         addUpgradeHoverTest(pStack, pTooltipComponents);
     }
+
+    // endregion
 }

@@ -92,7 +92,7 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IDarkSteelItem 
     }
 
 
-    //------------ Common for all tools
+    // region Common for all tools
 
     @Override
     public boolean isFoil(ItemStack pStack) {
@@ -113,5 +113,6 @@ public class DarkSteelPickaxeItem extends PickaxeItem implements IDarkSteelItem 
         addUpgradeHoverTest(pStack, pTooltipComponents);
     }
 
+    // endregion
 
 }
