@@ -9,6 +9,8 @@ import net.minecraftforge.energy.CapabilityEnergy;
 
 public class DarkSteelDurabilityRenderer {
 
+    public static final int ENERGY_BAR_RGB = 0x00B168E4;
+
     public static void renderOverlay(ItemStack pStack, int pXPosition, int pYPosition) {
         if(EnergyUtil.getMaxEnergyStored(pStack) <= 0) {
             return;
@@ -18,24 +20,24 @@ public class DarkSteelDurabilityRenderer {
         RenderSystem.disableBlend();
         Tesselator tesselator = Tesselator.getInstance();
         BufferBuilder bufferbuilder = tesselator.getBuilder();
-        double health = getDurabilityForDisplay(pStack);
-        int i = Math.round(13.0F - (float)health * 13.0F);
-        int rgb = 0x00B168E4;
+
         int offset = 12;
+        int barWidth = Math.round(13.0F - (float)getFilledRatio(pStack) * 13.0F);
         fillRect(bufferbuilder, pXPosition + 2, pYPosition + offset, 13, 1, 0, 0, 0);
-        fillRect(bufferbuilder, pXPosition + 2, pYPosition + offset, i, 1, rgb >> 16 & 255, rgb >> 8 & 255, rgb & 255);
+        fillRect(bufferbuilder, pXPosition + 2, pYPosition + offset, barWidth, 1,
+            ENERGY_BAR_RGB >> 16 & 255, ENERGY_BAR_RGB >> 8 & 255, ENERGY_BAR_RGB & 255);
+
         RenderSystem.enableBlend();
         RenderSystem.enableTexture();
         RenderSystem.enableDepthTest();
     }
 
-    private static double getDurabilityForDisplay(ItemStack stack) {
+    private static double getFilledRatio(ItemStack stack) {
         return stack
             .getCapability(CapabilityEnergy.ENERGY)
             .map(energyStorage -> 1.0d - (double) energyStorage.getEnergyStored() / (double) energyStorage.getMaxEnergyStored())
             .orElse(0d);
     }
-
 
     private static void fillRect(BufferBuilder pRenderer, int pX, int pY, int pWidth, int pHeight, int pRed, int pGreen, int pBlue) {
         RenderSystem.setShader(GameRenderer::getPositionColorShader);

@@ -52,7 +52,6 @@ public class DarkSteelUpgradeItem extends Item {
             } else if(pLevel.isClientSide){
                 pPlayer.sendMessage(EIOLang.DS_UPGRADE_ITEM_NO_XP, Util.NIL_UUID);
             }
-
             return InteractionResultHolder.consume(stack);
         }
         return super.use(pLevel, pPlayer, pUsedHand);

@@ -28,7 +28,6 @@ import java.util.*;
 
 public interface IDarkSteelItem extends IMultiCapabilityItem, IItemOverlayRender {
 
-
     default Optional<EmpoweredUpgrade> getEmpoweredUpgrade(ItemStack stack) {
         return DarkSteelUpgradeable.getUpgradeAs(stack, EmpoweredUpgrade.NAME, EmpoweredUpgrade.class);
     }

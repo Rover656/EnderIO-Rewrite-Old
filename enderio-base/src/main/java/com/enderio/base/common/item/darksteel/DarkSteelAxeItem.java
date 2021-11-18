@@ -51,9 +51,10 @@ public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
         if(pEntityLiving instanceof Player player) {
             if(pEntityLiving.isCrouching() && pState.is(BlockTags.LOGS) && EnergyUtil.getEnergyStored(pStack) > 0) {
 
+                int maxSearchSize = 400; //put an upper limit on search size
                 Set<BlockPos> chopCandidates = new HashSet<>();
-                fellTree(pLevel, pPos, new HashSet<>(), chopCandidates, 400, pState.getBlock());
-                chopCandidates.remove(pPos); // dont double harvest this guy
+                fellTree(pLevel, pPos, new HashSet<>(), chopCandidates, maxSearchSize, pState.getBlock());
+                chopCandidates.remove(pPos); // don't double harvest this guy
 
                 int energyPerBlock = 1500; //TODO: Config "powerUsePerDamagePointMultiHarvest", 1500
                 int maxBlocks = EnergyUtil.getEnergyStored(pStack)/energyPerBlock;
@@ -143,6 +144,7 @@ public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
     }
 
     private boolean removeBlock(Level level, Player player, ItemStack tool, BlockPos pos) {
+        //NB: going through all the steps rather than using level.destroyBlock so that stats are updated, hunger is used etc
         BlockState state = level.getBlockState(pos);
         boolean removed = state.removedByPlayer(level, pos, player, true, level.getFluidState(pos));
         if (removed) {

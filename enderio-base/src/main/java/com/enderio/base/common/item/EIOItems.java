@@ -280,9 +280,9 @@ public class EIOItems {
         .register();
 
     // endregion
-    
+
     // region GrindingBalls
-    
+
     public static ItemEntry<MaterialItem> SOULARIUM_BALL = materialItem("soularium_ball").register();
 
     public static ItemEntry<MaterialItem> CONDUCTIVE_IRON_BALL = materialItem("conductive_iron_ball").register();
@@ -294,7 +294,7 @@ public class EIOItems {
     public static ItemEntry<MaterialItem> REDSTONE_ALLOY_BALL = materialItem("redstone_alloy_ball").register();
 
     public static ItemEntry<MaterialItem> ENERGETIC_ALLOY_BALL = materialItem("energetic_alloy_ball").register();
-    
+
     public static ItemEntry<MaterialItem> VIBRANT_ALLOY_BALL = materialItem("vibrant_alloy_ball").register();
 
     public static ItemEntry<MaterialItem> ELECTRICAL_STEEL_BALL = materialItem("electrical_steel_ball").register();
@@ -348,7 +348,6 @@ public class EIOItems {
         .register();
 
     // endregion
-
 
     // region Tools
     public static ItemEntry<YetaWrenchItem> YETA_WRENCH = REGISTRATE

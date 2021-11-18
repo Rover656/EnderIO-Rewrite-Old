@@ -86,7 +86,6 @@ public class ItemRecipes extends RecipeProvider {
             .pattern("NBN")
             .unlockedBy("has_ingredient", InventoryChangeTrigger.TriggerInstance.hasItems(EIOItems.DARK_STEEL_UPGRADE_BLANK.get()))
             .save(recipeConsumer);
-
     }
 
     private void addUpgrade(Consumer<FinishedRecipe> recipeConsumer, ItemEntry<DarkSteelUpgradeItem> result, ItemEntry<?> upgradeItem) {
