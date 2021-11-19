@@ -3,8 +3,6 @@ package com.enderio.base.common.item.darksteel.upgrades.direct;
 import com.enderio.base.EnderIO;
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -17,6 +15,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = EnderIO.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -29,17 +28,14 @@ public class DirectUpgradeLootModifier extends LootModifier {
     @Nonnull
     @Override
     protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext context) {
-
         if (context.getParam(LootContextParams.THIS_ENTITY) instanceof Player player) {
-            ServerLevel level = context.getLevel();
+            List<ItemStack> remaining = new ArrayList<>();
             for (ItemStack is : generatedLoot) {
-                ItemEntity itemEntity = new ItemEntity(level, player.getX(), player.getY(), player.getZ(), is.copy());
-                //drop the item at the players feet
-                level.addFreshEntity(itemEntity);
-                //get the player to pick it up
-                itemEntity.playerTouch(player);
+                if(!player.addItem(is)) {
+                    remaining.add(is);
+                }
             }
-            generatedLoot.clear(); //remove default drop behaviour
+            generatedLoot = remaining;
         }
         return generatedLoot;
     }
