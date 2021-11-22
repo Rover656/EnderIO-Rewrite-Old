@@ -5,8 +5,6 @@ import com.enderio.core.common.blockentity.sync.SyncMode;
 import com.enderio.machines.common.blockentity.data.sidecontrol.fluid.FluidTankMaster;
 import com.enderio.machines.common.blockentity.data.sidecontrol.item.ItemHandlerMaster;
 import com.enderio.machines.common.menu.FluidTankMenu;
-import com.enderio.machines.common.menu.MachineMenus;
-import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -36,9 +34,7 @@ import java.util.Optional;
 
 public class FluidTankBlockEntity extends AbstractMachineBlockEntity {
 
-    @Getter
     private FluidTankMaster fluidTank = new FluidTankMaster(16 * FluidAttributes.BUCKET_VOLUME, getConfig());
-    @Getter
     private ItemHandlerMaster itemHandlerMaster = new ItemHandlerMaster(getConfig(), 4, List.of(0,2), List.of(1,3));
 
 
@@ -160,5 +156,14 @@ public class FluidTankBlockEntity extends AbstractMachineBlockEntity {
     @Nullable
     public AbstractContainerMenu createMenu(int pContainerId, Inventory pInventory, Player pPlayer) {
         return new FluidTankMenu(this, pInventory, pContainerId);
+    }
+
+    public FluidTankMaster getFluidTank() {
+        return fluidTank;
+    }
+
+    @Override
+    public ItemHandlerMaster getItemHandlerMaster() {
+        return itemHandlerMaster;
     }
 }
