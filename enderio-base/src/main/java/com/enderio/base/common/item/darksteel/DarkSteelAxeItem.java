@@ -6,7 +6,6 @@ import com.enderio.base.common.item.darksteel.upgrades.EmpoweredUpgrade;
 import com.enderio.base.common.item.darksteel.upgrades.ForkUpgrade;
 import com.enderio.core.common.util.EnergyUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
@@ -24,9 +23,6 @@ import net.minecraftforge.common.ToolActions;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
-
-import static net.minecraft.core.Direction.DOWN;
-import static net.minecraft.core.Direction.UP;
 
 public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
 
@@ -48,12 +44,12 @@ public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
 
     @Override
     public boolean mineBlock(ItemStack pStack, Level pLevel, BlockState pState, BlockPos pPos, LivingEntity pEntityLiving) {
-        if(pEntityLiving instanceof Player player) {
-            if(pEntityLiving.isCrouching() && pState.is(BlockTags.LOGS) && EnergyUtil.getEnergyStored(pStack) > 0) {
+        if (pEntityLiving instanceof Player player) {
+            if (pEntityLiving.isCrouching() && pState.is(BlockTags.LOGS) && EnergyUtil.getEnergyStored(pStack) > 0) {
 
                 int maxSearchSize = 400; //put an upper limit on search size
                 Set<BlockPos> chopCandidates = new HashSet<>();
-                fellTree(pLevel, pPos, new HashSet<>(), chopCandidates, maxSearchSize, pState.getBlock());
+                collectTreeBlocks(pLevel, pPos, new HashSet<>(), chopCandidates, maxSearchSize, pState.getBlock());
                 chopCandidates.remove(pPos); // don't double harvest this guy
 
                 int energyPerBlock = 1500; //TODO: Config "powerUsePerDamagePointMultiHarvest", 1500
@@ -69,7 +65,7 @@ public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
 
                 int chopCount = 0;
                 int energyUse = 0;
-                for(BlockPos chopPos : toChop) {
+                for (BlockPos chopPos : toChop) {
                     if (removeBlock(pLevel, player, pStack, chopPos)) {
                         energyUse += energyPerBlock;
                         chopCount++;
@@ -93,7 +89,7 @@ public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
 
     @Override
     public InteractionResult useOn(UseOnContext pContext) {
-        if(hasFork(pContext.getItemInHand())) {
+        if (hasFork(pContext.getItemInHand())) {
             return Items.DIAMOND_HOE.useOn(pContext);
         }
         return super.useOn(pContext);
@@ -112,8 +108,17 @@ public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
         return DarkSteelUpgradeable.hasUpgrade(stack, ForkUpgrade.NAME);
     }
 
-    private void fellTree(Level level, BlockPos pos, Set<BlockPos> checkedPos, Set<BlockPos> toChop, int maxBlocks, Block targetBock) {
-        if(toChop.size() >= maxBlocks || checkedPos.contains(pos)) {
+    /**
+     * Recursive method to collect all blocks that form part of a tree.
+     * @param level the level containing the tree
+     * @param pos the position to be checked to see if it is part of the tree
+     * @param checkedPos all positions already checked
+     * @param toChop the list of positions for blocks that make up part of the tree
+     * @param maxBlocks the maximum number of blocks that can be checked before the recursion ill end
+     * @param targetBock the type of block the tree is made of, e.g. oak log
+     */
+    private void collectTreeBlocks(Level level, BlockPos pos, Set<BlockPos> checkedPos, Set<BlockPos> toChop, int maxBlocks, Block targetBock) {
+        if (toChop.size() >= maxBlocks || checkedPos.contains(pos)) {
             return;
         }
         checkedPos.add(pos);
@@ -125,22 +130,19 @@ public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
             surrounding(toCheck, pos);
             surrounding(toCheck, pos.above());
             toCheck.add(pos.above());
-            for(BlockPos newPos : toCheck) {
-                fellTree(level, newPos, checkedPos, toChop, maxBlocks, targetBock);
+            for (BlockPos newPos : toCheck) {
+                collectTreeBlocks(level, newPos, checkedPos, toChop, maxBlocks, targetBock);
             }
         }
     }
 
     private void surrounding(Set<BlockPos> res, BlockPos pos) {
-        for(Direction dir : Direction.values()) {
-            if(dir != DOWN && dir != UP) {
-                res.add(pos.relative(dir));
+        for (int x = -1; x <= 1; x++) {
+            for (int z = -1; z <= 1; z++) {
+                res.add(pos.offset(x, 0, z));
             }
         }
-        res.add(pos.north().east());
-        res.add(pos.north().west());
-        res.add(pos.south().east());
-        res.add(pos.south().west());
+        res.remove(pos);
     }
 
     private boolean removeBlock(Level level, Player player, ItemStack tool, BlockPos pos) {

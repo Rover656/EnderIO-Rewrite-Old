@@ -4,6 +4,7 @@ import com.enderio.core.common.util.EnergyUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.energy.CapabilityEnergy;
 
@@ -25,7 +26,7 @@ public class DarkSteelDurabilityRenderer {
         int barWidth = Math.round(13.0F - (float)getFilledRatio(pStack) * 13.0F);
         fillRect(bufferbuilder, pXPosition + 2, pYPosition + offset, 13, 1, 0, 0, 0);
         fillRect(bufferbuilder, pXPosition + 2, pYPosition + offset, barWidth, 1,
-            ENERGY_BAR_RGB >> 16 & 255, ENERGY_BAR_RGB >> 8 & 255, ENERGY_BAR_RGB & 255);
+            FastColor.ARGB32.red(ENERGY_BAR_RGB), FastColor.ARGB32.green(ENERGY_BAR_RGB), FastColor.ARGB32.blue(ENERGY_BAR_RGB));
 
         RenderSystem.enableBlend();
         RenderSystem.enableTexture();
