@@ -17,8 +17,10 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.TierSortingRegistry;
 import net.minecraftforge.common.ToolActions;
+import net.minecraftforge.event.world.BlockEvent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -46,6 +48,8 @@ public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
     public boolean mineBlock(ItemStack pStack, Level pLevel, BlockState pState, BlockPos pPos, LivingEntity pEntityLiving) {
         if (pEntityLiving instanceof Player player) {
             if (pEntityLiving.isCrouching() && pState.is(BlockTags.LOGS) && EnergyUtil.getEnergyStored(pStack) > 0) {
+
+                System.out.println("DarkSteelAxeItem.removeBlock: isClientSide=" + pLevel.isClientSide);
 
                 int maxSearchSize = 400; //put an upper limit on search size
                 Set<BlockPos> chopCandidates = new HashSet<>();
@@ -146,8 +150,12 @@ public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
     }
 
     private boolean removeBlock(Level level, Player player, ItemStack tool, BlockPos pos) {
-        //NB: going through all the steps rather than using level.destroyBlock so that stats are updated, hunger is used etc
         BlockState state = level.getBlockState(pos);
+        BlockEvent.BreakEvent event = new BlockEvent.BreakEvent(level, pos, state, player);
+        MinecraftForge.EVENT_BUS.post(event);
+        if (event.isCanceled()) {
+            return false;
+        }
         boolean removed = state.removedByPlayer(level, pos, player, true, level.getFluidState(pos));
         if (removed) {
             state.getBlock().destroy(level, pos, state);
