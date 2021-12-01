@@ -4,15 +4,22 @@ import com.enderio.base.common.capability.darksteel.DarkSteelUpgradeable;
 import com.enderio.base.common.item.EIOItems;
 import com.enderio.base.common.item.darksteel.upgrades.EmpoweredUpgrade;
 import com.enderio.base.common.item.darksteel.upgrades.ForkUpgrade;
+import com.enderio.base.common.lang.EIOLang;
+import com.enderio.base.config.base.BaseConfig;
 import com.enderio.core.common.util.EnergyUtil;
+import com.enderio.core.common.util.TooltipUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -41,7 +48,7 @@ public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
     @Override
     public float getDestroySpeed(ItemStack pStack, BlockState pState) {
         final float baseSpeed = canHarvest(pStack, pState) ? speed : 1.0f;
-        return getEmpoweredUpgrade(pStack).map(empoweredUpgrade -> empoweredUpgrade.adjustDestroySpeed(baseSpeed, pState)).orElse(baseSpeed);
+        return getEmpoweredUpgrade(pStack).map(empoweredUpgrade -> empoweredUpgrade.adjustDestroySpeed(baseSpeed)).orElse(baseSpeed);
     }
 
     @Override
@@ -49,14 +56,12 @@ public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
         if (pEntityLiving instanceof Player player) {
             if (pEntityLiving.isCrouching() && pState.is(BlockTags.LOGS) && EnergyUtil.getEnergyStored(pStack) > 0) {
 
-                System.out.println("DarkSteelAxeItem.removeBlock: isClientSide=" + pLevel.isClientSide);
-
                 int maxSearchSize = 400; //put an upper limit on search size
                 Set<BlockPos> chopCandidates = new HashSet<>();
                 collectTreeBlocks(pLevel, pPos, new HashSet<>(), chopCandidates, maxSearchSize, pState.getBlock());
                 chopCandidates.remove(pPos); // don't double harvest this guy
 
-                int energyPerBlock = 1500; //TODO: Config "powerUsePerDamagePointMultiHarvest", 1500
+                int energyPerBlock = BaseConfig.COMMON.ITEMS.DARK_STEEL_AXE_ENERGY_PER_FELLED_LOG.get();
                 int maxBlocks = EnergyUtil.getEnergyStored(pStack)/energyPerBlock;
 
                 Collection<BlockPos> toChop = chopCandidates;
@@ -160,8 +165,19 @@ public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
         if (removed) {
             state.getBlock().destroy(level, pos, state);
             state.getBlock().playerDestroy(level, player, pos, state, null, tool);
+            if(event.getExpToDrop() > 0 && level instanceof ServerLevel serverLevel) {
+                state.getBlock().popExperience(serverLevel, pos, event.getExpToDrop());
+            }
         }
         return removed;
+    }
+
+    @Override
+    public void addCurrentUpgradeTooltips(ItemStack itemStack, List<Component> tooltips, boolean isDetailed) {
+        if(isDetailed && getEmpoweredUpgrade(itemStack).isPresent()) {
+            tooltips.add(TooltipUtil.withArgs(EIOLang.DS_UPGRADE_EMPOWERED_EFFICIENCY, BaseConfig.COMMON.ITEMS.EMPOWERED_EFFICIENCY_BOOST.get()));
+        }
+        IDarkSteelItem.super.addCurrentUpgradeTooltips(itemStack, tooltips, isDetailed);
     }
 
     // region Common for all tools
@@ -176,13 +192,6 @@ public class DarkSteelAxeItem extends AxeItem implements IDarkSteelItem {
         if (allowdedIn(pCategory)) {
             addCreativeItems(pItems, this);
         }
-    }
-
-    @Override
-    public void appendHoverText(@Nonnull ItemStack pStack, @Nullable Level pLevel, @Nonnull List<Component> pTooltipComponents,
-        @Nonnull TooltipFlag pIsAdvanced) {
-        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
-        addUpgradeHoverTest(pStack, pTooltipComponents);
     }
 
     // endregion
